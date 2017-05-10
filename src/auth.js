@@ -4,9 +4,9 @@ import Router from 'vue-router';
 import Auth0Lock from 'auth0-lock';
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
-const CLIENT_ID = 'YsIZfSDkbOYRuIDFuH64NhRywmQpz1kJ';
-const CLIENT_DOMAIN = 'tcats.auth0.com';
-const REDIRECT = 'https://aphelion-alpha.firebaseapp.com/callback';
+const CLIENT_ID = '';
+const CLIENT_DOMAIN = '';
+const REDIRECT = 'http://localhost:8080/callback';
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,

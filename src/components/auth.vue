@@ -7,22 +7,8 @@
 
 <script>
 import { isLoggedIn, login, logout } from '../auth';
-var payload = {
-    name: 'thomas',
-    score: 2
-};
-var data = new FormData();
-data.append( "json", JSON.stringify( payload ) );
 
-var myHeaders = new Headers({ 'Authorization': 'Bearer '+ localStorage.getItem('idToken') });
-var myInit = { method: 'POST',
-               headers: myHeaders,
-               body: data,
-               mode: 'cors',
-               cache: 'default' };
-function post(){
-fetch('https://radiant-savannah-12174.herokuapp.com/', myInit).then(response => response.json().then( json => console.log(json)))
-}
+
 export default {
   name: 'app-nav',
   methods: {

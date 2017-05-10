@@ -15,7 +15,7 @@ export default new Router({
       component: Hello,
     },
     { path: '/callback', component: callback},
-    {path: '/game', component: Hello}
+    { path: '/game', component: Hello}
   ],
 
   mode: 'history'

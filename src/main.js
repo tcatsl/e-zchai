@@ -5,10 +5,15 @@ import App from './App'
 import router from './router'
 import Auth from '@/components/auth'
 import Hello from '@/components/hello'
+import chai from 'chai'
 Vue.config.productionTip = true
 
 /* eslint-disable no-new */
-
+var assert = chai.assert
+var x = Object.getOwnPropertyNames(assert).filter(function (p) {
+    return typeof assert[p] === 'function';
+  })
+  console.log(x)
 new Vue({
   el: '#app',
   router,

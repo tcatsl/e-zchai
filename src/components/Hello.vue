@@ -46,8 +46,8 @@ Assertions:
 </li>
 </ul>
 </li>
-<v-btn v-on:click.native="addIts()">Add It</v-btn>
-<li id="newIt" v-show="addingIt == true">
+<v-btn v-on:click.native="addIts(test)">Add It</v-btn>
+<li id="newIt" v-show="test.addingIt == true">
 <v-flex xs-4>
 <v-text-field label="It:" v-model="itToPush.descr"></v-text-field>
 <v-btn v-on:click.native="pushIts(index)">Done</v-btn>
@@ -114,7 +114,7 @@ export default {
   p3: null,
   descr: null
   },
-  tests: [{describe: {editingDescr: false, name:'x', its:
+  tests: [{addingIt: false, describe: {editingDescr: false, name:'x', its:
   [{itsDescr: 'should not equal 9', assertions: [{assert:'notEqual', p1: 'x', p2: '9', p3: null, descr:'x should not equal 9', editingAss: false}], editingIt: false}]}}]
   }
   },
@@ -156,11 +156,11 @@ export default {
   this.itToPush = {};
   this.itToPush.descr = null;
   this.itToPush.assertions = [];
-  this.addingIt = false;
+  this.tests[index].addingIt = false;
   this.buildTests();
   },
-  addIts: function(){
-  this.addingIt = true;
+  addIts: function(test){
+  test.addingIt = true;
   },
   rUn: function(){
   document.getElementById("mocha").innerHTML = ""
@@ -183,9 +183,8 @@ mocha.run();
   this.buildTests()
   },
   addTest: function(){
-  this.tests.push({describe: {editingDescr: false, name:'x', its:
-  [{itsDescr: 'should not equal 9', assertions: [{assert:'notEqual', p1: 'x', p2: '9', p3: null, descr:'x should not equal 9', editingAss: false}], editingIt: false}]}})
-  this.buildTests();
+  this.tests.push({addingIt: false, describe: {editingDescr: true, name:'', its:
+  [{editingIt: false, assertions: [], addingAss: false}]}})
   },
   buildTests: function (){
   var code = ''

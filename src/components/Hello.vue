@@ -35,14 +35,14 @@ Assertions:
 </div>
 </li>
 <br>
-<v-btn v-on:click.native="addAss()">Add Assertion</v-btn>
-<li id="newAss" v-show="addingAss == true">
+<v-btn v-on:click.native="addAss(it)">Add Assertion</v-btn>
+<li v-if="it.addingAss == true">
 <v-select v-bind:items="assertions" v-model="assToAdd.assert" label="Select"></v-select>
 <v-text-field label="Parameter 1" v-model="assToAdd.p1"></v-text-field>
 <v-text-field label="Parameter 2" v-model="assToAdd.p2"></v-text-field>
 <v-text-field label="Parameter 3" v-model="assToAdd.p3"></v-text-field>
 <v-text-field label="Description" v-model="assToAdd.descr"></v-text-field>
-<v-btn v-on:click.native="pushAss(index, index2)">Done</v-btn>
+<v-btn v-on:click.native="pushAss(index, index2, it)">Done</v-btn>
 </li>
 </ul>
 </li>
@@ -106,7 +106,7 @@ export default {
   }),
   addingAss: false,
   addingIt: false,
-  itToPush: {itsDescr: null, assertions: [], editingIt: false},
+  itToPush: {itsDescr: null, assertions: [], addingAss: false, editingIt: false},
   assToAdd: {
   assert: null,
   p1: null,
@@ -140,9 +140,9 @@ export default {
   editAss: function(ass){
   ass.editingAss = true;
   },
-  pushAss: function(index, index2){
+  pushAss: function(index, index2, it){
   this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, descr: this.assToAdd.descr, editingAss: false})
-  this.addingAss = false
+  it.addingAss = false
   this.assToAdd.assert = null
   this.assToAdd.p1 = null
   this.assToAdd.p2 = null
@@ -152,7 +152,7 @@ export default {
 
   },
   pushIts: function(index){
-  this.tests[index].describe.its.push({itsDescr: this.itToPush.descr, assertions: this.itToPush.assertions, editingIt: false})
+  this.tests[index].describe.its.push({itsDescr: this.itToPush.descr, assertions: this.itToPush.assertions, addingAss: false, editingIt: false})
   this.itToPush = {};
   this.itToPush.descr = null;
   this.itToPush.assertions = [];
@@ -166,8 +166,8 @@ export default {
   document.getElementById("mocha").innerHTML = ""
 mocha.run();
   },
-  addAss: function() {
-  this.addingAss = true;
+  addAss: function(it) {
+  it.addingAss = true;
   },
   removeTest: function (index) {
   this.tests.splice(index, 1);

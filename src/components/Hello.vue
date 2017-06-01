@@ -194,7 +194,7 @@ mocha.run();
   for (var its = 0; its < this.tests[i].describe.its.length; its++){
   var assertCode = '';
   for (var ass = 0; ass < this.tests[i].describe.its[its].assertions.length; ass++){
-  assertCode += 'assert.'+this.tests[i].describe.its[its].assertions[ass].assert+'('+this.tests[i].describe.its[its].assertions[ass].p1+', '+this.tests[i].describe.its[its].assertions[ass].p2+', )\n'
+  assertCode += 'assert.'+this.tests[i].describe.its[its].assertions[ass].assert+'('+this.tests[i].describe.its[its].assertions[ass].p1+', '+this.tests[i].describe.its[its].assertions[ass].p2+', '+ this.tests[i].describe.its[its].assertions[ass].p3 +')\n'
   }
    itsCode += 'it("'+this.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
   }

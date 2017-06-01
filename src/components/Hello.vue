@@ -44,10 +44,10 @@ Assertions:
 <v-text-field label="Description" v-model="assToAdd.descr"></v-text-field>
 <v-btn v-on:click.native="pushAss(index, index2, it)">Done</v-btn>
 </li>
-<v-btn v-on:click.native="addAss(it)">Add Assertion</v-btn>
+<v-btn v-on:click.native="addAss(it)">New Assertion</v-btn>
 </ul>
 </li>
-<v-btn v-on:click.native="addIts(test)">Add It</v-btn>
+<v-btn v-on:click.native="addIts(test)">New It</v-btn>
 <li id="newIt" v-show="test.addingIt == true">
 <v-flex xs-4>
 <v-text-field label="What it should do:" v-model="itToPush.descr"></v-text-field>
@@ -56,7 +56,7 @@ Assertions:
 </li>
 </ul>
 </li>
-<v-btn v-on:click.native="addTest()">Add Test</v-btn>
+<v-btn v-on:click.native="addTest()">New Test</v-btn>
 </ol>
 
 <pre id="tests"><code id="testcode" class="lang-eval-js">

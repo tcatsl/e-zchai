@@ -164,6 +164,7 @@ export default {
   },
   rUn: function(){
   document.getElementById("mocha").innerHTML = ""
+  resetTests(mocha.suite)
 mocha.run();
   },
   addAss: function(it) {

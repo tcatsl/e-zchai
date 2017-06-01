@@ -50,7 +50,7 @@ Assertions:
 <v-btn v-on:click.native="addIts(test)">Add It</v-btn>
 <li id="newIt" v-show="test.addingIt == true">
 <v-flex xs-4>
-<v-text-field label="It:" v-model="itToPush.descr"></v-text-field>
+<v-text-field label="What it should do:" v-model="itToPush.descr"></v-text-field>
 <v-btn v-on:click.native="pushIts(index)">Done</v-btn>
 </v-flex>
 </li>

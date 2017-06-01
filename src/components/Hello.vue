@@ -35,7 +35,7 @@ Assertions:
 </div>
 </li>
 <br>
-<v-btn v-on:click.native="addAss(it)">Add Assertion</v-btn>
+
 <li v-if="it.addingAss == true">
 <v-select v-bind:items="assertions" v-model="assToAdd.assert" label="Assert:"></v-select>
 <v-text-field label="Parameter 1" v-model="assToAdd.p1"></v-text-field>
@@ -44,6 +44,7 @@ Assertions:
 <v-text-field label="Description" v-model="assToAdd.descr"></v-text-field>
 <v-btn v-on:click.native="pushAss(index, index2, it)">Done</v-btn>
 </li>
+<v-btn v-on:click.native="addAss(it)">Add Assertion</v-btn>
 </ul>
 </li>
 <v-btn v-on:click.native="addIts(test)">Add It</v-btn>

@@ -141,7 +141,7 @@ export default {
   ass.editingAss = true;
   },
   pushAss: function(index, index2){
-  this.tests[index].describe.its[index2].assertions.push( this.assToAdd)
+  this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, descr: this.assToAdd.descr, editingAss: false})
   this.addingAss = false
   this.assToAdd.assert = null
   this.assToAdd.p1 = null

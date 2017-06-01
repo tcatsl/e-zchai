@@ -8,8 +8,47 @@ var x = 9
 <div id="mocha"></div>
 <v-btn id="add" v-on:click.native="addTest()">Add Test</v-btn>
 <v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
-
+<br>
 Tests:
+<ol id="testList">
+<li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn>
+<ul class ="itsList">
+<li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn v-on:click.native="removeIts(index, index2)">Delete</v-btn><v-btn v-show="it.editingIt == false" v-on:click.native="editIt(it)">Edit</v-btn>
+<v-btn v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)">Done</v-btn>
+<div v-show="it.editingIt == true">
+<v-text-field label="It:" v-model="it.itsDescr"></v-text-field>
+</div>
+<ul class= "assertList">
+Assertions:
+<li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn v-on:click.native="removeAss(index, index2, index3)">Delete</v-btn> <v-btn v-show="ass.editingAss == false" v-on:click.native="editAss(ass)">Edit</v-btn>
+<v-btn v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)">Done</v-btn>
+<div v-show="ass.editingAss == true">
+<v-text-field label="Assertion" v-model="ass.assert"></v-text-field>
+<v-text-field label="Parameter 1" v-model="ass.p1"></v-text-field>
+<v-text-field label="Parameter 2" v-model="ass.p2"></v-text-field>
+<v-text-field label="Parameter 3" v-model="ass.p3"></v-text-field>
+<v-text-field label="Description" v-model="ass.descr"></v-text-field>
+</div>
+</li>
+<br>
+<v-btn v-on:click.native="addAss()">Add Assertion</v-btn>
+<li id="newAss" v-show="addingAss == true">
+<v-flex xs-4>
+<v-text-field label="Assertion" v-model="assToAdd.assert"></v-text-field>
+<v-text-field label="Parameter 1" v-model="assToAdd.p1"></v-text-field>
+<v-text-field label="Parameter 2" v-model="assToAdd.p2"></v-text-field>
+<v-text-field label="Parameter 3" v-model="assToAdd.p3"></v-text-field>
+<v-text-field label="Description" v-model="assToAdd.descr"></v-text-field>
+<v-btn v-on:click.native="pushAss(index, index2)">Add Assertion</v-btn>
+</v-flex>
+</li>
+</ul>
+</li>
+<v-btn v-on:click.native="addIts()">Add It</v-btn>
+</ul>
+</li>
+<v-btn v-on:click.native="addTest()">Add Test</v-btn>
+</ol>
 <pre v-show="true == false"><code class=" hidden lang-eval-js" data-external-libs="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js, https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.0/chai.min.js" data-loop-msec="1000">
 </code>
 </pre>
@@ -43,7 +82,7 @@ var assertions = ["fail","isOk","isNotOk","equal","notEqual","strictEqual","notS
    document.body.append(script)
    setTimeout(function(){
    var final = document.getElementsByClassName("cm-s-default")
-   final[final.length -1 ].innerHTML = ""}, 1000)
+   final[final.length -1 ].innerHTML = ""}, 2000)
 }
 function resetTests(suite) {
 suite.tests.forEach(function(t) {
@@ -56,18 +95,68 @@ export default {
   name: 'hello',
   data: function(){
   return {
+  addingAss: false,
+  assToAdd: {
+  assert: null,
+  p1: null,
+  p2: null,
+  p3: null,
+  descr: null
+  },
   tests: []
   }
   },
   methods: {
+  editIt: function(it) {
+  it.editingIt = true
+  },
+  finishEditIt: function(it){
+  it.editingIt = false;
+  },
+  finishEditAss: function(ass) {
+  ass.editingAss = false;
+  this.buildTests();
+  },
+  editAss: function(ass){
+  ass.editingAss = true;
+  },
+  pushAss: function(index, index2){
+  this.tests[index].describe.its[index2].assertions.push( this.assToAdd)
+  this.addingAss = false
+  this.assToAdd.assert = null
+  this.assToAdd.p1 = null
+  this.assToAdd.p2 = null
+  this.assToAdd.p3 = null
+  this.assToAdd.descr = null
+  this.buildTests();
+
+  },
   rUn: function(){
   document.getElementById("mocha").innerHTML = ""
 resetTests(mocha.suite);
 mocha.run();
   },
+  addAss: function() {
+  this.addingAss = true;
+  },
+  removeTest: function (index) {
+  this.tests.splice(index, 1);
+  this.buildTests()
+  },
+  removeIts: function (index, index2) {
+  this.tests[index].describe.its.splice(index2, 1);
+  this.buildTests()
+  },
+  removeAss: function (index, index2, index3){
+  this.tests[index].describe.its[index2].assertions.splice(index3, 1)
+  this.buildTests()
+  },
   addTest: function(){
   this.tests.push({describe: {name:'x', its:
-  [{itsDescr: 'should not equal 9', assertions: [{assert:'notEqual', p1: 'x', p2: '9', p3: null, descr:'should not equal 9'}]}]}})
+  [{itsDescr: 'should not equal 9', assertions: [{assert:'notEqual', p1: 'x', p2: '9', p3: null, descr:'x should not equal 9', editingAss: false}], editingIt: false}]}})
+  this.buildTests();
+  },
+  buildTests: function (){
   var code = ''
   for (var i = 0; i < this.tests.length; i++){
   var itsCode = '';

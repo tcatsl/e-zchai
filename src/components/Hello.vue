@@ -184,7 +184,7 @@ mocha.run();
   },
   addTest: function(){
   this.tests.push({addingIt: false, describe: {editingDescr: true, name:'', its:
-  [{editingIt: false, assertions: [], addingAss: false}]}})
+  [{editingIt: true, assertions: [], addingAss: true}]}})
   },
   buildTests: function (){
   var code = ''

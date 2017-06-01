@@ -79,7 +79,7 @@ mocha.run();
   }
    itsCode += 'it("'+this.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
   }
-    code += 'describe("'+this.tests[i].describe.name+'", function(){\n'+ itsCode +'})'
+    code += 'describe("'+this.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
   }
   tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n mocha.setup("bdd")\n'+ code+'</code>'
   reLoad()

@@ -27,7 +27,7 @@ Assertions:
 <li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn v-on:click.native="removeAss(index, index2, index3)">Delete</v-btn> <v-btn v-show="ass.editingAss == false" v-on:click.native="editAss(ass)">Edit</v-btn>
 <v-btn v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)">Done</v-btn>
 <div v-show="ass.editingAss == true">
-<v-text-field label="Assertion" v-model="ass.assert"></v-text-field>
+<v-select v-bind:items="assertions" v-model="ass.assert" label="Select"></v-select>
 <v-text-field label="Parameter 1" v-model="ass.p1"></v-text-field>
 <v-text-field label="Parameter 2" v-model="ass.p2"></v-text-field>
 <v-text-field label="Parameter 3" v-model="ass.p3"></v-text-field>
@@ -88,7 +88,7 @@ var vm;
    document.body.append(script)
    setTimeout(function(){
    var final = document.getElementsByClassName("cm-s-default")
-   final[final.length -1 ].innerHTML = ""}, 2000)
+   final[final.length -1 ].innerHTML = ""}, 2500)
 }
 function resetTests(suite) {
 suite.tests.forEach(function(t) {

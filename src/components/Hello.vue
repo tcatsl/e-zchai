@@ -42,12 +42,18 @@ Assertions:
 <v-text-field label="Parameter 2" v-model="assToAdd.p2"></v-text-field>
 <v-text-field label="Parameter 3" v-model="assToAdd.p3"></v-text-field>
 <v-text-field label="Description" v-model="assToAdd.descr"></v-text-field>
-<v-btn v-on:click.native="pushAss(index, index2)">Add Assertion</v-btn>
+<v-btn v-on:click.native="pushAss(index, index2)">Done</v-btn>
 </v-flex>
 </li>
 </ul>
 </li>
 <v-btn v-on:click.native="addIts()">Add It</v-btn>
+<li id="newIt" v-show="addingIt == true">
+<v-flex xs-4>
+<v-text-field label="It:" v-model="itToPush.descr"></v-text-field>
+<v-btn v-on:click.native="pushIts(index)">Done</v-btn>
+</v-flex>
+</li>
 </ul>
 </li>
 <v-btn v-on:click.native="addTest()">Add Test</v-btn>
@@ -99,6 +105,8 @@ export default {
   data: function(){
   return {
   addingAss: false,
+  addingIt: false,
+  itToPush: {itsDescr: null, assertions: [], editingIt: false},
   assToAdd: {
   assert: null,
   p1: null,
@@ -143,6 +151,17 @@ export default {
   this.buildTests();
 
   },
+  pushIts: function(index){
+  this.tests[index].describe.its.push({itsDescr: this.itToPush.descr, assertions: this.itToPush.assertions, editingIt: false})
+  this.itToPush = {};
+  this.itToPush.descr = null;
+  this.itToPush.assertions = [];
+  this.addingIt = false;
+  this.buildTests();
+  },
+  addIts: function(){
+  this.addingIt = true;
+  },
   rUn: function(){
   document.getElementById("mocha").innerHTML = ""
 resetTests(mocha.suite);
@@ -173,7 +192,6 @@ mocha.run();
   for (var i = 0; i < this.tests.length; i++){
   var itsCode = '';
   for (var its = 0; its < this.tests[i].describe.its.length; its++){
-  console.log(this.tests[i].describe.its[its])
   var assertCode = '';
   for (var ass = 0; ass < this.tests[i].describe.its[its].assertions.length; ass++){
   assertCode += 'assert.'+this.tests[i].describe.its[its].assertions[ass].assert+'('+this.tests[i].describe.its[its].assertions[ass].p1+', '+this.tests[i].describe.its[its].assertions[ass].p2+', )\n'
@@ -189,7 +207,7 @@ mocha.run();
   mounted: function(){reLoad();
   vm = this;
   vm.assertions = assertions
-  buildTests()
+  this.buildTests()
   }
 }
 </script>

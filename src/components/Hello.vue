@@ -14,20 +14,20 @@ Tests:
 <li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn><v-btn v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)">Edit</v-btn>
 <v-btn v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)">Done</v-btn>
 <div v-show="test.describe.editingDescr == true">
-<v-text-field label="Describe:" v-model="test.describe.name"></v-text-field>
+<v-text-field label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
 </div>
 <ul class ="itsList">
 <li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn v-on:click.native="removeIts(index, index2)">Delete</v-btn><v-btn v-show="it.editingIt == false" v-on:click.native="editIt(it)">Edit</v-btn>
 <v-btn v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)">Done</v-btn>
 <div v-show="it.editingIt == true">
-<v-text-field label="It:" v-model="it.itsDescr"></v-text-field>
+<v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
 </div>
 <ul class= "assertList">
 Assertions:
 <li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn v-on:click.native="removeAss(index, index2, index3)">Delete</v-btn> <v-btn v-show="ass.editingAss == false" v-on:click.native="editAss(ass)">Edit</v-btn>
 <v-btn v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)">Done</v-btn>
 <div v-show="ass.editingAss == true">
-<v-select v-bind:items="assertions" v-model="ass.assert" label="Select"></v-select>
+<v-select v-bind:items="assertions" v-model="ass.assert" label="Assert:"></v-select>
 <v-text-field label="Parameter 1" v-model="ass.p1"></v-text-field>
 <v-text-field label="Parameter 2" v-model="ass.p2"></v-text-field>
 <v-text-field label="Parameter 3" v-model="ass.p3"></v-text-field>
@@ -37,7 +37,7 @@ Assertions:
 <br>
 <v-btn v-on:click.native="addAss(it)">Add Assertion</v-btn>
 <li v-if="it.addingAss == true">
-<v-select v-bind:items="assertions" v-model="assToAdd.assert" label="Select"></v-select>
+<v-select v-bind:items="assertions" v-model="assToAdd.assert" label="Assert:"></v-select>
 <v-text-field label="Parameter 1" v-model="assToAdd.p1"></v-text-field>
 <v-text-field label="Parameter 2" v-model="assToAdd.p2"></v-text-field>
 <v-text-field label="Parameter 3" v-model="assToAdd.p3"></v-text-field>
@@ -115,7 +115,7 @@ export default {
   descr: null
   },
   tests: [{addingIt: false, describe: {editingDescr: false, name:'x', its:
-  [{itsDescr: 'should not equal 9', assertions: [{assert:'notEqual', p1: 'x', p2: '9', p3: null, descr:'x should not equal 9', editingAss: false}], editingIt: false}]}}]
+  [{itsDescr: 'should not equal 9', assertions: [{assert:'notEqual', p1: 'x', p2: '9', p3: null, descr:'x should not equal 9', editingAss: false}], editingIt: false, addingAss: false}]}}]
   }
   },
   methods: {

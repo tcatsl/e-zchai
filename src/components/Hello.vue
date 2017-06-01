@@ -6,12 +6,15 @@ Code:
 var x = 9
 </code></pre>
 <div id="mocha"></div>
-<v-btn id="add" v-on:click.native="addTest()">Add Test</v-btn>
 <v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
 <br>
 Tests:
 <ol id="testList">
-<li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn>
+<li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn><v-btn v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)">Edit</v-btn>
+<v-btn v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)">Done</v-btn>
+<div v-show="test.describe.editingDescr == true">
+<v-text-field label="Describe:" v-model="test.describe.name"></v-text-field>
+</div>
 <ul class ="itsList">
 <li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn v-on:click.native="removeIts(index, index2)">Delete</v-btn><v-btn v-show="it.editingIt == false" v-on:click.native="editIt(it)">Edit</v-btn>
 <v-btn v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)">Done</v-btn>
@@ -103,15 +106,24 @@ export default {
   p3: null,
   descr: null
   },
-  tests: []
+  tests: [{describe: {editingDescr: false, name:'x', its:
+  [{itsDescr: 'should not equal 9', assertions: [{assert:'notEqual', p1: 'x', p2: '9', p3: null, descr:'x should not equal 9', editingAss: false}], editingIt: false}]}}]
   }
   },
   methods: {
+  editDescr: function (describe){
+   describe.editingDescr = true
+  },
+  finishEditDescr: function(describe){
+  describe.editingDescr = false;
+  this.buildTests();
+  },
   editIt: function(it) {
   it.editingIt = true
   },
   finishEditIt: function(it){
   it.editingIt = false;
+  this.buildTests();
   },
   finishEditAss: function(ass) {
   ass.editingAss = false;
@@ -152,7 +164,7 @@ mocha.run();
   this.buildTests()
   },
   addTest: function(){
-  this.tests.push({describe: {name:'x', its:
+  this.tests.push({describe: {editingDescr: false, name:'x', its:
   [{itsDescr: 'should not equal 9', assertions: [{assert:'notEqual', p1: 'x', p2: '9', p3: null, descr:'x should not equal 9', editingAss: false}], editingIt: false}]}})
   this.buildTests();
   },
@@ -177,6 +189,7 @@ mocha.run();
   mounted: function(){reLoad();
   vm = this;
   vm.assertions = assertions
+  buildTests()
   }
 }
 </script>

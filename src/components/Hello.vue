@@ -37,7 +37,7 @@ Assertions:
 <br>
 <v-btn v-on:click.native="addAss()">Add Assertion</v-btn>
 <li id="newAss" v-show="addingAss == true">
-<v-select v-bind:items="assertions" v-model="e1" label="Select"></v-select>
+<v-select v-bind:items="assertions" v-model="assToAdd.assert" label="Select"></v-select>
 <v-text-field label="Parameter 1" v-model="assToAdd.p1"></v-text-field>
 <v-text-field label="Parameter 2" v-model="assToAdd.p2"></v-text-field>
 <v-text-field label="Parameter 3" v-model="assToAdd.p3"></v-text-field>
@@ -57,10 +57,8 @@ Assertions:
 </li>
 <v-btn v-on:click.native="addTest()">Add Test</v-btn>
 </ol>
-<pre v-show="true == false"><code class=" hidden lang-eval-js" data-external-libs="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js, https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.0/chai.min.js" data-loop-msec="1000">
-</code>
-</pre>
-<pre id="tests"><code id="testcode" class="lang-eval-js" data-external-libs="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js, https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.0/chai.min.js">
+
+<pre id="tests"><code id="testcode" class="lang-eval-js">
 assert = chai.assert
 mocha.suite.suites = []
 mocha.setup("bdd")
@@ -103,8 +101,6 @@ export default {
   name: 'hello',
   data: function(){
   return {
-  e1: null,
-  states: [1,2,3,4,4],
   assertions: ["fail","isOk","isNotOk","equal","notEqual","strictEqual","notStrictEqual","deepStrictEqual","deepEqual","notDeepEqual","isAbove","isAtLeast","isBelow","isAtMost","isTrue","isNotTrue","isFalse","isNotFalse","isNull","isNotNull","isNaN","isNotNaN","exists","notExists","isUndefined","isDefined","isFunction","isNotFunction","isObject","isNotObject","isArray","isNotArray","isString","isNotString","isNumber","isNotNumber","isFinite","isBoolean","isNotBoolean","typeOf","notTypeOf","instanceOf","notInstanceOf","include","notInclude","deepInclude","notDeepInclude","nestedInclude","notNestedInclude","deepNestedInclude","notDeepNestedInclude","ownInclude","notOwnInclude","deepOwnInclude","notDeepOwnInclude","match","notMatch","property","notProperty","propertyVal","notPropertyVal","deepPropertyVal","notDeepPropertyVal","ownProperty","notOwnProperty","ownPropertyVal","notOwnPropertyVal","deepOwnPropertyVal","notDeepOwnPropertyVal","nestedProperty","notNestedProperty","nestedPropertyVal","notNestedPropertyVal","deepNestedPropertyVal","notDeepNestedPropertyVal","lengthOf","hasAnyKeys","hasAllKeys","containsAllKeys","doesNotHaveAnyKeys","doesNotHaveAllKeys","hasAnyDeepKeys","hasAllDeepKeys","containsAllDeepKeys","doesNotHaveAnyDeepKeys","doesNotHaveAllDeepKeys","throws","doesNotThrow","operator","closeTo","approximately","sameMembers","notSameMembers","sameDeepMembers","notSameDeepMembers","sameOrderedMembers","notSameOrderedMembers","sameDeepOrderedMembers","notSameDeepOrderedMembers","includeMembers","notIncludeMembers","includeDeepMembers","notIncludeDeepMembers","includeOrderedMembers","notIncludeOrderedMembers","includeDeepOrderedMembers","notIncludeDeepOrderedMembers","oneOf","changes","changesBy","doesNotChange","changesButNotBy","increases","increasesBy","doesNotIncrease","increasesButNotBy","decreases","decreasesBy","doesNotDecrease","doesNotDecreaseBy","decreasesButNotBy","ifError","isExtensible","isNotExtensible","isSealed","isNotSealed","isFrozen","isNotFrozen","isEmpty","isNotEmpty","ok","notOk","throw","Throw","extensible","notExtensible","sealed","notSealed","frozen","notFrozen","empty","notEmpty"].map(function(el, ind, arr){
   return {text: el, value: el}
   }),
@@ -168,7 +164,6 @@ export default {
   },
   rUn: function(){
   document.getElementById("mocha").innerHTML = ""
-resetTests(mocha.suite);
 mocha.run();
   },
   addAss: function() {

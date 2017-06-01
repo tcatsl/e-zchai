@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar navbar-default">
-        <button id="logOut" class="btn btn-danger log" v-show="isLoggedIn()" @click="handleLogout()">Log out</button>
-        <button id="logIn" class="btn btn-info log" v-show="!isLoggedIn()" @click="handleLogin()">Log In</button>
-  </nav>
+  <div>
+        <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native>Log out</v-btn>
+        <v-btn id="logIn" v-if="!isLoggedIn()"class="btn btn-info log"  v-on:click.native="handleLogin()">Log In</v-btn>
+  </div>
 </template>
 
 <script>
@@ -26,10 +26,6 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.navbar-right { margin-right: 0px !important}
+<style>
 
-.log {
-  margin: 5px 10px 0 0;
-}
 </style>

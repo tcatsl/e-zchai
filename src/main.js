@@ -6,10 +6,13 @@ import router from './router'
 import Auth from '@/components/auth'
 import Hello from '@/components/hello'
 import chai from 'chai'
+import Vuetify from 'vuetify'
 Vue.config.productionTip = true
+
 
 /* eslint-disable no-new */
 var assert = chai.assert
+Vue.use(Vuetify)
 var x = Object.getOwnPropertyNames(assert).filter(function (p) {
     return typeof assert[p] === 'function';
   })

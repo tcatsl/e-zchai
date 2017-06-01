@@ -6,8 +6,8 @@ Code:
 var x = 9
 </code></pre>
 <div id="mocha"></div>
-<button id="add" v-on:click="addTest()">Add Test</button>
-<button id = "runTest" v-on:click="rUn()">Run Tests</button>
+<v-btn id="add" v-on:click.native="addTest()">Add Test</v-btn>
+<v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
 
 Tests:
 <pre v-show="true == false"><code class=" hidden lang-eval-js" data-external-libs="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js, https://cdnjs.cloudflare.com/ajax/libs/chai/4.0.0/chai.min.js" data-loop-msec="1000">

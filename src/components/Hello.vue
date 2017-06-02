@@ -21,11 +21,14 @@ var x = 9
 <v-text-field label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
 </div>
 <ul class ="itsList">
-<li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn v-on:click.native="removeIts(index, index2)">Delete</v-btn><v-btn v-show="it.editingIt == false" v-on:click.native="editIt(it)">Edit</v-btn>
+<li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn v-on:click.native="removeIts(index, index2)">Delete</v-btn><v-btn v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)">Edit</v-btn>
 
 <v-btn v-on:click.native="addAss(it)">New Assertion</v-btn>
 <v-btn v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)">Done</v-btn>
 <div v-show="it.editingIt == true">
+<v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
+</div>
+<div v-show="it.addingIt == true">
 <v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
 </div>
 <ul class= "assertList">
@@ -53,8 +56,9 @@ Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>
 </ul>
 </li>
 <li id="newIt" v-show="test.addingIt == true">
+{{itToPush.itsDescr}}
 <v-flex xs-4>
-<v-text-field label="What it should do:" v-model="itToPush.descr"></v-text-field>
+<v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field>
 <v-btn v-on:click.native="pushIts(index)">Done</v-btn>
 </v-flex>
 </li>
@@ -115,7 +119,7 @@ export default {
   }),
   addingAss: false,
   addingIt: false,
-  itToPush: {itsDescr: null, assertions: [], addingAss: false, editingIt: false},
+  itToPush: {itsDescr: null, assertions: [], addingAss: false, addingIt: true, editingIt: false},
   assToAdd: {
   length: null,
   assert: 'deepEqual',

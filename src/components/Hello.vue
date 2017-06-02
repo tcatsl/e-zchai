@@ -1,5 +1,6 @@
 <template>
-
+<v-layout>
+<v-flex xs12>
 <div>
 
 <pre><code class="lang-eval-js">
@@ -34,7 +35,7 @@ It: <v-btn small v-on:click.native="addIts(test)" class="green accent-1" v-show=
 </div>
 <ul class= "assertList">
 Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
-<li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn> <v-btn small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn>
+<li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn>
 <v-btn small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 <div v-show="ass.editingAss == true">
 <v-select v-bind:items="assertions" v-model="ass.assert" label="Assert:"></v-select>
@@ -58,10 +59,9 @@ Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a
 </li>
 <li id="newIt" v-show="test.addingIt == true">
 {{itToPush.itsDescr}}
-<v-flex xs-4>
 <v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field>
 <v-btn small v-on:click.native="pushIts(index)" class="green accent-1"><v-icon>done</v-icon></v-btn>
-</v-flex>
+
 </li>
 </ul>
 
@@ -81,6 +81,8 @@ describe('x', function() {
 </code></pre>
 
 </div>
+</v-flex>
+</v-layout>
 </template>
 
 <script>
@@ -281,5 +283,11 @@ border: solid 1px #90B4FE
 border-left: solid 2px #90B4FE;
 border-right: solid 2px #90B4FE;
 border-bottom: solid 2px #90B4FE;
+}
+button {
+margin: 6
+}
+.btn {
+min-width: unset;
 }
 </style>

@@ -67,7 +67,6 @@ Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>
 <pre id="tests"><code id="testcode" class="lang-eval-js">
 assert = chai.assert
 mocha.suite.suites = []
-mocha.setup("bdd")
 
 describe('x', function() {
   it('should not equal 9', function() {
@@ -222,7 +221,7 @@ mocha.run();
   }
     code += 'describe("'+this.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
   }
-  tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n mocha.setup("bdd")\n'+ code+'</code>'
+  tests.innerHTML = '<code class="lang-eval-js">'+ 'mocha.suite.suites = []\n'+ code+'</code>'
   reLoad()
   }
   },
@@ -230,8 +229,10 @@ mocha.run();
   reLoad();
   vm = this;
   this.chai = chai
+  assert = chai.assert
   this.buildTests()
 
+  mocha.setup("bdd")
   }
 }
 </script>

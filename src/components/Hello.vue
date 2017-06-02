@@ -12,7 +12,7 @@ var x = 9
 </div>
 <div id="mocha"><h5>Test results will appear here.</h5></div>
 <div id="testList">
-<h5>Tests: <v-btn small v-on:click.native="addTest()" class="green accent-1" ><v-icon>add</v-icon></v-btn></h5>
+Describe: <v-btn small v-on:click.native="addTest()" class="green accent-1" ><v-icon>add</v-icon></v-btn>
 <ul>
 
 <li v-for="(test, index) in tests">{{test.describe.name}} <v-btn small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon class="red lighten-1">clear</v-icon></v-btn><v-btn small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn>

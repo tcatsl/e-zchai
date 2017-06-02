@@ -11,7 +11,7 @@ var x = 9
 </div>
 <div id="mocha"><h5>Test results will appear here.</h5></div>
 <div id="testList">
-<h5>Tests:</h5>
+<h5>Tests: <v-btn v-on:click.native="addTest()">New Test</v-btn></h5>
 <ul>
 
 <li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn><v-btn v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)">Edit</v-btn>
@@ -21,6 +21,8 @@ var x = 9
 </div>
 <ul class ="itsList">
 <li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn v-on:click.native="removeIts(index, index2)">Delete</v-btn><v-btn v-show="it.editingIt == false" v-on:click.native="editIt(it)">Edit</v-btn>
+
+<v-btn v-on:click.native="addIts(test)">New It</v-btn>
 <v-btn v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)">Done</v-btn>
 <div v-show="it.editingIt == true">
 <v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
@@ -28,6 +30,7 @@ var x = 9
 <ul class= "assertList">
 Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):
 <li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn v-on:click.native="removeAss(index, index2, index3)">Delete</v-btn> <v-btn v-show="ass.editingAss == false" v-on:click.native="editAss(ass)">Edit</v-btn>
+<v-btn v-on:click.native="addAss(it)">New Assertion</v-btn>
 <v-btn v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)">Done</v-btn>
 <div v-show="ass.editingAss == true">
 <v-select v-bind:items="assertions" v-model="ass.assert" label="Assert:"></v-select>
@@ -47,10 +50,8 @@ Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>
 <v-text-field label="Description" v-model="assToAdd.descr"></v-text-field>
 <v-btn v-on:click.native="pushAss(index, index2, it)">Done</v-btn>
 </li>
-<v-btn v-on:click.native="addAss(it)">New Assertion</v-btn>
 </ul>
 </li>
-<v-btn v-on:click.native="addIts(test)">New It</v-btn>
 <li id="newIt" v-show="test.addingIt == true">
 <v-flex xs-4>
 <v-text-field label="What it should do:" v-model="itToPush.descr"></v-text-field>
@@ -58,8 +59,8 @@ Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>
 </v-flex>
 </li>
 </ul>
+
 </li>
-<v-btn v-on:click.native="addTest()">New Test</v-btn>
 </ul>
 </div>
 
@@ -268,6 +269,5 @@ border: solid 1px #90B4FE
 border-left: solid 2px #90B4FE;
 border-right: solid 2px #90B4FE;
 border-bottom: solid 2px #90B4FE;
-text-align: center
 }
 </style>

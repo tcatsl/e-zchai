@@ -86,8 +86,9 @@ var vm;
 
 
  function reLoad(){
+  var script = document.getElementById("repl") || false
   if (!!script){
-    script = null
+  document.body.removeChild(script)
   }
   var script = document.createElement("script");
   script.id = "repl"

@@ -29,8 +29,8 @@ Assertions:
 <div v-show="ass.editingAss == true">
 <v-select v-bind:items="assertions" v-model="ass.assert" label="Assert:"></v-select>
 <v-text-field label="Parameter 1" v-model="ass.p1"></v-text-field>
-<v-text-field label="Parameter 2" v-model="ass.p2"></v-text-field>
-<v-text-field label="Parameter 3" v-model="ass.p3"></v-text-field>
+<v-text-field v-if="evaluate('chai.assert.'+ass.assert+'.length > 2')" label="Parameter 2" v-model="ass.p2"></v-text-field>
+<v-text-field v-if="evaluate('chai.assert.'+ass.assert+'.length > 3')" label="Parameter 3" v-model="ass.p3"></v-text-field>
 <v-text-field label="Description" v-model="ass.descr"></v-text-field>
 </div>
 </li>
@@ -39,8 +39,8 @@ Assertions:
 <li v-if="it.addingAss == true">
 <v-select v-bind:items="assertions" v-model="assToAdd.assert" label="Assert:"></v-select>
 <v-text-field label="Parameter 1" v-model="assToAdd.p1"></v-text-field>
-<v-text-field label="Parameter 2" v-model="assToAdd.p2"></v-text-field>
-<v-text-field label="Parameter 3" v-model="assToAdd.p3"></v-text-field>
+<v-text-field label="Parameter 2" v-if="evaluate('chai.assert.'+assToAdd.assert+'.length > 2')"  v-model="assToAdd.p2"></v-text-field>
+<v-text-field label="Parameter 3" v-if="evaluate('chai.assert.'+assToAdd.assert+'.length > 3')" v-model="assToAdd.p3"></v-text-field>
 <v-text-field label="Description" v-model="assToAdd.descr"></v-text-field>
 <v-btn v-on:click.native="pushAss(index, index2, it)">Done</v-btn>
 </li>
@@ -75,8 +75,10 @@ describe('x', function() {
 </template>
 
 <script>
-
+var chai = require('chai')
+var assert = chai.assert
 var vm;
+
 
  function reLoad(){
   if (!!script){
@@ -109,7 +111,8 @@ export default {
   addingIt: false,
   itToPush: {itsDescr: null, assertions: [], addingAss: false, editingIt: false},
   assToAdd: {
-  assert: null,
+  length: null,
+  assert: 'deepEqual',
   p1: null,
   p2: null,
   p3: null,
@@ -120,6 +123,9 @@ export default {
   }
   },
   methods: {
+  evaluate: function (stuff){
+  return eval(stuff)
+  },
   editDescr: function (describe){
    describe.editingDescr = true
   },
@@ -144,7 +150,7 @@ export default {
   pushAss: function(index, index2, it){
   this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, descr: this.assToAdd.descr, editingAss: false})
   it.addingAss = false
-  this.assToAdd.assert = null
+  this.assToAdd.assert = 'deepEqual'
   this.assToAdd.p1 = null
   this.assToAdd.p2 = null
   this.assToAdd.p3 = null
@@ -185,7 +191,7 @@ mocha.run();
   },
   addTest: function(){
   this.tests.push({addingIt: false, describe: {editingDescr: true, name:'', its:
-  [{editingIt: true, assertions: [], addingAss: true}]}})
+  [{editingIt: true, assertions: [{assert: 'deepEqual', p1: null, p2: null, p3: null, descr: null, editingAss: true}], addingAss: false}]}})
   },
   buildTests: function (){
   var code = ''
@@ -194,7 +200,17 @@ mocha.run();
   for (var its = 0; its < this.tests[i].describe.its.length; its++){
   var assertCode = '';
   for (var ass = 0; ass < this.tests[i].describe.its[its].assertions.length; ass++){
-  assertCode += 'assert.'+this.tests[i].describe.its[its].assertions[ass].assert+'('+this.tests[i].describe.its[its].assertions[ass].p1+', '+this.tests[i].describe.its[its].assertions[ass].p2+', '+ this.tests[i].describe.its[its].assertions[ass].p3 +')\n'
+  assertCode += 'assert.'+this.tests[i].describe.its[its].assertions[ass].assert+'('+this.tests[i].describe.its[its].assertions[ass].p1
+  var len = evaluate('chai.assert.equal' +'.length')
+  alert(len)
+  if (len > 2){
+    assertCode += ', ' + this.tests[i].describe.its[its].assertions[ass].p2
+    if (len > 3){
+      assertCode += ', ' + this.tests[i].describe.its[its].assertions[ass].p3
+    }
+  }
+  assertCode += ', "' + this.tests[i].describe.its[its].assertions[ass].descr
+  assertCode += '")\n'
   }
    itsCode += 'it("'+this.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
   }
@@ -207,6 +223,7 @@ mocha.run();
   mounted: function(){
   reLoad();
   vm = this;
+  this.chai = chai
   this.buildTests()
 
   }

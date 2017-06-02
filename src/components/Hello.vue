@@ -15,6 +15,7 @@ var x = 9
 <ul>
 
 <li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn><v-btn v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)">Edit</v-btn>
+<v-btn v-on:click.native="addIts(test)">New It</v-btn>
 <v-btn v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)">Done</v-btn>
 <div v-show="test.describe.editingDescr == true">
 <v-text-field label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
@@ -22,7 +23,7 @@ var x = 9
 <ul class ="itsList">
 <li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn v-on:click.native="removeIts(index, index2)">Delete</v-btn><v-btn v-show="it.editingIt == false" v-on:click.native="editIt(it)">Edit</v-btn>
 
-<v-btn v-on:click.native="addIts(test)">New It</v-btn>
+<v-btn v-on:click.native="addAss(it)">New Assertion</v-btn>
 <v-btn v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)">Done</v-btn>
 <div v-show="it.editingIt == true">
 <v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
@@ -30,7 +31,6 @@ var x = 9
 <ul class= "assertList">
 Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):
 <li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn v-on:click.native="removeAss(index, index2, index3)">Delete</v-btn> <v-btn v-show="ass.editingAss == false" v-on:click.native="editAss(ass)">Edit</v-btn>
-<v-btn v-on:click.native="addAss(it)">New Assertion</v-btn>
 <v-btn v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)">Done</v-btn>
 <div v-show="ass.editingAss == true">
 <v-select v-bind:items="assertions" v-model="ass.assert" label="Assert:"></v-select>

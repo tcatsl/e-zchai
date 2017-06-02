@@ -239,6 +239,9 @@ mocha.run();
 * {
 font-family: 'Bitter', serif;
 }
+.CodeMirror  .CodeMirror-lines *{
+font-family: 'FiraCode', monospace
+}
 #testList {
  margin: 20px
 }

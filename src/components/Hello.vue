@@ -1,7 +1,7 @@
 <template>
 
 <div>
-<h5>Code:</h5>
+
 <pre><code class="lang-eval-js">
 
 var x = 9

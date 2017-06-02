@@ -1,0 +1,47 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /usr/local/Cellar/node/7.4.0/bin/node /usr/local/bin/firebase deploy
+[debug] CLI Version:  3.7.0
+[debug] Platform:     darwin
+[debug] Node Version: v7.4.0
+[debug] Time:         Thu Jun 01 2017 22:46:35 GMT-0600 (MDT)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[debug] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/PNUIcptJUOH9V-G1mYUrG5AhD2Zn0HM57dTCCcoA1sU',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu Jun 01 2017 22:46:35 GMT-0600 (MDT)
+[debug] <<< HTTP RESPONSE 200
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/e-zchai  
+ Thu Jun 01 2017 22:46:35 GMT-0600 (MDT)
+[debug] <<< HTTP RESPONSE 200
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/e-zchai/tokens  
+ Thu Jun 01 2017 22:46:36 GMT-0600 (MDT)
+[debug] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'e-zchai'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing dist directory for upload...
+[debug] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/e-zchai/uploads/-Klb75hSmMS0qI2kyCj3?fileCount=9&message=  
+ Thu Jun 01 2017 22:46:37 GMT-0600 (MDT)
+[debug] <<< HTTP RESPONSE 200
+[debug] [hosting] .tgz uploaded successfully, waiting for extraction
+[info] ✔  hosting: 9 files uploaded successfully
+[info] i  starting release process (may take several minutes)...
+[debug] >>> HTTP REQUEST POST https://deploy.firebase.com/v1/projects/e-zchai/releases { hosting: 
+   { public: 'dist',
+     rewrites: [ [Object] ],
+     version: '-Klb75hSmMS0qI2kyCj3',
+     prefix: '-Klb75hSmMS0qI2kyCj3/',
+     manifest: [] } } 
+ Thu Jun 01 2017 22:46:46 GMT-0600 (MDT)
+[debug] Error: connect ECONNREFUSED 23.251.151.130:443
+    at Object.exports._errnoException (util.js:1022:11)
+    at exports._exceptionWithHostPort (util.js:1045:20)
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1090:14)
+[error] 
+[error] Error: Server Error. connect ECONNREFUSED 23.251.151.130:443

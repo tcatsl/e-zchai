@@ -1,17 +1,19 @@
 <template>
 
 <div>
-Code:
+<h5>Code:</h5>
 <pre><code class="lang-eval-js">
 
 var x = 9
 </code></pre>
-<div id="mocha"></div>
+<div id="run">
 <v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
-<br>
+</div>
+<div id="mocha"><h5>Test results will appear here.</h5></div>
+<div id="testList">
+<h5>Tests:</h5>
+<ul>
 
-<ul id="testList">
-Tests:
 <li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn><v-btn v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)">Edit</v-btn>
 <v-btn v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)">Done</v-btn>
 <div v-show="test.describe.editingDescr == true">
@@ -24,7 +26,7 @@ Tests:
 <v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
 </div>
 <ul class= "assertList">
-<a href="http://chaijs.com/api/assert/" target="_blank">Assertions:</a>
+Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):
 <li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn v-on:click.native="removeAss(index, index2, index3)">Delete</v-btn> <v-btn v-show="ass.editingAss == false" v-on:click.native="editAss(ass)">Edit</v-btn>
 <v-btn v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)">Done</v-btn>
 <div v-show="ass.editingAss == true">
@@ -59,6 +61,7 @@ Tests:
 </li>
 <v-btn v-on:click.native="addTest()">New Test</v-btn>
 </ul>
+</div>
 
 <pre id="tests"><code id="testcode" class="lang-eval-js">
 assert = chai.assert
@@ -92,6 +95,7 @@ var vm;
    document.body.append(script)
    setTimeout(function(){
    var final = document.getElementsByClassName("cm-s-default")
+   final[final.length -1 ].id = "final"
    final[final.length -1 ].innerHTML = ""}, 2500)
 }
 function resetTests(suite) {
@@ -240,12 +244,30 @@ mocha.run();
 font-family: 'Bitter', serif;
 }
 .CodeMirror  .CodeMirror-lines *{
-font-family: 'FiraCode', monospace
+font-family: 'Roboto Mono', monospace
 }
 #testList {
- margin: 20px
+ padding: 20px;
+ border-right: solid 2px #90B4FE;
+ border-left: solid 2px #90B4FE;
+ border-top: solid 2px #90B4FE;
 }
-v-btn {
-height: 30px
+#final {
+border: 0
+}
+#mocha{
+border-right: solid 2px #90B4FE;
+border-left: solid 2px #90B4FE;
+padding: 40px;
+margin: 0
+}
+pre{
+border: solid 1px #90B4FE
+}
+#run{
+border-left: solid 2px #90B4FE;
+border-right: solid 2px #90B4FE;
+border-bottom: solid 2px #90B4FE;
+text-align: center
 }
 </style>

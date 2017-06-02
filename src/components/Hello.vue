@@ -9,8 +9,9 @@ var x = 9
 <div id="mocha"></div>
 <v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
 <br>
+
+<ul id="testList">
 Tests:
-<ol id="testList">
 <li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn><v-btn v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)">Edit</v-btn>
 <v-btn v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)">Done</v-btn>
 <div v-show="test.describe.editingDescr == true">
@@ -23,7 +24,7 @@ Tests:
 <v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
 </div>
 <ul class= "assertList">
-Assertions:
+<a href="http://chaijs.com/api/assert/" target="_blank">Assertions:</a>
 <li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn v-on:click.native="removeAss(index, index2, index3)">Delete</v-btn> <v-btn v-show="ass.editingAss == false" v-on:click.native="editAss(ass)">Edit</v-btn>
 <v-btn v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)">Done</v-btn>
 <div v-show="ass.editingAss == true">
@@ -57,7 +58,7 @@ Assertions:
 </ul>
 </li>
 <v-btn v-on:click.native="addTest()">New Test</v-btn>
-</ol>
+</ul>
 
 <pre id="tests"><code id="testcode" class="lang-eval-js">
 assert = chai.assert
@@ -201,8 +202,7 @@ mocha.run();
   var assertCode = '';
   for (var ass = 0; ass < this.tests[i].describe.its[its].assertions.length; ass++){
   assertCode += 'assert.'+this.tests[i].describe.its[its].assertions[ass].assert+'('+this.tests[i].describe.its[its].assertions[ass].p1
-  var len = evaluate('chai.assert.equal' +'.length')
-  alert(len)
+  var len = this.evaluate('chai.assert.'+ this.tests[i].describe.its[its].assertions[ass].assert +'.length')
   if (len > 2){
     assertCode += ', ' + this.tests[i].describe.its[its].assertions[ass].p2
     if (len > 3){
@@ -236,4 +236,13 @@ mocha.run();
  .menu .menu__content{
  top: 0
   }
+* {
+font-family: 'Roboto' sans-serif
+}
+#testList {
+ margin: 20px
+}
+v-btn {
+height: 30px
+}
 </style>

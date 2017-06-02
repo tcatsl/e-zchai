@@ -56,7 +56,7 @@ Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>
 </ul>
 </li>
 <li id="newIt" v-show="test.addingIt == true">
-{{itToPush.itsDescr}}
+It: {{itToPush.itsDescr}}
 <v-flex xs-4>
 <v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field>
 <v-btn v-on:click.native="pushIts(index)">Done</v-btn>

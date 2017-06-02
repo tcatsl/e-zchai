@@ -290,4 +290,8 @@ margin: 6
 .btn {
 min-width: unset;
 }
+ul {
+margin-left: 20px;
+list-style: inside
+}
 </style>

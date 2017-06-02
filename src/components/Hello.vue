@@ -7,34 +7,34 @@
 var x = 9
 </code></pre>
 <div id="run">
-<v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
+<v-btn small id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
 </div>
 <div id="mocha"><h5>Test results will appear here.</h5></div>
 <div id="testList">
-<h5>Tests: <v-btn v-on:click.native="addTest()">New Test</v-btn></h5>
+<h5>Tests: <v-btn small v-on:click.native="addTest()" class="green accent-1" ><v-icon>add</v-icon></v-btn></h5>
 <ul>
 
-<li v-for="(test, index) in tests">{{test.describe.name}} <v-btn v-on:click.native="removeTest(index)">Delete</v-btn><v-btn v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)">Edit</v-btn>
-<v-btn v-on:click.native="addIts(test)">New It</v-btn>
-<v-btn v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)">Done</v-btn>
+<li v-for="(test, index) in tests">{{test.describe.name}} <v-btn small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon class="red lighten-1">clear</v-icon></v-btn><v-btn small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn>
+<v-btn small v-on:click.native="addIts(test)" class="green accent-1" v-show="test.describe.editingDescr == false"><v-icon>add</v-icon></v-btn>
+<v-btn small v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 <div v-show="test.describe.editingDescr == true">
 <v-text-field label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
 </div>
 <ul class ="itsList">
-<li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn v-on:click.native="removeIts(index, index2)">Delete</v-btn><v-btn v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)">Edit</v-btn>
+<li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn small v-on:click.native="removeIts(index, index2)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn small v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)"><v-icon>edit</v-icon></v-btn>
 
-<v-btn v-on:click.native="addAss(it)">New Assertion</v-btn>
-<v-btn v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)">Done</v-btn>
+<v-btn small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
+<v-btn small class="green accent-1" v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)"><v-icon>done</v-icon></v-btn>
 <div v-show="it.editingIt == true">
 <v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
 </div>
 <div v-show="it.addingIt == true">
-<v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
+<v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field>
 </div>
 <ul class= "assertList">
 Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):
-<li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn v-on:click.native="removeAss(index, index2, index3)">Delete</v-btn> <v-btn v-show="ass.editingAss == false" v-on:click.native="editAss(ass)">Edit</v-btn>
-<v-btn v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)">Done</v-btn>
+<li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn> <v-btn small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn>
+<v-btn small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 <div v-show="ass.editingAss == true">
 <v-select v-bind:items="assertions" v-model="ass.assert" label="Assert:"></v-select>
 <v-text-field label="Parameter 1" v-model="ass.p1"></v-text-field>
@@ -51,7 +51,7 @@ Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>
 <v-text-field label="Parameter 2" v-if="evaluate('chai.assert.'+assToAdd.assert+'.length > 2')"  v-model="assToAdd.p2"></v-text-field>
 <v-text-field label="Parameter 3" v-if="evaluate('chai.assert.'+assToAdd.assert+'.length > 3')" v-model="assToAdd.p3"></v-text-field>
 <v-text-field label="Description" v-model="assToAdd.descr"></v-text-field>
-<v-btn v-on:click.native="pushAss(index, index2, it)">Done</v-btn>
+<v-btn small v-on:click.native="pushAss(index, index2, it)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 </li>
 </ul>
 </li>
@@ -59,7 +59,7 @@ Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>
 It: {{itToPush.itsDescr}}
 <v-flex xs-4>
 <v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field>
-<v-btn v-on:click.native="pushIts(index)">Done</v-btn>
+<v-btn small v-on:click.native="pushIts(index)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 </v-flex>
 </li>
 </ul>
@@ -119,6 +119,7 @@ export default {
   }),
   addingAss: false,
   addingIt: false,
+  editingAss: false,
   itToPush: {itsDescr: null, assertions: [], addingAss: false, addingIt: true, editingIt: false},
   assToAdd: {
   length: null,
@@ -152,26 +153,29 @@ export default {
   },
   finishEditAss: function(ass) {
   ass.editingAss = false;
+  this.editingAss = false
   this.buildTests();
   },
   editAss: function(ass){
   ass.editingAss = true;
+  this.editingAss = true;
   },
   pushAss: function(index, index2, it){
   this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, descr: this.assToAdd.descr, editingAss: false})
   it.addingAss = false
+  this.addingAss = false;
   this.assToAdd.assert = 'deepEqual'
-  this.assToAdd.p1 = null
-  this.assToAdd.p2 = null
-  this.assToAdd.p3 = null
-  this.assToAdd.descr = null
+  this.assToAdd.p1 = null;
+  this.assToAdd.p2 = null;
+  this.assToAdd.p3 = null;
+  this.assToAdd.descr = null;
   this.buildTests();
 
   },
   pushIts: function(index){
-  this.tests[index].describe.its.push({itsDescr: this.itToPush.descr, assertions: this.itToPush.assertions, addingAss: false, editingIt: false})
+  this.tests[index].describe.its.push({itsDescr: this.itToPush.itsDescr, assertions: this.itToPush.assertions, addingAss: false, addingIt: false, editingIt: false})
   this.itToPush = {};
-  this.itToPush.descr = null;
+  this.itToPush.itsDescr = null;
   this.itToPush.assertions = [];
   this.tests[index].addingIt = false;
   this.buildTests();
@@ -186,6 +190,7 @@ mocha.run();
   },
   addAss: function(it) {
   it.addingAss = true;
+  this.addingAss = true;
   },
   removeTest: function (index) {
   this.tests.splice(index, 1);
@@ -201,7 +206,8 @@ mocha.run();
   },
   addTest: function(){
   this.tests.push({addingIt: false, describe: {editingDescr: true, name:'', its:
-  [{editingIt: true, assertions: [{assert: 'deepEqual', p1: null, p2: null, p3: null, descr: null, editingAss: true}], addingAss: false}]}})
+  [{editingIt: true, itsDescr: null, assertions: [{assert: 'deepEqual', p1: null, p2: null, p3: null, descr: null, editingAss: true}], addingAss: false}]}})
+  this.editingAss = true;
   },
   buildTests: function (){
   var code = ''

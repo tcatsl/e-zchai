@@ -15,15 +15,16 @@ var x = 9
 <ul>
 
 <li v-for="(test, index) in tests">{{test.describe.name}} <v-btn small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon class="red lighten-1">clear</v-icon></v-btn><v-btn small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn>
-<v-btn small v-on:click.native="addIts(test)" class="green accent-1" v-show="test.describe.editingDescr == false"><v-icon>add</v-icon></v-btn>
+
 <v-btn small v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 <div v-show="test.describe.editingDescr == true">
 <v-text-field label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
 </div>
 <ul class ="itsList">
-<li v-for="(it, index2) in test.describe.its">It: {{it.itsDescr}} <v-btn small v-on:click.native="removeIts(index, index2)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn small v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)"><v-icon>edit</v-icon></v-btn>
+It: <v-btn small v-on:click.native="addIts(test)" class="green accent-1" v-show="test.describe.editingDescr == false"><v-icon>add</v-icon></v-btn>
+<li v-for="(it, index2) in test.describe.its">{{it.itsDescr}} <v-btn small v-on:click.native="removeIts(index, index2)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn small v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)"><v-icon>edit</v-icon></v-btn>
 
-<v-btn small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
+
 <v-btn small class="green accent-1" v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)"><v-icon>done</v-icon></v-btn>
 <div v-show="it.editingIt == true">
 <v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
@@ -32,7 +33,7 @@ var x = 9
 <v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field>
 </div>
 <ul class= "assertList">
-Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):
+Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
 <li v-for="(ass, index3) in it.assertions"> {{ass.descr}} <v-btn small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn> <v-btn small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn>
 <v-btn small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 <div v-show="ass.editingAss == true">
@@ -56,7 +57,7 @@ Assertions(<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>
 </ul>
 </li>
 <li id="newIt" v-show="test.addingIt == true">
-It: {{itToPush.itsDescr}}
+{{itToPush.itsDescr}}
 <v-flex xs-4>
 <v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field>
 <v-btn small v-on:click.native="pushIts(index)" class="green accent-1"><v-icon>done</v-icon></v-btn>

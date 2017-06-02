@@ -63,7 +63,7 @@ Tests:
 <pre id="tests"><code id="testcode" class="lang-eval-js">
 assert = chai.assert
 mocha.suite.suites = []
-mocha.setup("tdd")
+mocha.setup("bdd")
 
 describe('x', function() {
   it('should not equal 9', function() {
@@ -216,7 +216,7 @@ mocha.run();
   }
     code += 'describe("'+this.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
   }
-  tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n mocha.setup("tdd")\n'+ code+'</code>'
+  tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n mocha.setup("bdd")\n'+ code+'</code>'
   reLoad()
   }
   },

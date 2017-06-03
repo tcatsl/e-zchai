@@ -33,14 +33,14 @@ It: <v-btn floating small v-on:click.native="addIts(test)" class="green accent-1
 Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
 <li v-for="(ass, index3) in it.assertions"> {{ass['p'+(ass.params.length)]}} <v-btn floating small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 <div v-show="ass.editingAss == true">
-<v-select autocomplete="true" auto v-bind:items="assertions" :on-change="func()" v-model="ass.assert" label="Assertion:"></v-select>
+<v-select :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" v-model="ass.assert" label="Assertion:"></v-select>
 <v-text-field v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
 </div>
 </li>
 <br>
 
 <li v-if="it.addingAss == true">
-<v-select autocomplete="true" auto v-bind:items="assertions" :on-change="func()" v-model="assToAdd.assert" label="Assertion:"></v-select>
+<v-select @keydown.tab.capture.native="tab($event)" :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" v-model="assToAdd.assert" label="Assertion:"></v-select>
 <v-text-field v-for="(param, index0) in assToAdd.params" v-bind:label="param" v-model="assToAdd['p'+(index0+1)]"></v-text-field><v-btn floating small v-on:click.native="pushAss(index, index2, it)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 </li>
 </ul>
@@ -129,6 +129,12 @@ export default {
   }
   },
   methods: {
+  tab:  function (e) {
+  var z = document.createEvent('HTMLEvents')
+  z.initEvent('keydown', true, true)
+  z.keyCode = 13
+e.currentTarget.dispatchEvent(z)
+  },
   func: function (){
   this.assToAdd.params = this.params[this.names.indexOf(this.assToAdd.assert)]
   },

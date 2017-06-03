@@ -7,15 +7,16 @@
 
 var x = 9
 </code></pre>
-<div id="run">
-<v-btn small id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
-</div>
+
 <div id="mocha"><h5>Test results will appear here.</h5></div>
+<div class="text-xs-center"  id="run">
+<v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
+</div>
 <div id="testList">
 Describe: <v-btn floating small v-on:click.native="addTest()" class="green accent-1" ><v-icon>add</v-icon></v-btn>
 <ul>
 
-<li v-for="(test, index) in tests">{{test.describe.name}} <v-btn floating small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn>
+<li v-for="(test, index) in tests">{{test.describe.name}} <span class="text-xs-center"><v-btn floating small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn></span>
 <div v-show="test.describe.editingDescr == true">
 <v-text-field label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
 </div>
@@ -204,7 +205,7 @@ mocha.run();
   },
   addTest: function(){
   this.tests.push({addingIt: false, describe: {editingDescr: true, name:'', its:
-  [{editingIt: true, itsDescr: null, assertions: [{assert: 'deepEqual', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true}], addingAss: false}]}})
+  [{editingIt: true, itsDescr: null, assertions: [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}], addingAss: false}]}})
   this.editingAss = true;
   },
   buildTests: function (){
@@ -309,13 +310,20 @@ border: solid 1px #90B4FE
 #run{
 border-left: solid 2px #90B4FE;
 border-right: solid 2px #90B4FE;
-border-bottom: solid 2px #90B4FE;
+border-top: solid 2px #90B4FE;
 }
 button {
 margin: 6
 }
-.btn {
+.btn.btn--floating{
 min-width: unset;
+height: 15px;
+margin: 0
+}
+.btn--floating.btn--small .icon {
+font-size: 10px;
+bottom: 1px;
+position: relative
 }
 ul {
 margin-left: 20px;

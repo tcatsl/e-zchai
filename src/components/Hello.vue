@@ -161,7 +161,7 @@ export default {
   it.addingAss = false
   this.addingAss = false;
   this.editingAss = false;
-  this.assToAdd.assert = 'deepEqual'
+  this.assToAdd.assert = 'assert'
   this.assToAdd.p1 = null;
   this.assToAdd.p2 = null;
   this.assToAdd.p3 = null;

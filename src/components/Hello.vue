@@ -16,13 +16,13 @@ var x = 9
 Describe: <v-btn floating small v-on:click.native="addTest()" class="green accent-1" ><v-icon>add</v-icon></v-btn>
 <ul>
 
-<li v-for="(test, index) in tests">{{test.describe.name}} <span class="text-xs-center"><v-btn floating small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn></span>
+<li v-for="(test, index) in tests">{{test.describe.name}} <span class="text-xs-center"><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn><v-btn floating small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn></span>
 <div v-show="test.describe.editingDescr == true">
 <v-text-field label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
 </div>
 <ul class ="itsList">
 It: <v-btn floating small v-on:click.native="addIts(test)" class="green accent-1" v-show="test.describe.editingDescr == false"><v-icon>add</v-icon></v-btn>
-<li v-for="(it, index2) in test.describe.its">{{it.itsDescr}} <v-btn floating small v-on:click.native="removeIts(index, index2)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)"><v-icon>done</v-icon></v-btn>
+<li v-for="(it, index2) in test.describe.its">{{it.itsDescr}} <v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)"><v-icon>done</v-icon></v-btn><v-btn floating small v-on:click.native="removeIts(index, index2)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn>
 <div v-show="it.editingIt == true">
 <v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
 </div>
@@ -31,7 +31,7 @@ It: <v-btn floating small v-on:click.native="addIts(test)" class="green accent-1
 </div>
 <ul class= "assertList">
 Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
-<li v-for="(ass, index3) in it.assertions"> {{ass['p'+(ass.params.length)]}} <v-btn floating small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn>
+<li v-for="(ass, index3) in it.assertions"> {{ass['p'+(ass.params.length)]}} <v-btn floating small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn><v-btn floating small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn>
 <div v-show="ass.editingAss == true">
 <v-select autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
 <v-text-field ref="stuff2" v-bind:autofocus="(index9 == 0)" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
@@ -347,7 +347,7 @@ margin: 6
 }
 .btn.btn--floating{
 min-width: unset;
-height: 15px;
+height: 16px;
 margin: 0
 }
 .btn--floating.btn--small .icon {
@@ -358,5 +358,8 @@ position: relative
 ul {
 margin-left: 20px;
 list-style: inside
+}
+#runTest{
+width: 99%
 }
 </style>

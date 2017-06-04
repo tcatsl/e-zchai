@@ -13,25 +13,25 @@ var x = 9
 <v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
 </div>
 <div id="testList">
-Describe: <v-btn floating small v-on:click.native="addTest()" class="green accent-1" ><v-icon>add</v-icon></v-btn>
+Describe: <v-btn floating small style="visibility: hidden" ><v-icon>edit</v-icon></v-btn><v-btn floating small v-on:click.native="addTest()" class="green accent-1" ><v-icon>add</v-icon></v-btn>
 <ul>
 
-<li v-for="(test, index) in tests">{{test.describe.name}} <span class="text-xs-center"><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn><v-btn floating small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn></span>
+<li v-for="(test, index) in tests"><v-btn floating small v-on:click.native="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn> {{test.describe.name}} <span class="text-xs-center"><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn></span>
 <div v-show="test.describe.editingDescr == true">
 <v-text-field label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
 </div>
 <ul class ="itsList">
-It: <v-btn floating small v-on:click.native="addIts(test)" class="green accent-1" v-show="test.describe.editingDescr == false"><v-icon>add</v-icon></v-btn>
-<li v-for="(it, index2) in test.describe.its">{{it.itsDescr}} <v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)"><v-icon>done</v-icon></v-btn><v-btn floating small v-on:click.native="removeIts(index, index2)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn>
+It: <v-btn floating small style="visibility: hidden" ><v-icon>edit</v-icon></v-btn><v-btn floating small v-on:click.native="pushIts(index)" class="green accent-1" v-show="test.describe.editingDescr == false"><v-icon>add</v-icon></v-btn>
+<li v-for="(it, index2) in test.describe.its"><v-btn floating small v-on:click.native="removeIts(index, index2)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn> {{it.itsDescr}} <v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native="finishEditIt(it)"><v-icon>done</v-icon></v-btn>
 <div v-show="it.editingIt == true">
-<v-text-field label="What it should do:" v-model="it.itsDescr"></v-text-field>
+<v-text-field label="(should...):" v-model="it.itsDescr"></v-text-field>
 </div>
 <div v-show="it.addingIt == true">
 <v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field>
 </div>
 <ul class= "assertList">
-Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
-<li v-for="(ass, index3) in it.assertions"> {{ass['p'+(ass.params.length)]}} <v-btn floating small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn><v-btn floating small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn>
+Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small style="visibility: hidden" ><v-icon>edit</v-icon></v-btn><v-btn floating small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
+<li v-for="(ass, index3) in it.assertions"><v-btn floating small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn> {{ass['p'+(ass.params.length)]}} <v-btn floating small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 <div v-show="ass.editingAss == true">
 <v-select single-line id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
 <v-text-field ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
@@ -39,15 +39,15 @@ Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a
 </li>
 <br>
 
-<li id="newassertion" v-if="it.addingAss == true">{{assToAdd['p'+(assToAdd.params.length)]}}
+<li id="newassertion" v-if="it.addingAss == true"><v-btn floating small v-on:click.native="clearAss(it)" class="red lighten-1"><v-icon>clear</v-icon></v-btn>{{assToAdd['p'+(assToAdd.params.length)]}}<v-btn floating small v-on:click.native="pushAss(index, index2, it)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 <v-select single-line ref="addAssSelect" id="addAssSelect" @keydown.tab.capture.native="tab($event)" :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" v-model="assToAdd.assert" label="Assertion:"></v-select>
-<v-text-field class="testing" ref="stuff"  v-for="(param2, index0) in assToAdd.params" v-bind:label="param2" v-model="assToAdd['p'+(index0+1)]"></v-text-field><v-btn floating small v-on:click.native="pushAss(index, index2, it)" class="green accent-1"><v-icon>done</v-icon></v-btn>
+<v-text-field class="testing" ref="stuff"  v-for="(param2, index0) in assToAdd.params" v-bind:label="param2" v-model="assToAdd['p'+(index0+1)]"></v-text-field>
 </li>
 </ul>
 </li>
 <li id="newIt" v-show="test.addingIt == true">
 {{itToPush.itsDescr}}
-<v-text-field label="What it should do:" v-model="itToPush.itsDescr"></v-text-field><v-btn floating small v-on:click.native="pushIts(index)" class="green accent-1"><v-icon>done</v-icon></v-btn>
+<v-text-field label="(should...):" v-model="itToPush.itsDescr"></v-text-field><v-btn floating small v-on:click.native="pushIts(index)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 
 </li>
 </ul>
@@ -207,7 +207,7 @@ setTimeout(() => {
 
   },
   pushIts: function(index){
-  this.tests[index].describe.its.push({itsDescr: this.itToPush.itsDescr, assertions: this.itToPush.assertions, addingAss: false, addingIt: false, editingIt: false})
+  this.tests[index].describe.its.push({itsDescr: this.itToPush.itsDescr, assertions: this.itToPush.assertions, addingAss: false, addingIt: false, editingIt: true})
   this.itToPush = {};
   this.itToPush.itsDescr = null;
   this.itToPush.assertions = [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}];
@@ -230,6 +230,18 @@ mocha.run();
     vm.$refs.addAssSelect[0].focus()
     document.getElementById('addAssSelect').click()
   })
+  },
+  clearAss: function(it){
+  it.addingAss = false;
+  this.addingAss = false;
+  this.editingAss = false;
+  this.assToAdd.assert = 'assert'
+  this.assToAdd.p1 = null;
+  this.assToAdd.p2 = null;
+  this.assToAdd.p3 = null;
+  this.assToAdd.descr = null;
+  this.assToAdd.params = null;
+  this.buildTests();
   },
   removeTest: function (index) {
   this.tests.splice(index, 1);
@@ -356,14 +368,15 @@ button {
 margin: 6
 }
 .btn.btn--floating{
-min-width: unset;
 height: 16px;
-margin: 0
+margin: 0;
+float: right
 }
 .btn--floating.btn--small .icon {
 font-size: 10px;
 bottom: 1px;
-position: relative
+position: relative;
+
 }
 ul {
 margin-left: 20px;

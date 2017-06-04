@@ -33,7 +33,7 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
       <v-expansion-panel v-do>
       <v-expansion-panel-content v-bind:value="index4 === test.describe.its.length-1" v-for="(it, index4) in test.describe.its" :key="index4" >
       <div slot="header">
-      <v-btn floating small v-on:click.native.capture.stop.prevent="removeIts(index, index4)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native.capture.stop.prevent="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)"><v-icon>done</v-icon></v-btn> {{it.itsDescr}} <v-text-field v-show="it.editingIt == true" v-on:click.native.capture.stop="" label="(should...):" v-model="it.itsDescr"></v-text-field>
+      <v-btn floating small v-on:click.native.capture.stop.prevent="removeIts(index, index4)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native.capture.stop.prevent="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)"><v-icon>done</v-icon></v-btn> {{it.itsDescr}} <v-text-field v-show="it.editingIt == true"  label="(should...):" v-model="it.itsDescr"></v-text-field>
       </div>
       <v-card>
       <v-card-text>
@@ -288,6 +288,7 @@ mocha.run();
 
   },
   buildTests: function (){
+
   var code = ''
   for (var i = 0; i < this.tests.length; i++){
   var itsCode = '';
@@ -298,12 +299,7 @@ mocha.run();
   assertCode += 'assert'
   if (this.tests[i].describe.its[its].assertions[ass].assert == "assert"){
    assertCode += '('+this.tests[i].describe.its[its].assertions[ass].p1 + ', '+JSON.stringify(this.tests[i].describe.its[its].assertions[ass].p2) + ')\n'
-   itsCode += 'it("'+this.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
-    code += 'describe("'+this.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
-  tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
-  reLoad()
-   return
-  }
+  } else {
   var len = this.evaluate('chai.assert.'+ this.tests[i].describe.its[its].assertions[ass].assert +'.length')
   if (len > 0){
   if (this.tests[i].describe.its[its].assertions[ass].params[0] != 'message'){
@@ -334,6 +330,7 @@ mocha.run();
   }
   }
   assertCode += ')\n'
+  }
   }
    itsCode += 'it("'+this.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
   }

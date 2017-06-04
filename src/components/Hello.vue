@@ -21,7 +21,7 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
 <v-expansion-panel v-do>
     <v-expansion-panel-content v-bind:value="index === tests.length-1"v-for="(test, index) in tests" :key="index" >
       <div slot="header"><v-btn floating small v-on:click.native.capture.stop.prevent="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><span class="text-xs-center"><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native.capture.stop.prevent="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native.capture.stop.prevent="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn></span>{{test.describe.name}}<div v-show="test.describe.editingDescr == true">
-      <v-text-field v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
+      <v-text-field autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
       </div></div>
       <div>
       </div>
@@ -461,7 +461,7 @@ box-shadow: none
 .card__text {
 padding-top: 2px;
 padding-bottom: 0px;
-padding-right: 0px
+padding-right: 0
 }
 .card__text p {
 margin-bottom: 3px

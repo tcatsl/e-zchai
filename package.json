@@ -16,7 +16,8 @@
     "klipse": "^7.0.6",
     "vue": "^2.2.6",
     "vue-router": "^2.3.1",
-    "vue-select": "github:sagalbot/vue-select"
+    "vue-select": "github:sagalbot/vue-select",
+    "vuetify": "^0.12.6"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

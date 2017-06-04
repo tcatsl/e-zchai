@@ -33,15 +33,15 @@ It: <v-btn floating small v-on:click.native="addIts(test)" class="green accent-1
 Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small v-on:click.native="addAss(it)" v-show="it.editingIt == false && addingIt == false && editingAss == false && addingAss == false" class="green accent-1"><v-icon>add</v-icon></v-btn>
 <li v-for="(ass, index3) in it.assertions"> {{ass['p'+(ass.params.length)]}} <v-btn floating small v-show="ass.editingAss == false" v-on:click.native="editAss(ass)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="ass.editingAss == true" v-on:click.native="finishEditAss(ass)" class="green accent-1"><v-icon>done</v-icon></v-btn><v-btn floating small v-on:click.native="removeAss(index, index2, index3)" class="red lighten-1"><v-icon>clear</v-icon></v-btn>
 <div v-show="ass.editingAss == true">
-<v-select autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
-<v-text-field ref="stuff2" v-bind:autofocus="(index9 == 0)" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
+<v-select single-line id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
+<v-text-field ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
 </div>
 </li>
 <br>
 
 <li id="newassertion" v-if="it.addingAss == true">{{assToAdd['p'+(assToAdd.params.length)]}}
-<v-select autofocus  @keydown.tab.capture.native="tab($event)" :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" v-model="assToAdd.assert" label="Assertion:"></v-select>
-<v-text-field v-bind:autofocus="(index0 == 0)" class="testing" ref="stuff"  v-for="(param2, index0) in assToAdd.params" v-bind:label="param2" v-model="assToAdd['p'+(index0+1)]"></v-text-field><v-btn floating small v-on:click.native="pushAss(index, index2, it)" class="green accent-1"><v-icon>done</v-icon></v-btn>
+<v-select single-line ref="addAssSelect" id="addAssSelect" @keydown.tab.capture.native="tab($event)" :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" v-model="assToAdd.assert" label="Assertion:"></v-select>
+<v-text-field class="testing" ref="stuff"  v-for="(param2, index0) in assToAdd.params" v-bind:label="param2" v-model="assToAdd['p'+(index0+1)]"></v-text-field><v-btn floating small v-on:click.native="pushAss(index, index2, it)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 </li>
 </ul>
 </li>
@@ -150,10 +150,10 @@ setTimeout(() => {
   z.keyCode = 13
 e.currentTarget.dispatchEvent(z)
 
-if (!!this.$refs.stuff2){
+if (!!this.$refs.stuffo){
 setTimeout(() => {
   this.$forceUpdate()
-  vm.$refs.stuff2[0].focus()
+  vm.$refs.stuffo[0].focus()
 })
 }
   },
@@ -186,6 +186,11 @@ setTimeout(() => {
   editAss: function(ass){
   ass.editingAss = true;
   this.editingAss = true;
+  setTimeout(() => {
+    this.$forceUpdate()
+    vm.$refs.editAssSelect[0].focus()
+    document.getElementById('editAssSelect').click()
+  })
   },
   pushAss: function(index, index2, it){
   this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, p4: this.assToAdd.p4, params: this.assToAdd.params, descr: this.assToAdd.descr, editingAss: false})
@@ -220,6 +225,11 @@ mocha.run();
   addAss: function(it) {
   it.addingAss = true;
   this.addingAss = true;
+  setTimeout(() => {
+    this.$forceUpdate()
+    vm.$refs.addAssSelect[0].focus()
+    document.getElementById('addAssSelect').click()
+  })
   },
   removeTest: function (index) {
   this.tests.splice(index, 1);
@@ -360,6 +370,6 @@ margin-left: 20px;
 list-style: inside
 }
 #runTest{
-width: 99%
+width: 98%
 }
 </style>

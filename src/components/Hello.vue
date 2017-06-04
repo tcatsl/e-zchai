@@ -39,7 +39,7 @@ Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a
 </li>
 <br>
 
-<li id="newassertion" v-if="it.addingAss == true">
+<li id="newassertion" v-if="it.addingAss == true">{{assToAdd['p'+(assToAdd.params.length)]}}
 <v-select autofocus  @keydown.tab.capture.native="tab($event)" :autocomplete="true" auto v-bind:items="assertions" :on-change="func()" v-model="assToAdd.assert" label="Assertion:"></v-select>
 <v-text-field v-bind:autofocus="(index0 == 0)" class="testing" ref="stuff"  v-for="(param2, index0) in assToAdd.params" v-bind:label="param2" v-model="assToAdd['p'+(index0+1)]"></v-text-field><v-btn floating small v-on:click.native="pushAss(index, index2, it)" class="green accent-1"><v-icon>done</v-icon></v-btn>
 </li>
@@ -92,7 +92,7 @@ var vm;
    setTimeout(function(){
    var final = document.getElementsByClassName("cm-s-default")
    final[final.length -1 ].id = "final"
-   final[final.length -1 ].innerHTML = ""}, 2500)
+   final[final.length -1 ].innerHTML = ""}, 4000)
 }
 function resetTests(suite) {
 suite.tests.forEach(function(t) {
@@ -205,7 +205,7 @@ setTimeout(() => {
   this.tests[index].describe.its.push({itsDescr: this.itToPush.itsDescr, assertions: this.itToPush.assertions, addingAss: false, addingIt: false, editingIt: false})
   this.itToPush = {};
   this.itToPush.itsDescr = null;
-  this.itToPush.assertions = [];
+  this.itToPush.assertions = [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}];
   this.tests[index].addingIt = false;
   this.buildTests();
   },
@@ -295,7 +295,7 @@ mocha.run();
   }
   },
   mounted: function(){
-
+  this.itToPush.assertions = [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}]
   this.names = this.assertions.map(function(el, ind, arr){return el.text})
   reLoad();
   vm = this;

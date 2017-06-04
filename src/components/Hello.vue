@@ -438,7 +438,7 @@ height: 2px
 .expansion-panel {
 height: auto;
 margin-left: 0;
-
+box-shadow: none
 }
 .card__text {
 padding-top: 2px

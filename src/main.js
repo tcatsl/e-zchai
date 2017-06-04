@@ -45,7 +45,9 @@ Vue.directive('do', {
     // Focus the element
     setTimeout(function(){var z = document.getElementsByClassName('expansion-panel__body')
     // alert(z.length)
+    var q = document.getElementsByClassName('expansion-panel__header')
     Array.prototype.forEach.call(z, function(el, ind, arr){el.style.height = "auto"})
+    Array.prototype.forEach.call(q, function(el, ind, arr){el.style.height = "auto"})
   }, 1500)
   }
 })

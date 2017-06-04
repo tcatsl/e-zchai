@@ -48,7 +48,7 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
       <v-card>
       <v-card-text>
       <div >
-      <v-select single-line id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(ass)" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
+      <v-select id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(ass)" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
       <v-text-field ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
       </div>
       </v-card-text>
@@ -68,12 +68,6 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
 <pre id="tests"><code id="testcode" class="lang-eval-js">
 assert = chai.assert
 mocha.suite.suites = []
-
-describe('x', function() {
-  it('should not equal 9', function() {
-    assert.notEqual(9, x);
-  });
-});
 </code></pre>
 
 </div>
@@ -365,7 +359,6 @@ font-family: 'Roboto Mono', monospace
 font-family: 'Roboto Mono', monospace
 }
 #testList {
- padding: 20px;
  border-right: solid 2px #90B4FE;
  border-left: solid 2px #90B4FE;
  border-top: solid 2px #90B4FE;
@@ -386,17 +379,22 @@ border: solid 1px #90B4FE
 border-left: solid 2px #90B4FE;
 border-right: solid 2px #90B4FE;
 border-top: solid 2px #90B4FE;
+box-shadow: 0
 }
 button {
-margin: 6
+margin: 6px
+}
+.btn.btn--raised{
+box-shadow: none
 }
 .btn.btn--floating{
 height: 16px;
 margin: 0;
+bottom: 1px;
+box-shadow: none
 }
 .btn--floating.btn--small .icon {
 font-size: 10px;
-bottom: 1px;
 position: inherit;
 
 }
@@ -408,8 +406,6 @@ list-style: inside
 width: 100%;
 margin: 0px;
 padding: 4px
-}
-v-expansion-panel v-expansion-panel {
 }
 input {
 width: 100%
@@ -425,10 +421,35 @@ width: 100%
 .expansion-panel__header > *{
 width: 98%
 }
-.expanion-panel__body, .expansion-panel {
+.expanion-panel__body, .expansion-panel, .expansion-panel__header {
 height: auto !important
 }
+.expansion-panel__header{
+padding: 5px
+}
+.input-group--text-field{
+padding-bottom: 0;
+margin-bottom: 0
+}
+.input-group__details{
+min-height: 2px;
+height: 2px
+}
 .expansion-panel {
-height: auto
+height: auto;
+margin-left: 0;
+
+}
+.card__text {
+padding-top: 2px
+}
+.card__text p {
+margin-bottom: 3px
+}
+p{
+margin-bottom: 0px
+}
+#klipse-container-1.klipse-container, #klipse-container-0.klipse-container{
+display: none
 }
 </style>

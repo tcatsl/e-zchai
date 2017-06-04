@@ -425,7 +425,9 @@ width: 98%
 height: auto !important
 }
 .expansion-panel__header{
-padding: 5px
+padding: 5px;
+box-shadow: none;
+border-bottom: 2px solid #10B42E;
 }
 .input-group--text-field{
 padding-bottom: 0;
@@ -435,13 +437,31 @@ margin-bottom: 0
 min-height: 2px;
 height: 2px
 }
+.expansion-panel{
+border-radius: 8px
+}
+.expansion-panel .expansion-panel{
+border: 2px solid #F0B09E;
+}
+.expansion-panel .expansion-panel .expansion-panel {
+border: 2px solid #F020FE;
+}
+.expansion-panel .expansion-panel .expansion-panel .expansion-panel__header{
+border-bottom: 2px solid #F020FE;
+}
+.expansion-panel .expansion-panel .expansion-panel__header{
+border-bottom: 2px solid #F0B09E;
+}
 .expansion-panel {
 height: auto;
+border: 2px solid #10B42E;
 margin-left: 0;
 box-shadow: none
 }
 .card__text {
-padding-top: 2px
+padding-top: 2px;
+padding-bottom: 0px;
+padding-right: 0px
 }
 .card__text p {
 margin-bottom: 3px
@@ -451,5 +471,8 @@ margin-bottom: 0px
 }
 #klipse-container-1.klipse-container, #klipse-container-0.klipse-container{
 display: none
+}
+#mocha {
+height: auto !important
 }
 </style>

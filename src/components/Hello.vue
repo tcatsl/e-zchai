@@ -341,7 +341,7 @@ mocha.run();
       assertCode += ', ' + JSON.stringify(this.tests[i].describe.its[its].assertions[ass].p3)
       }
     if (len > 3){
-    if (this.tests[i].describe.its[its].assertions[ass].params[0] != 'message'){
+    if (this.tests[i].describe.its[its].assertions[ass].params[3] != 'message'){
      assertCode += ', ' + this.tests[i].describe.its[its].assertions[ass].p4
      } else {
      assertCode += ', ' + JSON.stringify(this.tests[i].describe.its[its].assertions[ass].p4)

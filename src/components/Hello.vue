@@ -41,15 +41,15 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
       Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"  class="green accent-1"><v-icon>add</v-icon></v-btn>
       </p>
       <v-expansion-panel v-do>
-      <v-expansion-panel-content v-bind:value="index5 === it.assertions.length-1" ref="asses" v-for="(ass, index5) in it.assertions" :key="index5" >
+      <v-expansion-panel-content v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" @click.native="editAss">
       <div slot="header">
-      <v-btn floating small v-on:click.native.capture.stop.prevent="removeAss(index, index4, index5)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn class="green accent-1" floating small  v-on:click.native.capture.stop.prevent="finishEditAss(ass)"><v-icon>done</v-icon></v-btn> {{ass['p'+(ass.params.length)]}}
+      <v-btn floating small v-on:click.native.capture.stop.prevent="removeAss(index, index4, index5)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn class="green accent-1" v-show="(editingAss== true)" floating small><v-icon>done</v-icon></v-btn><v-btn floating small v-show="(editingAss== false)"><v-icon>edit</v-icon></v-btn> {{ass['p'+(ass.params.length)]}}
       </div>
       <v-card>
       <v-card-text>
       <div >
       <v-select id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(ass)" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
-      <v-text-field ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
+      <v-text-field @click.native.capture.stop.prevent="" ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
       </div>
       </v-card-text>
       </v-card>
@@ -108,13 +108,14 @@ export default {
   name: 'hello',
   data: function(){
   return {
+  re1: /expansion-panel__header--active/g,
   assertions: ["assert","fail","isOk","isNotOk","equal","notEqual","strictEqual","notStrictEqual","deepEqual","notDeepEqual","isAbove","isAtLeast","isBelow","isAtMost","isTrue","isNotTrue","isFalse","isNotFalse","isNull","isNotNull","isNaN","isNotNaN","exists","notExists","isUndefined","isDefined","isFunction","isNotFunction","isObject","isNotObject","isArray","isNotArray","isString","isNotString","isNumber","isNotNumber","isFinite","isBoolean","isNotBoolean","typeOf","notTypeOf","instanceOf","notInstanceOf","include","notInclude","deepInclude","notDeepInclude","nestedInclude","notNestedInclude","deepNestedInclude","notDeepNestedInclude","ownInclude","notOwnInclude","deepOwnInclude","notDeepOwnInclude","match","notMatch","property","notProperty","propertyVal","notPropertyVal","deepPropertyVal","notDeepPropertyVal","nestedProperty","notNestedProperty","nestedPropertyVal","notNestedPropertyVal","deepNestedPropertyVal","notDeepNestedPropertyVal","lengthOf","hasAnyKeys","hasAllKeys","containsAllKeys","doesNotHaveAnyKeys","doesNotHaveAllKeys","hasAllDeepKeys","containsAllDeepKeys","doesNotHaveAnyDeepKeys","doesNotHaveAllDeepKeys","throws","doesNotThrow","operator","closeTo","approximately","sameMembers","notSameMembers","sameDeepMembers","notSameDeepMembers","sameOrderedMembers","notSameOrderedMembers","sameDeepOrderedMembers","notSameDeepOrderedMembers","includeMembers","notIncludeMembers","includeDeepMembers","notIncludeDeepMembers","includeOrderedMembers","notIncludeOrderedMembers","includeDeepOrderedMembers","notIncludeDeepOrderedMembers","oneOf","changes","changesBy","doesNotChange","changesButNotBy","increases","increasesBy","doesNotIncrease","increasesButNotBy","decreases","decreasesBy","doesNotDecrease","decreasesButNotBy","ifError","isExtensible","isNotExtensible","isSealed","isNotSealed","isFrozen","isNotFrozen","isEmpty","isNotEmpty"].map(function(el, ind, arr){
   return {text: el, value: el}
   }),
   params:[["expression","message"],["actual","expected","message","operator"],["object","message"],["object","message"],["actual","expected","message"],["actual","expected","message"],["actual","expected","message"],["actual","expected","message"],["actual","expected","message"],["actual","expected","message"],["valuetocheck","valuetobeabove","message"],["valuetocheck","valuetobeatleast","message"],["valuetocheck","valuetobebelow","message"],["valuetocheck","valuetobeatmost","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","message"],["value","name","message"],["value","name","message"],["object","constructor","message"],["object","constructor","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["haystack","needle","message"],["value","regexp","message"],["value","regexp","message"],["object","property","message"],["object","property","message"],["object","property","value","message"],["object","property","value","message"],["object","property","value","message"],["object","property","value","message"],["object","property","message"],["object","property","message"],["object","property","value","message"],["object","property","value","message"],["object","property","value","message"],["object","property","value","message"],["object","length","message"],["object","keys","message"],["object","keys","message"],["object","keys","message"],["object","keys","message"],["object","keys","message"],["hasanydeepkeysobject","keys","message"],["object","keys","message"],["object","keys","message"],["object","keys","message"],["object","keys","message"],["fn","errorlikestringregexp","stringregexp","message"],["fn","errorlikestringregexp","stringregexp","message"],["val1","operator","val2","message"],["actual","expected","delta","message"],["actual","expected","delta","message"],["set1","set2","message"],["set1","set2","message"],["set1","set2","message"],["set1","set2","message"],["set1","set2","message"],["set1","set2","message"],["set1","set2","message"],["set1","set2","message"],["superset","subset","message"],["superset","subset","message"],["superset","subset","message"],["superset","subset","message"],["superset","subset","message"],["superset","subset","message"],["superset","subset","message"],["superset","subset","message"],["inlist","list","message"],["function","object","property","message"],["function","object","property","delta","message"],["function","object","property","message"],["function","object","property","delta","message"],["function","object","property","message"],["function","object","property","delta","message"],["function","object","property","message"],["function","object","property","message"],["function","object","property","message"],["function","object","property","delta","message"],["function","object","property","message"],["byfunction","object","property","delta","message"],["function","object","property","delta","message"],["object"],["object", "message"],["object", "message"],["object", "message"],["object", "message"],["object", "message"],["object", "message"],["target", "message"],["target", "message"]],
   addingAss: false,
   addingIt: false,
-  editingAss: false,
+  editingAss: true,
   itToPush: {itsDescr: null, assertions: [{}], addingAss: false, addingIt: true, editingIt: false},
   names: [],
   assToAdd: {
@@ -140,7 +141,7 @@ e.currentTarget.dispatchEvent(z)
 
 if (!!this.$refs.stuff){
 setTimeout(() => {
-  this.$forceUpdate()
+  vm.$forceUpdate()
   vm.$refs.stuff[0].focus()
 })
 }
@@ -154,10 +155,13 @@ e.currentTarget.dispatchEvent(z)
 
 if (!!this.$refs.stuffo){
 setTimeout(() => {
-  this.$forceUpdate()
+  vm.$forceUpdate()
   vm.$refs.stuffo[0].focus()
 })
 }
+  },
+  show: function(el){
+
   },
   func: function (ass){
   if (this.params[0][0] == "expression" && !!ass){
@@ -187,6 +191,7 @@ setTimeout(() => {
   this.buildTests();
   },
   editAss: function(ass){
+  if (this.editingAss == false){
   ass.editingAss = true;
   this.editingAss = true;
   setTimeout(() => {
@@ -194,6 +199,11 @@ setTimeout(() => {
     vm.$refs.editAssSelect[0].focus()
     document.getElementById('editAssSelect').click()
   })
+  } else {
+  this.buildTests();
+  ass.editingAss = false;
+  this.editingAss = false;
+  }
   },
   pushAss: function(index, index2, it){
   this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, p4: this.assToAdd.p4, params: this.assToAdd.params, descr: this.assToAdd.descr, editingAss: false})
@@ -277,6 +287,7 @@ mocha.run();
   this.addingAss == false
   },
   addTest: function(){
+  this.editingAss=true;
   this.tests.push({addingIt: false, describe: {editingDescr: true, name:'', its:
   [{editingIt: true, itsDescr: null, assertions: [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: false, params: this.params[0]}], addingAss: false}]}})
 

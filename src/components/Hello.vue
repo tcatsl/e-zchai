@@ -28,7 +28,7 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
       <v-card>
       <v-card-text>
       <p>
-      It: <v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)" class="green accent-1" v-show="test.describe.editingDescr == false"><v-icon>add</v-icon></v-btn>
+      It: <v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)" class="green accent-1" ><v-icon>add</v-icon></v-btn>
       </p>
       <v-expansion-panel v-do>
       <v-expansion-panel-content v-bind:value="index4 === test.describe.its.length-1" v-for="(it, index4) in test.describe.its" :key="index4" >
@@ -41,9 +41,9 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
       Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"  class="green accent-1"><v-icon>add</v-icon></v-btn>
       </p>
       <v-expansion-panel v-do>
-      <v-expansion-panel-content v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" @click.native="editAss">
+      <v-expansion-panel-content v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" @click.native="editAss(ass)">
       <div slot="header">
-      <v-btn floating small v-on:click.native.capture.stop.prevent="removeAss(index, index4, index5)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn class="green accent-1" v-show="(editingAss== true)" floating small><v-icon>done</v-icon></v-btn><v-btn floating small v-show="(editingAss== false)"><v-icon>edit</v-icon></v-btn> {{ass['p'+(ass.params.length)]}}
+      <v-btn floating small v-on:click.native.capture.stop.prevent="removeAss(index, index4, index5)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn class="green accent-1" v-show="(ass.editingAss== true)" floating small><v-icon>done</v-icon></v-btn><v-btn floating small v-show="(ass.editingAss== false)"><v-icon>edit</v-icon></v-btn> {{ass['p'+(ass.params.length)]}}
       </div>
       <v-card>
       <v-card-text>
@@ -191,6 +191,13 @@ setTimeout(() => {
   this.buildTests();
   },
   editAss: function(ass){
+  for (var z = 0; z< this.tests.length; z++){
+  for (var l = 0; l < this.tests[z].describe.its.length; l++){
+  for (var h = 0; h < this.tests[z].describe.its[l].assertions.length; h++){
+  this.tests[z].describe.its[l].assertions[h].editingAss = false;
+  }
+  }
+  }
   if (this.editingAss == false){
   ass.editingAss = true;
   this.editingAss = true;
@@ -206,21 +213,30 @@ setTimeout(() => {
   }
   },
   pushAss: function(index, index2, it){
-  this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, p4: this.assToAdd.p4, params: this.assToAdd.params, descr: this.assToAdd.descr, editingAss: false})
+
+  for (var z = 0; z< this.tests.length; z++){
+  for (var l = 0; l < this.tests[z].describe.its.length; l++){
+  for (var h = 0; h < this.tests[z].describe.its[l].assertions.length; h++){
+  this.tests[z].describe.its[l].assertions[h].editingAss = false;
+  }
+  }
+  }
+  this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, p4: this.assToAdd.p4, params: this.assToAdd.params, descr: this.assToAdd.descr, editingAss: true})
   it.addingAss = false
+  this.assToAdd.editingAss = true;
   this.addingAss = false;
-  this.editingAss = false;
   this.assToAdd.assert = 'assert'
   this.assToAdd.p1 = null;
   this.assToAdd.p2 = null;
   this.assToAdd.p3 = null;
+  this.assToAdd.p4 = null;
   this.assToAdd.descr = null;
-  this.assToAdd.params = null;
+  this.assToAdd.params = this.params[0];
   this.buildTests();
 
   },
   pushNewAssertion: function(index, index2, it){
-  this.tests[index].describe.its[index2].assertions.push({assert: 'assert', p1: null, p2: null, p3: null, p4: null, params: this.params[0], descr: null, editingAss: false})
+  this.tests[index].describe.its[index2].assertions.push({assert: 'assert', p1: null, p2: null, p3: null, p4: null, params: this.params[0], descr: null, editingAss: true})
   it.addingAss = false
   this.addingAss = false;
   this.editingAss = false;
@@ -234,12 +250,18 @@ setTimeout(() => {
 
   },
   pushIts: function(index){
+  for (var z = 0; z< this.tests.length; z++){
+  for (var l = 0; l < this.tests[z].describe.its.length; l++){
+  this.tests[z].describe.its[l].editingIt = false;
+  }
+  }
   this.tests[index].describe.its.push({itsDescr: this.itToPush.itsDescr, assertions: this.itToPush.assertions, addingAss: false, addingIt: false, editingIt: true})
   this.itToPush = {};
   this.itToPush.itsDescr = null;
   this.itToPush.assertions = [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}];
   this.tests[index].addingIt = false;
   this.buildTests();
+  this.editingAss = true;
   },
   addIts: function(test){
   test.addingIt = true;
@@ -287,9 +309,12 @@ mocha.run();
   this.addingAss == false
   },
   addTest: function(){
+  for (var z = 0; z< this.tests.length; z++){
+  this.tests[z].describe.editingDescr = false;
+  }
   this.editingAss=true;
   this.tests.push({addingIt: false, describe: {editingDescr: true, name:'', its:
-  [{editingIt: true, itsDescr: null, assertions: [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: false, params: this.params[0]}], addingAss: false}]}})
+  [{editingIt: true, itsDescr: null, assertions: [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}], addingAss: false}]}})
 
   },
   buildTests: function (){

@@ -41,13 +41,13 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
       Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"  class="green accent-1"><v-icon>add</v-icon></v-btn>
       </p>
       <v-expansion-panel v-do>
-      <v-expansion-panel-content v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" @click.native="editAss(ass)">
+      <v-expansion-panel-content v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" >
       <div slot="header">
       <v-btn floating small v-on:click.native.capture.stop.prevent="removeAss(index, index4, index5)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn class="green accent-1" v-show="(ass.editingAss== true)" floating small><v-icon>done</v-icon></v-btn><v-btn floating small v-show="(ass.editingAss== false)"><v-icon>edit</v-icon></v-btn> {{ass['p'+(ass.params.length)]}}
       </div>
       <v-card>
       <v-card-text>
-      <div >
+      <div @click.native.capture.stop.prevent="func">
       <v-select id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(ass)" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
       <v-text-field @click.native.capture.stop.prevent="" ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
       </div>
@@ -191,6 +191,7 @@ setTimeout(() => {
   this.buildTests();
   },
   editAss: function(ass){
+  if (ass.editingAss == false){
   for (var z = 0; z< this.tests.length; z++){
   for (var l = 0; l < this.tests[z].describe.its.length; l++){
   for (var h = 0; h < this.tests[z].describe.its[l].assertions.length; h++){
@@ -198,18 +199,20 @@ setTimeout(() => {
   }
   }
   }
-  if (this.editingAss == false){
   ass.editingAss = true;
   this.editingAss = true;
   setTimeout(() => {
     this.$forceUpdate()
-    vm.$refs.editAssSelect[0].focus()
-    document.getElementById('editAssSelect').click()
   })
   } else {
+  for (var z = 0; z< this.tests.length; z++){
+  for (var l = 0; l < this.tests[z].describe.its.length; l++){
+  for (var h = 0; h < this.tests[z].describe.its[l].assertions.length; h++){
+  this.tests[z].describe.its[l].assertions[h].editingAss = false;
+  }
+  }
+  }
   this.buildTests();
-  ass.editingAss = false;
-  this.editingAss = false;
   }
   },
   pushAss: function(index, index2, it){
@@ -304,9 +307,9 @@ mocha.run();
   this.tests[index].describe.its[index2].assertions.splice(index3, 1)
   this.buildTests()
   this.tests[index].describe.its[index2].editingIt = false
-  this.addingIt == false
-  this.editingAss == false
-  this.addingAss == false
+  this.addingIt ==false
+  this.editingAss = false
+  this.addingAss = false
   },
   addTest: function(){
   for (var z = 0; z< this.tests.length; z++){

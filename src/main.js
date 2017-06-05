@@ -33,11 +33,12 @@ Vue.directive('do', {
   // When the bound element is inserted into the DOM...
   inserted: function (el) {
     // Focus the element
-    setTimeout(function(){var z = document.getElementsByClassName('expansion-panel__body')
+    setTimeout(function(){var z = document.getElementsByClassName('expansion-panel__body--active')
     // alert(z.length)
-    var q = document.getElementsByClassName('expansion-panel__header')
+    var q = document.getElementsByClassName('expansion-panel__header--active')
     Array.prototype.forEach.call(z, function(el, ind, arr){el.style.height = "auto"})
     Array.prototype.forEach.call(q, function(el, ind, arr){el.style.height = "auto"})
   }, 1500)
+  el.click()
   }
 })

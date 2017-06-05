@@ -492,7 +492,7 @@ border-bottom: 2px solid #F020FE;
 border-bottom: 2px solid #F0B09E;
 }
 .expansion-panel {
-height: auto;
+height: auto!important;
 border: 2px solid #10B42E;
 margin-left: 0;
 box-shadow: none

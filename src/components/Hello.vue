@@ -18,8 +18,8 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
 </p>
 
 
-<v-expansion-panel v-do>
-    <v-expansion-panel-content v-bind:value="index === tests.length-1"v-for="(test, index) in tests" :key="index" >
+<v-expansion-panel id="foo" v-xdo>
+    <v-expansion-panel-content v-xdo v-bind:value="index === tests.length-1"v-for="(test, index) in tests" :key="index" >
       <div slot="header"><v-btn floating small v-on:click.native.capture.stop.prevent="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><span class="text-xs-center"><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native.capture.stop.prevent="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native.capture.stop.prevent="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn></span>{{test.describe.name}}<div v-show="test.describe.editingDescr == true">
       <v-text-field autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
       </div></div>
@@ -31,7 +31,7 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
       It: <v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)" class="green accent-1" ><v-icon>add</v-icon></v-btn>
       </p>
       <v-expansion-panel v-do>
-      <v-expansion-panel-content v-bind:value="index4 === test.describe.its.length-1" v-for="(it, index4) in test.describe.its" :key="index4" >
+      <v-expansion-panel-content v-xdo v-bind:value="index4 === test.describe.its.length-1" v-for="(it, index4) in test.describe.its" :key="index4" >
       <div slot="header">
       <v-btn floating small v-on:click.native.capture.stop.prevent="removeIts(index, index4)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native.capture.stop.prevent="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)"><v-icon>done</v-icon></v-btn> {{it.itsDescr}} <v-text-field v-show="it.editingIt == true" v-on:click.native.capture.prevent.stop="func" label="(should...):" v-model="it.itsDescr"></v-text-field>
       </div>
@@ -41,13 +41,13 @@ Describe: </v-btn><v-btn floating small v-on:click.native="addTest()" class="gre
       Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>): <v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"  class="green accent-1"><v-icon>add</v-icon></v-btn>
       </p>
       <v-expansion-panel v-do>
-      <v-expansion-panel-content v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" >
+      <v-expansion-panel-content v-xdo v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" @click.native="editAss(index, index4, ass)" >
       <div slot="header">
       <v-btn floating small v-on:click.native.capture.stop.prevent="removeAss(index, index4, index5)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn class="green accent-1" v-show="(ass.editingAss== true)" floating small><v-icon>done</v-icon></v-btn><v-btn floating small v-show="(ass.editingAss== false)"><v-icon>edit</v-icon></v-btn> {{ass['p'+(ass.params.length)]}}
       </div>
       <v-card>
       <v-card-text>
-      <div @click.native.capture.stop.prevent="func">
+      <div >
       <v-select id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(ass)" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
       <v-text-field @click.native.capture.stop.prevent="" ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
       </div>
@@ -190,14 +190,10 @@ setTimeout(() => {
   this.editingAss = false
   this.buildTests();
   },
-  editAss: function(ass){
+  editAss: function(index, index2, ass){
   if (ass.editingAss == false){
-  for (var z = 0; z< this.tests.length; z++){
-  for (var l = 0; l < this.tests[z].describe.its.length; l++){
-  for (var h = 0; h < this.tests[z].describe.its[l].assertions.length; h++){
-  this.tests[z].describe.its[l].assertions[h].editingAss = false;
-  }
-  }
+  for (var h = 0; h < this.tests[index].describe.its[index2].assertions.length; h++){
+  this.tests[index].describe.its[index2].assertions[h].editingAss = false;
   }
   ass.editingAss = true;
   this.editingAss = true;
@@ -205,24 +201,16 @@ setTimeout(() => {
     this.$forceUpdate()
   })
   } else {
-  for (var z = 0; z< this.tests.length; z++){
-  for (var l = 0; l < this.tests[z].describe.its.length; l++){
-  for (var h = 0; h < this.tests[z].describe.its[l].assertions.length; h++){
-  this.tests[z].describe.its[l].assertions[h].editingAss = false;
-  }
-  }
+  for (var h = 0; h < this.tests[index].describe.its[index2].assertions.length; h++){
+  this.tests[index].describe.its[index2].assertions[h].editingAss = false;
   }
   this.buildTests();
   }
   },
   pushAss: function(index, index2, it){
 
-  for (var z = 0; z< this.tests.length; z++){
-  for (var l = 0; l < this.tests[z].describe.its.length; l++){
-  for (var h = 0; h < this.tests[z].describe.its[l].assertions.length; h++){
-  this.tests[z].describe.its[l].assertions[h].editingAss = false;
-  }
-  }
+  for (var h = 0; h < this.tests[index].describe.its[index2].assertions.length; h++){
+  this.tests[index].describe.its[index2].assertions[h].editingAss = false;
   }
   this.tests[index].describe.its[index2].assertions.push({assert: this.assToAdd.assert, p1: this.assToAdd.p1, p2: this.assToAdd.p2, p3: this.assToAdd.p3, p4: this.assToAdd.p4, params: this.assToAdd.params, descr: this.assToAdd.descr, editingAss: true})
   it.addingAss = false
@@ -381,7 +369,38 @@ mocha.run();
   this.chai = chai
 
   mocha.setup("bdd")
+  },
+  directives: {
+  do: {
+    // When the bound element is inserted into the DOM...
+    inserted: function (el1) {
+      // Focus the element
+      setTimeout(function(){
+        var z = document.getElementsByClassName('expansion-panel__body')
+      // alert(z.length)
+        var q = document.getElementsByClassName('expansion-panel__header')
+        var c = el1.children
+        Array.prototype.forEach.call(z, function(el, ind, arr){
+        if (el1.contains(el) || el1 == el  || el1.parentNode.parentNode.parentNode == el) {el.style.height = "auto"
+          }
+        })
+        Array.prototype.forEach.call(q, function(el, ind, arr){
+          if (el1.contains(el) || el1 == el || el1.parentNode.parentNode.parentNode == el  || el1.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode == el) { el.style.height = "auto"
+
+          }
+        })
+      }, 1500)
+      setTimeout(function(){
+    })
   }
+  },
+  xdo: {
+    inserted: function(el){
+      setTimeout(function(){el.click(); el.click()})
+
+    }
+  }
+}
 }
 </script>
 <style>
@@ -492,7 +511,7 @@ border-bottom: 2px solid #F020FE;
 border-bottom: 2px solid #F0B09E;
 }
 .expansion-panel {
-height: auto!important;
+height: auto !important;
 border: 2px solid #10B42E;
 margin-left: 0;
 box-shadow: none
@@ -511,7 +530,13 @@ margin-bottom: 0px
 #klipse-container-1.klipse-container, #klipse-container-0.klipse-container{
 display: none
 }
+.expansion-panel .expansion-panel__header i {
+  margin-right: 0
+}
 #mocha {
 height: auto !important
+}
+.expansion-panel .v-btn {
+
 }
 </style>

@@ -14,7 +14,7 @@ var x = 9
 </div>
 <div id="testList">
 <p>
- &nbsp;</v-btn><v-btn floating small v-on:click.native="addTest()"  id="add1" ><v-icon>add</v-icon></v-btn> Describe:
+ &nbsp;</v-btn><v-btn floating small v-on:click.native="addTest()"  id="add1" class="green accent-3"><v-icon>add</v-icon></v-btn> Describe:
 </p>
 
 
@@ -28,7 +28,7 @@ var x = 9
       <v-card>
       <v-card-text>
       <p>
-       &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)"  id="add2"><v-icon>add</v-icon></v-btn> It:
+       &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)"  id="add2" class="green accent-3"><v-icon>add</v-icon></v-btn> It:
       </p>
       <v-expansion-panel v-do>
       <v-expansion-panel-content v-xdo v-bind:value="index4 === test.describe.its.length-1" v-for="(it, index4) in test.describe.its" :key="index4" >
@@ -38,7 +38,7 @@ var x = 9
       <v-card>
       <v-card-text>
       <p>
-      &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"   id="add3"><v-icon>add</v-icon></v-btn> Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):
+      &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"   id="add3" class="green accent-3"><v-icon>add</v-icon></v-btn> Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):
       </p>
       <v-expansion-panel v-do>
       <v-expansion-panel-content v-xdo v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" @click.native="editAss(index, index4, ass)" >
@@ -519,7 +519,11 @@ border-bottom: 2px solid #F0B09E;
 #add3 {
   background-color: #F020FE
 }
+.expansion-panel .expansion-panel__body{
+  background-color: #FFFFFF !important
+}
 .expansion-panel {
+  background-color: #FFFFFF !important;
 height: auto !important;
 border: 2px solid #10B42E;
 margin-left: 0;

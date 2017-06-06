@@ -161,7 +161,7 @@ setTimeout(() => {
 }
   },
   show: function(el){
-    alert("stoopid")
+    // alert("stoopid")
   },
   func: function (ass){
 
@@ -192,7 +192,7 @@ setTimeout(() => {
   this.buildTests();
   },
   editAss: function(index, index2, ass, e){
-    alert(e.currentTarget.parentNode.children[0].children[1].classList.toString())
+    // alert(e.currentTarget.parentNode.children[0].children[1].classList.toString())
  if (e.currentTarget.parentNode.children[0].children[1].classList.contains('v-enter') || e.currentTarget.parentNode.children[0].children[1].classList.contains('v-leave')){
   if (ass.editingAss == false){
   for (var h = 0; h < this.tests[index].describe.its[index2].assertions.length; h++){
@@ -571,6 +571,6 @@ height: auto !important
 
 }
 .input-group{
-  width: 97%
+  padding-right: 13px
 }
 </style>

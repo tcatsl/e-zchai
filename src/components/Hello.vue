@@ -14,7 +14,7 @@ var x = 9
 </div>
 <div id="testList">
 <p>
- &nbsp;</v-btn><v-btn floating small v-on:click.native="addTest()"  id="add1" class="green accent-3"><v-icon>add</v-icon></v-btn> Describe:
+ &nbsp;</v-btn><v-btn floating small v-on:click.native="addTest()"  id="add1" class="green accent-3"><v-icon>add</v-icon></v-btn> <b>Describe:</b>
 </p>
 
 
@@ -28,26 +28,26 @@ var x = 9
       <v-card>
       <v-card-text>
       <p>
-       &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)"  id="add2" class="green accent-3"><v-icon>add</v-icon></v-btn> It:
+       &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)"  id="add2" class="green accent-3"><v-icon>add</v-icon></v-btn> <b>It:</b>
       </p>
       <v-expansion-panel v-do>
       <v-expansion-panel-content v-xdo v-bind:value="index4 === test.describe.its.length-1" v-for="(it, index4) in test.describe.its" :key="index4" >
       <div slot="header">
-      <v-btn floating small v-on:click.native.capture.stop.prevent="removeIts(index, index4)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native.capture.stop.prevent="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)"><v-icon>done</v-icon></v-btn> {{it.itsDescr}} <v-text-field v-show="it.editingIt == true" v-on:click.native.capture.prevent.stop="func" label="(should...):" v-model="it.itsDescr"></v-text-field>
+      <v-btn floating small v-on:click.native.capture.stop.prevent="removeIts(index, index4)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native.stop.prevent="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)"><v-icon>done</v-icon></v-btn> {{it.itsDescr}} <v-text-field v-show="it.editingIt == true" v-on:click.native.capture.prevent.stop="func" label="(should...):" v-model="it.itsDescr"></v-text-field>
       </div>
       <v-card>
       <v-card-text>
       <p>
-      &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"   id="add3" class="green accent-3"><v-icon>add</v-icon></v-btn> Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):
+      &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"   id="add3" class="green accent-3"><v-icon>add</v-icon></v-btn> <b>Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):</b>
       </p>
-      <v-expansion-panel v-do>
-      <v-expansion-panel-content v-xdo v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions" @click.native="editAss(index, index4, ass)" >
-      <div slot="header">
+      <v-expansion-panel  v-do>
+      <v-expansion-panel-content @click.native="editAss(index, index4, ass, $event)" v-xdo v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions"  >
+      <div  slot="header">
       <v-btn floating small v-on:click.native.capture.stop.prevent="removeAss(index, index4, index5)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><v-btn class="green accent-1" v-show="(ass.editingAss== true)" floating small><v-icon>done</v-icon></v-btn><v-btn floating small v-show="(ass.editingAss== false)"><v-icon>edit</v-icon></v-btn> {{ass['p'+(ass.params.length)]}}
-      </div>
-      <v-card>
+    </div>
+      <v-card @click.native.capture="editAss(index, index4, ass, $event)">
       <v-card-text>
-      <div >
+      <div class="eeee">
       <v-select id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(ass)" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
       <v-text-field @click.native.capture.stop.prevent="" ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
       </div>
@@ -161,9 +161,10 @@ setTimeout(() => {
 }
   },
   show: function(el){
-
+    alert("stoopid")
   },
   func: function (ass){
+
   if (this.params[0][0] == "expression" && !!ass){
   ass.params = this.params[this.names.indexOf(ass.assert)]
 }
@@ -190,7 +191,9 @@ setTimeout(() => {
   this.editingAss = false
   this.buildTests();
   },
-  editAss: function(index, index2, ass){
+  editAss: function(index, index2, ass, e){
+    alert(e.currentTarget.parentNode.children[0].children[1].classList.toString())
+ if (e.currentTarget.parentNode.children[0].children[1].classList.contains('v-enter') || e.currentTarget.parentNode.children[0].children[1].classList.contains('v-leave')){
   if (ass.editingAss == false){
   for (var h = 0; h < this.tests[index].describe.its[index2].assertions.length; h++){
   this.tests[index].describe.its[index2].assertions[h].editingAss = false;
@@ -206,6 +209,10 @@ setTimeout(() => {
   }
   this.buildTests();
   }
+} else {
+  e.preventDefault()
+  return
+}
   },
   pushAss: function(index, index2, it){
 
@@ -457,7 +464,7 @@ position: inherit;
 
 }
 ul {
-margin-left: 20px;
+padding-left: 40px;
 list-style: inside
 }
 #runTest{
@@ -530,6 +537,7 @@ margin-left: 0;
 box-shadow: none
 }
 .card__text {
+  padding-left: 100px;
 padding-top: 2px;
 padding-bottom: 0px;
 padding-right: 0
@@ -554,5 +562,15 @@ height: auto !important
 }
 .btn--floating.btn--small .icon {
   height: 16px
+}
+#add1 {
+  margin-left: 0
+}
+.list {
+  margin-left: 0;
+
+}
+.input-group{
+  width: 97%
 }
 </style>

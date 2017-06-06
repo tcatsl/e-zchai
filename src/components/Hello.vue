@@ -12,6 +12,7 @@ var x = 9
 
 <div id="testList">
 <p>&nbsp;&nbsp;
+  <h5><b>Tests:</b></h5>
   <h6><v-btn floating small v-on:click.native="addTest()"  id="add1" class="green accent-3"><v-icon>add</v-icon></v-btn>&nbsp;<b>Describe:</b></h6>
 </p>
 
@@ -62,7 +63,7 @@ var x = 9
     </v-expansion-panel-content>
   </v-expansion-panel>
   <div class="text-xs-center"  id="run">
-  <v-btn id = "runTest" v-on:click.native="rUn()"><b>Run Tests</b></v-btn>
+  <v-btn id = "runTest" v-on:click.native="rUn()"><h6><b>Run Tests</b></h6></v-btn>
   </div>
 </div>
 
@@ -130,7 +131,8 @@ export default {
   params: [],
   editingAss: false
   },
-  tests: []
+  tests: [],
+  stuff: []
   }
   },
   methods: {
@@ -301,7 +303,14 @@ mocha.run();
   this.buildTests()
   },
   removeAss: function (index, index2, index3){
+    for (var i = 0; i < this.tests[index].describe.its[index2].assertions.length; i++){
+      this.tests[index].describe.its[index2].assertions[i].editingAss = false
+    }
+
   this.tests[index].describe.its[index2].assertions.splice(index3, 1)
+  if (!!this.tests[index].describe.its[index2].assertions[this.tests[index].describe.its[index2].assertions.length -1]){
+  this.tests[index].describe.its[index2].assertions[this.tests[index].describe.its[index2].assertions.length -1].editingAss = true
+}
   this.buildTests()
   this.tests[index].describe.its[index2].editingIt = false
   this.addingIt ==false
@@ -405,9 +414,18 @@ mocha.run();
   }
   },
   xdo: {
+    unbind: function(el){
+        for (var i = 0; i < vm.stuff.length; i++){
+          if (vm.stuff[i].el == el && !!vm.stuff[i].p.children[vm.stuff[i].p.children.length -1]){
+
+            vm.stuff[i].p.children[vm.stuff[i].p.children.length -1].click()
+            vm.stuff[i].p.children[vm.stuff[i].p.children.length -1].click()
+          }
+        }
+    },
     inserted: function(el){
       setTimeout(function(){el.click(); el.click()})
-
+      vm.stuff.push({el: el, p: el.parentElement})
     }
   }
 }
@@ -472,6 +490,7 @@ list-style: inside
 #runTest{
 width: 100%;
 margin: 0px;
+padding: 6px
 }
 input {
 width: 100%
@@ -500,7 +519,7 @@ border-bottom: 1px solid #10B42E;
 border-top: 1px solid #10B42E;
 
 }
-.expansion-panel > li >div:first-child{
+.expansion-panel > li:first-child >div:first-child{
   border-top-left-radius: 5px !important;
   border-top-right-radius: 5px !important;
 }
@@ -573,7 +592,7 @@ box-shadow: none
 }
 .card__text, .card__text .card__text {
   width: inherit !important;
-  margin-left: 50px;
+  margin-left: 70px;
 padding-top: 2px;
 padding-bottom: 0px;
 padding-right: 0
@@ -623,7 +642,6 @@ height: auto !important
 
 }
 .input-group{
-  padding-right: 13px
 }
 .itshead .input-group, .descrhead .input-group{
 }

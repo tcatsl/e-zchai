@@ -8,13 +8,11 @@
 var x = 9
 </code></pre>
 
-<div id="mocha"><h5>Test results will appear here.</h5></div>
-<div class="text-xs-center"  id="run">
-<v-btn id = "runTest" v-on:click.native="rUn()">Run Tests</v-btn>
-</div>
+<div id="mocha"><h5><b>Test results will appear here.</b></h5></div>
+
 <div id="testList">
-<p>
- &nbsp;</v-btn><v-btn floating small v-on:click.native="addTest()"  id="add1" class="green accent-3"><v-icon>add</v-icon></v-btn> <b>Describe:</b>
+<p>&nbsp;&nbsp;
+  <h6><v-btn floating small v-on:click.native="addTest()"  id="add1" class="green accent-3"><v-icon>add</v-icon></v-btn>&nbsp;<b>Describe:</b></h6>
 </p>
 
 
@@ -28,7 +26,7 @@ var x = 9
       <v-card>
       <v-card-text>
       <p>
-       &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)"  id="add2" class="green accent-3"><v-icon>add</v-icon></v-btn> <b>It:</b>
+       &nbsp;&nbsp;<h6><v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)"  id="add2" class="green accent-3"><v-icon>add</v-icon></v-btn> <b>It:</b></h6>
       </p>
       <v-expansion-panel v-do>
       <v-expansion-panel-content v-xdo v-bind:value="index4 === test.describe.its.length-1" v-for="(it, index4) in test.describe.its" :key="index4" >
@@ -38,7 +36,7 @@ var x = 9
       <v-card>
       <v-card-text>
       <p>
-      &nbsp;<v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"   id="add3" class="green accent-3"><v-icon>add</v-icon></v-btn> <b>Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):</b>
+      &nbsp;&nbsp;<h6><v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"   id="add3" class="green accent-3"><v-icon>add</v-icon></v-btn>  <b>Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):</b></h6>
       </p>
       <v-expansion-panel  v-do>
       <v-expansion-panel-content @click.native="editAss(index, index4, ass, $event)" v-xdo v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions"  >
@@ -63,6 +61,9 @@ var x = 9
       </v-card>
     </v-expansion-panel-content>
   </v-expansion-panel>
+  <div class="text-xs-center"  id="run">
+  <v-btn id = "runTest" v-on:click.native="rUn()"><b>Run Tests</b></v-btn>
+  </div>
 </div>
 
 <pre id="tests"><code id="testcode" class="lang-eval-js">
@@ -443,10 +444,9 @@ pre{
 border: solid 1px #90B4FE
 }
 #run{
-border-left: solid 2px #90B4FE;
-border-right: solid 2px #90B4FE;
 border-top: solid 2px #90B4FE;
-box-shadow: 0
+box-shadow: 0;
+background-color: #90B4FE
 }
 button {
 margin: 6px
@@ -472,7 +472,6 @@ list-style: inside
 #runTest{
 width: 100%;
 margin: 0px;
-padding: 4px
 }
 input {
 width: 100%
@@ -497,7 +496,13 @@ height: auto !important
 .expansion-panel__header{
 padding: 5px;
 box-shadow: none;
-border-bottom: 2px solid #10B42E;
+border-bottom: 1px solid #10B42E;
+border-top: 1px solid #10B42E;
+
+}
+.expansion-panel > li >div:first-child{
+  border-top-left-radius: 5px !important;
+  border-top-right-radius: 5px !important;
 }
 .input-group--text-field{
 padding-bottom: 0;
@@ -508,19 +513,37 @@ min-height: 2px;
 height: 2px
 }
 .expansion-panel{
-border-radius: 8px
+border-radius: 8px;
+padding-bottom: 5px;
+margin-right: 5px;
+
+border-top: 0
 }
 .expansion-panel .expansion-panel{
 border: 2px solid #F0B09E;
+width: inherit !important;
+border-top: 1px solid #F0B09E;
 }
 .expansion-panel .expansion-panel .expansion-panel {
+  width: inherit !important;
 border: 2px solid #F020FE;
+border-top: 1px solid #F020FE
 }
+
 .expansion-panel .expansion-panel .expansion-panel .expansion-panel__header{
-border-bottom: 2px solid #F020FE;
+border-bottom: 1px solid #F020FE;
+border-top: 1px solid #F020FE;
+margin: 0;
+}
+.expansion-panel li{
+  border: 0
+}
+.expansion-panel .expansion-panel .expansion-panel .card__text{
+width: 98% !important;
 }
 .expansion-panel .expansion-panel .expansion-panel__header{
-border-bottom: 2px solid #F0B09E;
+border-bottom: 1px solid #F0B09E;
+border-top: 1px solid #F0B09E;
 }
 #add1{
   background-color: #10B42E
@@ -532,29 +555,45 @@ border-bottom: 2px solid #F0B09E;
   background-color: #F020FE
 }
 .expansion-panel .expansion-panel__body{
-  background-color: #FFFFFF !important
+  /*background-color: #FFFFFF !important*/
 }
 .expansion-panel {
-  background-color: #FFFFFF !important;
+  /*background-color: #FFFFFF !important;*/
 height: auto !important;
 border: 2px solid #10B42E;
+border-top-width: 1px;
 margin-left: 0;
 box-shadow: none
 }
-.card__text {
+.card__text .expansion-panel__header{
+  width: 100% !important;
+}
+.card {
+  z-index: 0
+}
+.card__text, .card__text .card__text {
+  width: inherit !important;
   margin-left: 50px;
 padding-top: 2px;
 padding-bottom: 0px;
 padding-right: 0
+
+}
+.expansion-panel .card__text{
+}
+.expansion-panel .expansion-panel .card__text{
 }
 .expansion-panel .expansion-panel .expansion-panel .card__text {
   margin-left: 0;
+  padding-left: 5px;
+  box-sizing: content-box;
 }
 .card__text p {
-margin-bottom: 3px
+margin-bottom: 0px
 }
 p{
-margin-bottom: 0px
+margin-bottom: 0px;
+margin-top: 0px
 }
 #klipse-container-1.klipse-container, #klipse-container-0.klipse-container{
 display: none
@@ -572,7 +611,12 @@ height: auto !important
   height: 16px
 }
 #add1 {
-  margin-left: 0
+  border-radius: 30%
+
+}
+#add1, #add2, #add3 {
+  margin-left: 7px;
+  border-radius: 3px
 }
 .list {
   margin-left: 0;
@@ -582,5 +626,9 @@ height: auto !important
   padding-right: 13px
 }
 .itshead .input-group, .descrhead .input-group{
+}
+h6 {
+  margin-bottom: 20px;
+  font-size: 18px
 }
 </style>

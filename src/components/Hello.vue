@@ -9,35 +9,35 @@ var x = 9
 </code></pre>
 
 <div id="mocha"><h5><b>Test results will appear here.</b></h5></div>
-
+<div class="text-xs-center"  id="run">
+<v-btn id = "runTest" v-on:click.native="rUn()"><h6 id="hsix"><b>Run Tests</b></h6></v-btn>
+</div>
 <div id="testList">
-<p>&nbsp;&nbsp;
   <h5><b>Tests:</b></h5>
-  <h6><v-btn floating small v-on:click.native="addTest()"  id="add1" class="green accent-3"><v-icon>add</v-icon></v-btn>&nbsp;<b>Describe:</b></h6>
-</p>
+  <h6><v-btn floating small v-on:click.native="addTest()" class="green accent-3" id="add1" ><v-icon>add</v-icon></v-btn>&nbsp;<b>Describe:</b></h6>
 
 
 <v-expansion-panel id="foo" v-xdo>
     <v-expansion-panel-content v-xdo v-bind:value="index === tests.length-1"v-for="(test, index) in tests" :key="index" >
       <div class="descrhead" slot="header"><v-btn floating small v-on:click.native.capture.stop.prevent="removeTest(index)" class="red lighten-1"><v-icon>clear</v-icon></v-btn><span class="text-xs-center"><v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native.capture.stop.prevent="editDescr(test.describe)"><v-icon>edit</v-icon></v-btn><v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native.capture.stop.prevent="finishEditDescr(test.describe)" class="green accent-1"><v-icon>done</v-icon></v-btn></span> &nbsp;{{test.describe.name}}<div v-show="test.describe.editingDescr == true">
-      <v-text-field autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
+      <v-text-field @keyup.native="buildTests" autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name"></v-text-field>
       </div></div>
       <div>
       </div>
       <v-card>
       <v-card-text>
       <p>
-       &nbsp;&nbsp;<h6><v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)"  id="add2" class="green accent-3"><v-icon>add</v-icon></v-btn> <b>It:</b></h6>
+       &nbsp;&nbsp;<h6><v-btn floating small v-on:click.native.capture.stop.prevent="pushIts(index)" class="green accent-3" id="add2" ><v-icon>add</v-icon></v-btn> <b>It:</b></h6>
       </p>
       <v-expansion-panel v-do>
       <v-expansion-panel-content v-xdo v-bind:value="index4 === test.describe.its.length-1" v-for="(it, index4) in test.describe.its" :key="index4" >
       <div class="itshead" slot="header">
-      <v-btn floating small v-on:click.native.capture.stop.prevent="removeIts(index, index4)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native.stop.prevent="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)"><v-icon>done</v-icon></v-btn> &nbsp;{{it.itsDescr}} <v-text-field v-show="it.editingIt == true" v-on:click.native.capture.prevent.stop="func" label="(should...):" v-model="it.itsDescr"></v-text-field>
+      <v-btn floating small v-on:click.native.capture.stop.prevent="removeIts(index, index4)" class="red lighten-1" ><v-icon>clear</v-icon></v-btn><v-btn floating small v-show="it.editingIt == false && addingIt == false" v-on:click.native.stop.prevent="editIt(it)"><v-icon>edit</v-icon></v-btn><v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)"><v-icon>done</v-icon></v-btn> &nbsp;{{it.itsDescr}} <v-text-field @keyup.native="buildTests" v-show="it.editingIt == true" v-on:click.native.capture.prevent.stop="func" label="(should...):" v-model="it.itsDescr"></v-text-field>
       </div>
       <v-card>
       <v-card-text>
       <p>
-      &nbsp;&nbsp;<h6><v-btn floating small v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"   id="add3" class="green accent-3"><v-icon>add</v-icon></v-btn>  <b>Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):</b></h6>
+      &nbsp;&nbsp;<h6><v-btn floating small class="green accent-3" v-on:click.native.capture.stop.prevent="pushAss(index, index4, it)"   id="add3"><v-icon>add</v-icon></v-btn>  <b>Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):</b></h6>
       </p>
       <v-expansion-panel  v-do>
       <v-expansion-panel-content @click.native="editAss(index, index4, ass, $event)" v-xdo v-bind:value="index5 === it.assertions.length-1" v-bind:key="'ass' + index5"  v-for="(ass, index5) in it.assertions"  >
@@ -47,8 +47,8 @@ var x = 9
       <v-card>
       <v-card-text>
       <div class="eeee" >
-      <v-select id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(ass)" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
-      <v-text-field @click.native.capture.stop.prevent="" ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
+      <v-select @keyup.native="buildTests" id="editAssSelect" ref="editAssSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(ass)" @keydown.tab.capture.native="tab2($event)"  v-model="ass.assert" label="Assertion:"></v-select>
+      <v-text-field @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="stuffo" v-for="(param, index9) in ass.params" v-bind:label="param" v-model="ass['p'+ (index9+1)]"></v-text-field>
       </div>
       </v-card-text>
       </v-card>
@@ -62,9 +62,6 @@ var x = 9
       </v-card>
     </v-expansion-panel-content>
   </v-expansion-panel>
-  <div class="text-xs-center"  id="run">
-  <v-btn id = "runTest" v-on:click.native="rUn()"><h6><b>Run Tests</b></h6></v-btn>
-  </div>
 </div>
 
 <pre id="tests"><code id="testcode" class="lang-eval-js">
@@ -94,11 +91,7 @@ var vm;
   script.src = "https://storage.googleapis.com/app.klipse.tech/plugin_prod/js/klipse_plugin.min.js";
 
    document.body.append(script)
-   setTimeout(function(){
-   var final = document.getElementsByClassName("cm-s-default")
-   final[final.length -1 ].id = "final"
-   final[final.length -1 ].innerHTML = ""}, 4000)
-}
+ }
 function resetTests(suite) {
 suite.tests.forEach(function(t) {
   delete t.state;
@@ -171,6 +164,7 @@ setTimeout(() => {
 
   if (this.params[0][0] == "expression" && !!ass){
   ass.params = this.params[this.names.indexOf(ass.assert)]
+  this.buildTests()
 }
   },
   evaluate: function (stuff){
@@ -326,60 +320,62 @@ mocha.run();
   [{editingIt: true, itsDescr: null, assertions: [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}], addingAss: false}]}})
 
   },
+  a: null,
   buildTests: function (){
+    clearTimeout(vm.a)
+    vm.a = setTimeout(function(){var code = ''
+    for (var i = 0; i < vm.tests.length; i++){
+    var itsCode = '';
+    for (var its = 0; its < vm.tests[i].describe.its.length; its++){
+    var assertCode = '';
+    for (var ass = 0; ass < vm.tests[i].describe.its[its].assertions.length; ass++){
 
-  var code = ''
-  for (var i = 0; i < this.tests.length; i++){
-  var itsCode = '';
-  for (var its = 0; its < this.tests[i].describe.its.length; its++){
-  var assertCode = '';
-  for (var ass = 0; ass < this.tests[i].describe.its[its].assertions.length; ass++){
-
-  assertCode += 'assert'
-  if (this.tests[i].describe.its[its].assertions[ass].assert == "assert"){
-   assertCode += '('+this.tests[i].describe.its[its].assertions[ass].p1 + ', '+JSON.stringify(this.tests[i].describe.its[its].assertions[ass].p2) + ')\n'
-  } else {
-  var len = this.evaluate('chai.assert.'+ this.tests[i].describe.its[its].assertions[ass].assert +'.length')
-  if (len > 0){
-  if (this.tests[i].describe.its[its].assertions[ass].params[0] != 'message'){
-  assertCode += '.'+this.tests[i].describe.its[its].assertions[ass].assert+'('+this.tests[i].describe.its[its].assertions[ass].p1
-  }else {
-  assertCode += ', ' + JSON.stringify(this.tests[i].describe.its[its].assertions[ass].p1)
-  }
-  if (len > 1){
-  if (this.tests[i].describe.its[its].assertions[ass].params[1] != 'message'){
-    assertCode += ', ' + this.tests[i].describe.its[its].assertions[ass].p2
+    assertCode += 'assert'
+    if (vm.tests[i].describe.its[its].assertions[ass].assert == "assert"){
+     assertCode += '('+vm.tests[i].describe.its[its].assertions[ass].p1 + ', '+JSON.stringify(vm.tests[i].describe.its[its].assertions[ass].p2) + ')\n'
     } else {
-    assertCode += ', ' + JSON.stringify(this.tests[i].describe.its[its].assertions[ass].p2)
+    var len = vm.evaluate('chai.assert.'+ vm.tests[i].describe.its[its].assertions[ass].assert +'.length')
+    if (len > 0){
+    if (vm.tests[i].describe.its[its].assertions[ass].params[0] != 'message'){
+    assertCode += '.'+vm.tests[i].describe.its[its].assertions[ass].assert+'('+vm.tests[i].describe.its[its].assertions[ass].p1
+    }else {
+    assertCode += ', ' + JSON.stringify(vm.tests[i].describe.its[its].assertions[ass].p1)
     }
-    if (len > 2){
-    if (this.tests[i].describe.its[its].assertions[ass].params[2] != 'message'){
-      assertCode += ', ' + this.tests[i].describe.its[its].assertions[ass].p3
-      }else {
-      assertCode += ', ' + JSON.stringify(this.tests[i].describe.its[its].assertions[ass].p3)
+    if (len > 1){
+    if (vm.tests[i].describe.its[its].assertions[ass].params[1] != 'message'){
+      assertCode += ', ' + vm.tests[i].describe.its[its].assertions[ass].p2
+      } else {
+      assertCode += ', ' + JSON.stringify(vm.tests[i].describe.its[its].assertions[ass].p2)
       }
-    if (len > 3){
-    if (this.tests[i].describe.its[its].assertions[ass].params[3] != 'message'){
-     assertCode += ', ' + this.tests[i].describe.its[its].assertions[ass].p4
-     } else {
-     assertCode += ', ' + JSON.stringify(this.tests[i].describe.its[its].assertions[ass].p4)
-     }
+      if (len > 2){
+      if (vm.tests[i].describe.its[its].assertions[ass].params[2] != 'message'){
+        assertCode += ', ' + vm.tests[i].describe.its[its].assertions[ass].p3
+        }else {
+        assertCode += ', ' + JSON.stringify(vm.tests[i].describe.its[its].assertions[ass].p3)
+        }
+      if (len > 3){
+      if (vm.tests[i].describe.its[its].assertions[ass].params[3] != 'message'){
+       assertCode += ', ' + vm.tests[i].describe.its[its].assertions[ass].p4
+       } else {
+       assertCode += ', ' + JSON.stringify(vm.tests[i].describe.its[its].assertions[ass].p4)
+       }
+      }
+      }
     }
     }
-  }
-  }
-  assertCode += ')\n'
-  }
-  }
-   itsCode += 'it("'+this.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
-  }
-    code += 'describe("'+this.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
-  }
-  tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
-  this.code=code
-  reLoad()
-  }
-  },
+    assertCode += ')\n'
+    }
+    }
+     itsCode += 'it("'+vm.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
+    }
+      code += 'describe("'+vm.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
+    }
+    tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
+    vm.code=code
+    reLoad()
+  }, 500)
+}
+},
   mounted: function(){
   this.itToPush.assertions = [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}]
   this.names = this.assertions.map(function(el, ind, arr){return el.text})
@@ -424,14 +420,19 @@ mocha.run();
         }
     },
     inserted: function(el){
-      setTimeout(function(){el.click(); el.click()})
+      setTimeout(function(){el.click(); el.click()
+        vm.stuff = []
       vm.stuff.push({el: el, p: el.parentElement})
-    }
+    })
   }
+}
 }
 }
 </script>
 <style>
+#app, #yo{
+  padding: 10px
+}
 .menu .menu__content, .list {
  position: static;
  }
@@ -448,6 +449,7 @@ font-family: 'Roboto Mono', monospace
  border-right: solid 2px #90B4FE;
  border-left: solid 2px #90B4FE;
  border-top: solid 2px #90B4FE;
+ padding: 10px
 }
 #final {
 border: 0
@@ -464,7 +466,6 @@ border: solid 1px #90B4FE
 #run{
 border-top: solid 2px #90B4FE;
 box-shadow: 0;
-background-color: #90B4FE
 }
 button {
 margin: 6px
@@ -488,9 +489,12 @@ padding-left: 40px;
 list-style: inside
 }
 #runTest{
-width: 100%;
-margin: 0px;
-padding: 6px
+width: 100% !important;
+margin-top: 10px;
+margin-bottom: 10px;
+padding: 6px !important;
+margin-left: 0;
+margin-right: 0
 }
 input {
 width: 100%
@@ -517,7 +521,16 @@ padding: 5px;
 box-shadow: none;
 border-bottom: 1px solid #10B42E;
 border-top: 1px solid #10B42E;
-
+}
+.expansion-panel>li:last-child >div:first-child:not(.expansion-panel__header--active){
+  border-bottom-width: 0px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px
+}
+.expansion-panel li:last-child >div> .card{
+  border-bottom-width: 0px !important;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px
 }
 .expansion-panel > li:first-child >div:first-child{
   border-top-left-radius: 5px !important;
@@ -531,9 +544,12 @@ margin-bottom: 0
 min-height: 2px;
 height: 2px
 }
+.expansion-panel .expansion-panel{
+  margin-bottom: 5px;
+}
 .expansion-panel{
 border-radius: 8px;
-padding-bottom: 5px;
+
 margin-right: 5px;
 
 border-top: 0
@@ -607,6 +623,16 @@ padding-right: 0
   padding-left: 5px;
   box-sizing: content-box;
 }
+.expansion-panel .expansion-panel .expansion-panel .card {
+  border-bottom: 1px solid #F020FE
+}
+.expansion-panel .expansion-panel .card {
+  border-bottom: 1px solid #F0B09E
+}
+
+.expansion-panel .card {
+  border-bottom: 1px solid  #10B42E
+}
 .card__text p {
 margin-bottom: 0px
 }
@@ -648,5 +674,14 @@ height: auto !important
 h6 {
   margin-bottom: 20px;
   font-size: 18px
+}
+ #tests > .cm-s-default:nth-child(0n + 2) {
+  display: none !important
+}
+#hsix{
+  padding: 3px
+}
+h5 {
+  margin-left: 10px
 }
 </style>

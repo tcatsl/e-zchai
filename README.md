@@ -1,6 +1,6 @@
-# test
+# e-zchai
 
-> A Vue.js project
+> This is the front-end repository for e-zchai, a site for coding in a test-driven REPL environment that allows configuration of mocha chai tests via an easily accessible menu. Front-end built using Vue.js, Vuetify, Mocha, Chai, and Klipse.
 
 ## Build Setup
 

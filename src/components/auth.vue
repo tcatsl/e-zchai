@@ -1,7 +1,7 @@
 <template>
   <div id="yo">
     <h5 id="header">
-      <b>e-zchai</b>
+      <a href='/env/'><b>e-zchai</b></a>
       <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native="handleLogout()">
         <b>Log out</b>
       </v-btn>
@@ -113,7 +113,7 @@ export default {
       })
     },
     loadEnv: function(envId){
-      window.location.pathname = '/'+envId
+      window.location.pathname = '/env/'+envId
     },
     deleteEnv: function(envId){
       var myHeaders = new Headers({
@@ -128,7 +128,7 @@ export default {
       }
       fetch('https://ezchaiserver.herokuapp.com/env/'+this.$parent.id, myInit).then(function(res){
         res.json().then(function(json){
-          window.location.pathname = '/'
+          window.location.pathname = '/env/'
         })
       })
     },
@@ -152,7 +152,7 @@ export default {
       }
       fetch('https://ezchaiserver.herokuapp.com/env/', myInit).then(function(res){
         res.json().then(function(json){
-          window.location.pathname = '/'+json
+          window.location.pathname = '/env/'+json
         })
     })
   },
@@ -167,8 +167,7 @@ export default {
     },
     returnEmail: function(){
       return returnEmail()
-    },
-    g: null
+    }
   },
   directives: {
     xwidth: {
@@ -239,5 +238,9 @@ button {
 }
 .dialog__container{
   margin-left: 0px !important;
+}
+a{
+  color: black;
+  text-decoration: none;
 }
 </style>

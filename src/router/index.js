@@ -10,8 +10,12 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/env/',
       name: 'env',
+      component: env,
+    },
+    {
+      path: '/',
       component: env,
     },
     {
@@ -19,7 +23,7 @@ export default new Router({
       component: callback
     },
     {
-      path: '/:id',
+      path: '/env/:id',
       component: env,
       props: true
     }

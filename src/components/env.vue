@@ -174,39 +174,25 @@ export default {
         editingAssertion: true
       },
       tests: [],
-      stuff: []
+      boundExPanContent: []
     }
   },
   methods: {
     checkEmail: function(){
       var z = !!isLoggedIn()
       return (this.user == returnEmail())
-    },
-    tab:  function (e) {
+    }
+    tab2: function (e) {
       var d = e.currentTarget
       var z = document.createEvent('HTMLEvents')
       z.initEvent('keydown', true, true)
       z.keyCode = 13
       e.currentTarget.dispatchEvent(z)
 
-      if (!!this.$refs.stuff){
+      if (!!this.$refs.boundExPanContent){
         setTimeout(function(){
           vm.$forceUpdate()
-          vm.$refs.stuff[0].focus()
-        })
-      }
-    },
-    tab2:  function (e) {
-      var d = e.currentTarget
-      var z = document.createEvent('HTMLEvents')
-      z.initEvent('keydown', true, true)
-      z.keyCode = 13
-      e.currentTarget.dispatchEvent(z)
-
-      if (!!this.$refs.stuffo){
-        setTimeout(function(){
-          vm.$forceUpdate()
-          vm.$refs.stuffo[0].focus()
+          vm.$refs.boundExPanContent[0].focus()
         })
       }
     },
@@ -362,11 +348,10 @@ export default {
         }
       })
     },
-    a: null,
-    s: null,
+    testBuildTimeout: null,
     buildTests: function (){
-      clearTimeout(vm.a)
-      vm.a = setTimeout(function(){
+      clearTimeout(vm.testBuildTimeout)
+      vm.testBuildTimeout = setTimeout(function(){
         var code = ''
         for (var i = 0; i < vm.tests.length; i++){
           var itsCode = '';
@@ -526,16 +511,16 @@ export default {
     clickme: {
       unbind: function(el){
         for (var i = 0; i < vm.stuff.length; i++){
-          if (vm.stuff[i].el == el && !!vm.stuff[i].p.children[vm.stuff[i].p.children.length -1]){
-            vm.stuff[i].p.children[vm.stuff[i].p.children.length -1].click()
-            vm.stuff[i].p.children[vm.stuff[i].p.children.length -1].click()
+          if (vm.boundExPanContent[i].el == el && !!vm.boundExPanContent[i].p.children[vm.boundExPanContent[i].p.children.length -1]){
+            vm.boundExPanContent[i].p.children[vm.boundExPanContent[i].p.children.length -1].click()
+            vm.boundExPanContent[i].p.children[vm.boundExPanContent[i].p.children.length -1].click()
           }
         }
       },
       inserted: function(el){
         setTimeout(function(){el.click(); el.click()
-          vm.stuff = []
-          vm.stuff.push({
+          vm.boundExPanContent = []
+          vm.boundExPanContent.push({
             el: el,
             p: el.parentElement
           })

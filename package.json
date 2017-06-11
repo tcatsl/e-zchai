@@ -13,10 +13,8 @@
     "auth0-lock": "^10.16.0",
     "chai": "^4.0.0",
     "jwt-decode": "^2.2.0",
-    "klipse": "^7.0.6",
     "vue": "^2.2.6",
-    "vue-router": "^2.3.1",
-    "vue-select": "github:sagalbot/vue-select"
+    "vue-router": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

@@ -21,11 +21,5 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
-});
-new Vue({
-  el: '#auth',
-  router,
-  template: '<Auth/>',
-  components: { Auth }
+  components: { App, Hello, Auth }
 });

@@ -2,8 +2,8 @@
 <v-layout>
 <v-flex xs12>
 <div>
-
-<pre><code class="lang-eval-js">
+<auth :tests.sync="tests" :code.sync="code" :envname.sync="envname"></auth>
+<pre v-on:keyup.native="buildTests()" id="codebox"><code  class="lang-eval-js">
 
 var x = 9
 </code></pre>
@@ -75,7 +75,8 @@ mocha.suite.suites = []
 </template>
 
 <script>
-import vSelect from "vue-select"
+import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth';
+import Auth from '@/components/auth'
 var chai = require('chai')
 var assert = chai.assert
 var vm;
@@ -101,8 +102,11 @@ suite.suites.forEach(resetTests);
 }
 export default {
   name: 'hello',
+  props: ['id'],
   data: function(){
   return {
+    user: null,
+    envname: null,
     code: '',
   re1: /expansion-panel__header--active/g,
   assertions: ["assert","fail","isOk","isNotOk","equal","notEqual","strictEqual","notStrictEqual","deepEqual","notDeepEqual","isAbove","isAtLeast","isBelow","isAtMost","isTrue","isNotTrue","isFalse","isNotFalse","isNull","isNotNull","isNaN","isNotNaN","exists","notExists","isUndefined","isDefined","isFunction","isNotFunction","isObject","isNotObject","isArray","isNotArray","isString","isNotString","isNumber","isNotNumber","isFinite","isBoolean","isNotBoolean","typeOf","notTypeOf","instanceOf","notInstanceOf","include","notInclude","deepInclude","notDeepInclude","nestedInclude","notNestedInclude","deepNestedInclude","notDeepNestedInclude","ownInclude","notOwnInclude","deepOwnInclude","notDeepOwnInclude","match","notMatch","property","notProperty","propertyVal","notPropertyVal","deepPropertyVal","notDeepPropertyVal","nestedProperty","notNestedProperty","nestedPropertyVal","notNestedPropertyVal","deepNestedPropertyVal","notDeepNestedPropertyVal","lengthOf","hasAnyKeys","hasAllKeys","containsAllKeys","doesNotHaveAnyKeys","doesNotHaveAllKeys","hasAllDeepKeys","containsAllDeepKeys","doesNotHaveAnyDeepKeys","doesNotHaveAllDeepKeys","throws","doesNotThrow","operator","closeTo","approximately","sameMembers","notSameMembers","sameDeepMembers","notSameDeepMembers","sameOrderedMembers","notSameOrderedMembers","sameDeepOrderedMembers","notSameDeepOrderedMembers","includeMembers","notIncludeMembers","includeDeepMembers","notIncludeDeepMembers","includeOrderedMembers","notIncludeOrderedMembers","includeDeepOrderedMembers","notIncludeDeepOrderedMembers","oneOf","changes","changesBy","doesNotChange","changesButNotBy","increases","increasesBy","doesNotIncrease","increasesButNotBy","decreases","decreasesBy","doesNotDecrease","decreasesButNotBy","ifError","isExtensible","isNotExtensible","isSealed","isNotSealed","isFrozen","isNotFrozen","isEmpty","isNotEmpty"].map(function(el, ind, arr){
@@ -129,6 +133,10 @@ export default {
   }
   },
   methods: {
+    checkEmail: function(){
+      var z = !!isLoggedIn()
+      return (this.user == returnEmail())
+    },
   tab:  function (e) {
   var d = e.currentTarget
   var z = document.createEvent('HTMLEvents')
@@ -321,6 +329,7 @@ mocha.run();
 
   },
   a: null,
+  s: null,
   buildTests: function (){
     clearTimeout(vm.a)
     vm.a = setTimeout(function(){var code = ''
@@ -371,19 +380,80 @@ mocha.run();
       code += 'describe("'+vm.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
     }
     tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
-    vm.code=code
     reLoad()
+    if (!!vm.id && !!vm.checkEmail()){
+    var myHeaders = new Headers({
+      "Content-Type": "application/json",
+      "Authorization": "Bearer "+getIdToken(),
+    })
+    var myInit = {
+      method: 'put',
+      headers: myHeaders,
+      mode: 'cors',
+      cache: 'default',
+      body: JSON.stringify({
+        private: false,
+        tests: JSON.stringify(vm.tests),
+        name: vm.name,
+        code: document.getElementsByClassName('cm-s-default')[0].innerText
+      })
+    }
+    fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then((res)=>{
+      res.json().then((json)=>{
+      })
+    })
+  }
   }, 500)
+
 }
 },
   mounted: function(){
   this.itToPush.assertions = [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAss: true, params: this.params[0]}]
   this.names = this.assertions.map(function(el, ind, arr){return el.text})
-  reLoad();
   vm = this;
   this.chai = chai
-
   mocha.setup("bdd")
+
+    var myHeaders = new Headers({
+      "Authorization": "Bearer "+getIdToken() || null,
+    })
+    var myInit = {
+      method: 'GET',
+      headers: myHeaders,
+      mode: 'cors',
+      cache: 'default'
+    }
+    if (!!this.id){
+      if (!!isLoggedIn() && vm.checkEmail()){
+    fetch('https://ezchaiserver.herokuapp.com/env/'+this.id, myInit).then(data => data.json().then((json)=>{
+      this.tests = JSON.parse(json[0].tests)
+      document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
+      this.name = json[0].name
+      this.id = json[0].short_id
+      this.user = json[0].users_email
+      reLoad()
+      setTimeout(vm.$forceUpdate())
+    }))
+  } else {
+    fetch('https://ezchaiserver.herokuapp.com/env/'+this.id).then(data => data.json().then((json)=>{
+      this.tests = JSON.parse(json[0].tests)
+      document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
+      this.name = json[0].name
+      this.id = json[0].short_id
+      this.user = json[0].users_email
+      reLoad()
+      setTimeout(vm.$forceUpdate())
+    }))
+  }
+  } else {
+    this.tests = []
+    document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ 'var x = 9'+'</code>'
+    this.name = undefined
+    this.id = undefined
+    this.user = 'Bob'
+    reLoad()
+  }
+  document.getElementById("codebox").addEventListener('keyup', function(e){vm.buildTests()})
   },
   directives: {
   do: {
@@ -426,7 +496,8 @@ mocha.run();
     })
   }
 }
-}
+},
+components: {'auth': Auth}
 }
 </script>
 <style>
@@ -683,5 +754,8 @@ h6 {
 }
 h5 {
   margin-left: 10px
+}
+.CodeMirror-hscrollbar, .CodeMirror-hscrollbar{
+  z-index: 3 !important;
 }
 </style>

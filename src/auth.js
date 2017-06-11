@@ -4,9 +4,9 @@ import Router from 'vue-router';
 import Auth0Lock from 'auth0-lock';
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
-const CLIENT_ID = '';
-const CLIENT_DOMAIN = '';
-const REDIRECT = 'http://localhost:8080/callback';
+const CLIENT_ID = '4LSs0DR68CpppXyNSt8Qmpzi6LY57FcI';
+const CLIENT_DOMAIN = 'tcats.auth0.com';
+const REDIRECT = 'https://e-zchai.firebaseapp.com/callback';
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
@@ -78,6 +78,10 @@ export function setIdToken() {
 
 export function isLoggedIn() {
   const idToken = getIdToken();
+  if (!!idToken && !!isTokenExpired(idToken)){
+    clearIdToken();
+    clearAccessToken();
+  }
   return !!idToken && !isTokenExpired(idToken);
 }
 
@@ -89,6 +93,13 @@ function getTokenExpirationDate(encodedToken) {
   date.setUTCSeconds(token.exp);
 
   return date;
+}
+export function returnEmail() {
+  if (!!isLoggedIn()){
+  const token = decode(getIdToken())
+  return token.email
+  alert(token.email)
+} return null
 }
 
 function isTokenExpired(token) {

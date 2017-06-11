@@ -6,8 +6,9 @@ import { setIdToken, setAccessToken, getIdToken } from '../auth';
 
 export default {
   name: '',
-  mounted() {
-    this.$nextTick(() => {
+  mounted: function() {
+    var vm = this
+    this.$nextTick(function() {
       setAccessToken();
       setIdToken();
       var myHeaders = new Headers({
@@ -19,9 +20,9 @@ export default {
         mode: 'cors',
         cache: 'default'
       }
-      fetch('https://ezchaiserver.herokuapp.com/user/userdata', myInit).then((data)=> {
+      fetch('https://ezchaiserver.herokuapp.com/user/userdata', myInit).then(function(data){
 
-        this.$router.push('/');
+        vm.$router.push('/');
       })
     });
   },

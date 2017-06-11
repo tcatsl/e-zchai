@@ -76,7 +76,7 @@
 <script>
 import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth';
 
-
+var vm
 export default {
   name: 'auth',
   data: function() {
@@ -106,9 +106,9 @@ export default {
         mode: 'cors',
         cache: 'default'
       }
-      fetch('https://ezchaiserver.herokuapp.com/env/myenvs', myInit).then((res)=>{
-          res.json().then((json)=>{
-            this.envs = json
+      fetch('https://ezchaiserver.herokuapp.com/env/myenvs', myInit).then(function(res){
+          res.json().then(function(json){
+            vm.envs = json
           })
       })
     },
@@ -126,8 +126,8 @@ export default {
         mode: 'cors',
         cache: 'default',
       }
-      fetch('https://ezchaiserver.herokuapp.com/env/'+this.$parent.id, myInit).then((res)=>{
-        res.json().then((json)=>{
+      fetch('https://ezchaiserver.herokuapp.com/env/'+this.$parent.id, myInit).then(function(res){
+        res.json().then(function(json){
           window.location.pathname = '/'
         })
       })
@@ -150,8 +150,8 @@ export default {
           code: document.getElementsByClassName('cm-s-default')[0].innerText
         })
       }
-      fetch('https://ezchaiserver.herokuapp.com/env/', myInit).then((res)=>{
-        res.json().then((json)=>{
+      fetch('https://ezchaiserver.herokuapp.com/env/', myInit).then(function(res){
+        res.json().then(function(json){
           window.location.pathname = '/'+json
         })
     })
@@ -186,6 +186,7 @@ export default {
     }
   },
   mounted: function() {
+    vm= this
     var token = getIdToken() || null
     if (!!token){
       var zHeaders = new Headers({
@@ -197,9 +198,9 @@ export default {
         mode: 'cors',
         cache: 'default'
       }
-      fetch('https://ezchaiserver.herokuapp.com/env/myenvs', myInit).then((res)=>{
-        res.json().then((json)=>{
-          this.envs = json
+      fetch('https://ezchaiserver.herokuapp.com/env/myenvs', myInit).then(function(res){
+        res.json().then(function(json){
+          vm.envs = json
         })
       })
     }

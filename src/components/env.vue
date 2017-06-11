@@ -190,7 +190,7 @@ export default {
       e.currentTarget.dispatchEvent(z)
 
       if (!!this.$refs.stuff){
-        setTimeout(() => {
+        setTimeout(function(){
           vm.$forceUpdate()
           vm.$refs.stuff[0].focus()
         })
@@ -204,7 +204,7 @@ export default {
       e.currentTarget.dispatchEvent(z)
 
       if (!!this.$refs.stuffo){
-        setTimeout(() => {
+        setTimeout(function(){
           vm.$forceUpdate()
           vm.$refs.stuffo[0].focus()
         })
@@ -215,7 +215,7 @@ export default {
     },
     func: function (assertion){
 
-      if (this.params[0][0] == "expression" && !!assertion){
+      if (this.params[0][0] == "expression to test for truthiness" && !!assertion){
         assertion.params = this.params[this.names.indexOf(assertion.assert)]
         this.buildTests()
       }
@@ -249,8 +249,8 @@ export default {
             this.tests[index].describe.its[index2].assertions[h].editingAssertion = false;
           }
           assertion.editingAssertion = true;
-          setTimeout(() => {
-            this.$forceUpdate()
+          setTimeout(function() {
+            vm.$forceUpdate()
           })
         } else {
           for (var h = 0; h <  this.tests[index].describe.its[index2].assertions.length; h++){
@@ -416,7 +416,7 @@ export default {
         }
         tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
         reLoad()
-        if (!!vm.id && !!vm.checkEmail()){
+        if (!!vm.id && !!vm.checkEmail() && !!document.getElementsByClassName('cm-s-default')[0]){
           var myHeaders = new Headers({
             "Content-Type": "application/json",
             "Authorization": "Bearer "+getIdToken(),
@@ -433,8 +433,8 @@ export default {
               code: document.getElementsByClassName('cm-s-default')[0].innerText
             })
           }
-          fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then((res)=>{
-            res.json().then((json)=>{
+          fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then(function(res){
+            res.json().then(function(json){
             })
           })
         }
@@ -468,37 +468,35 @@ export default {
     }
     if (!!this.id){
       if (!!isLoggedIn() && vm.checkEmail()){
-        fetch('https://ezchaiserver.herokuapp.com/env/'+this.id, myInit).then((data) => {
-          data.json().then((json)=>{
-            this.tests = JSON.parse(json[0].tests)
+        fetch('https://ezchaiserver.herokuapp.com/env/'+this.id, myInit).then(function(data){
+          data.json().then(function(json){
+            vm.tests = JSON.parse(json[0].tests)
             document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
-            this.name = json[0].name
-            this.id = json[0].short_id
-            this.user = json[0].users_email
-            buildTests()
-            setTimeout(vm.$forceUpdate())
+            vm.name = json[0].name
+            vm.id = json[0].short_id
+            vm.user = json[0].users_email
+            vm.buildTests()
           })
         })
       } else {
-        fetch('https://ezchaiserver.herokuapp.com/env/'+this.id).then((data) => {
-          data.json().then((json)=>{
-            this.tests = JSON.parse(json[0].tests)
+        fetch('https://ezchaiserver.herokuapp.com/env/'+this.id).then(function(data){
+          data.json().then(function(json){
+            vm.tests = JSON.parse(json[0].tests)
             document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
-            this.name = json[0].name
-            this.id = json[0].short_id
-            this.user = json[0].users_email
-            this.buildTests()
-            setTimeout(vm.$forceUpdate())
+            vm.name = json[0].name
+            vm.id = json[0].short_id
+            vm.user = json[0].users_email
+            vm.buildTests()
           })
         })
       }
     } else {
-      this.tests = []
+      vm.tests = []
       document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ 'var x = 9'+'</code>'
-      this.name = undefined
-      this.id = undefined
-      this.user = 'Bob'
-      this.buildTests()
+      vm.name = undefined
+      vm.id = undefined
+      vm.user = 'Bob'
+      vm.buildTests()
     }
     document.getElementById("codebox").addEventListener('keyup', function(e){vm.buildTests()})
   },

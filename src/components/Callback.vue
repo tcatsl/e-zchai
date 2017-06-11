@@ -21,7 +21,7 @@ export default {
       }
       fetch('https://ezchaiserver.herokuapp.com/user/userdata', myInit).then((data)=> {
 
-      this.$router.push('/');
+        this.$router.push('/');
       })
     });
   },

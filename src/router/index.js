@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+import env from '@/components/env'
 // import Hello1 from '@/components/Hello1'
 import Auth from '@/components/auth'
 import callback from '@/components/callback'
@@ -11,12 +11,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello,
+      name: 'env',
+      component: env,
     },
-    { path: '/callback', component: callback},
-    { path: '/game', component: Hello},
-      { path: '/:id', component: Hello, props: true }
+    {
+      path: '/callback',
+      component: callback
+    },
+    {
+      path: '/:id',
+      component: env,
+      props: true
+    }
   ],
 
   mode: 'history'

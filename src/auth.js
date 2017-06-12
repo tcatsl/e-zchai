@@ -98,7 +98,8 @@ export function returnEmail() {
   if (!!isLoggedIn()){
     const token = decode(getIdToken())
     return token.email
-  } return null
+  }
+  return null
 }
 
 function isTokenExpired(token) {

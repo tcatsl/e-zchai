@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth';
+import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth'
 var vm
 
 export default {
@@ -157,13 +157,13 @@ export default {
     })
   },
     handleLogin: function() {
-      login();
+      login()
     },
     handleLogout: function() {
-      logout();
+      logout()
     },
     isLoggedIn: function() {
-      return isLoggedIn();
+      return isLoggedIn()
     },
     returnEmail: function(){
       return returnEmail()

@@ -2,15 +2,15 @@
 </template>
 <script>
 
-import { setIdToken, setAccessToken, getIdToken } from '../auth';
+import { setIdToken, setAccessToken, getIdToken } from '../auth'
 
 export default {
   name: '',
   mounted: function() {
     var vm = this
     this.$nextTick(function() {
-      setAccessToken();
-      setIdToken();
+      setAccessToken()
+      setIdToken()
       var myHeaders = new Headers({
         "Authorization": "Bearer "+getIdToken(),
       })
@@ -22,7 +22,7 @@ export default {
       }
       fetch('https://ezchaiserver.herokuapp.com/user/userdata', myInit).then(function(data){
 
-        vm.$router.push('/');
+        vm.$router.push('/')
       })
     });
   },

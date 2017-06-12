@@ -4,7 +4,7 @@
       <div>
         <nav-menu id="navMain"></nav-menu>
         <pre v-on:keyup.native="buildTests()" id="codeBox">
-          <code class="lang-eval-js">
+          <code data-async-code="true" class="lang-eval-js">
           var x = 9
           </code>
         </pre>
@@ -598,18 +598,16 @@ input {
   padding-top: 0px;
   display: inline-flex;
   width: 100%;
+  padding: 5px;
+  box-shadow: none;
+  border-bottom: 1px solid #10B42E;
+  border-top: 1px solid #10B42E;
 }
 .expansion-panel__header > *{
   width: 98%;
 }
 .expanion-panel__body, .expansion-panel, .expansion-panel__header {
   height: auto !important;
-}
-.expansion-panel__header{
-  padding: 5px;
-  box-shadow: none;
-  border-bottom: 1px solid #10B42E;
-  border-top: 1px solid #10B42E;
 }
 .expansion-panel>li:last-child >div:first-child:not(.expansion-panel__header--active){
   border-bottom-width: 0px;
@@ -636,13 +634,7 @@ input {
 .expansion-panel .expansion-panel{
   margin-bottom: 5px;
 }
-.expansion-panel{
-  border-radius: 8px;
-  margin-right: 10px;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-  border-top: 0;
-}
+
 .expansion-panel .expansion-panel{
   border: 2px solid #F0B09E;
   width: inherit !important;
@@ -679,11 +671,13 @@ input {
 #add3 {
   background-color: #F020FE;
 }
-.expansion-panel .expansion-panel__body{
-  /*background-color: #FFFFFF !important*/
-}
 .expansion-panel {
   /*background-color: #FFFFFF !important;*/
+  border-radius: 8px;
+  margin-right: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  border-top: 0;
   height: auto !important;
   border: 2px solid #10B42E;
   border-top-width: 1px;
@@ -693,20 +687,12 @@ input {
 .card__text .expansion-panel__header{
   width: 100% !important;
 }
-.card {
-  z-index: 0;
-}
 .card__text, .card__text .card__text {
   width: inherit !important;
   margin-left: 70px;
   padding-top: 2px;
   padding-bottom: 0px;
   padding-right: 0
-
-}
-.expansion-panel .card__text{
-}
-.expansion-panel .expansion-panel .card__text{
 }
 .expansion-panel .expansion-panel .expansion-panel .card__text {
   margin-left: 0;
@@ -745,21 +731,12 @@ p{
 .btn--floating.btn--small .icon {
   height: 16px;
 }
-#add1 {
-  border-radius: 30%;
-}
 #add1, #add2, #add3 {
   margin-left: 7px;
   border-radius: 3px;
 }
 .list {
   margin-left: 0;
-}
-.input-group{
-
-}
-.itshead .input-group, .descrhead .input-group{
-
 }
 h6 {
   margin-bottom: 20px;

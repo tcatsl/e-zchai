@@ -8,7 +8,7 @@
       <v-btn id="logIn" v-if="!isLoggedIn()" class="btn btn-info log"  v-on:click.native="handleLogin()">
         <b>Log In</b>
       </v-btn>
-      <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green lighten-1" light v-on:click.native="saveNew()">
+      <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green accent-3" light v-on:click.native="saveNew()">
         <b>Save New</b>
       </v-btn>
       <v-dialog v-model="loadDialog" scrollable>
@@ -40,7 +40,7 @@
         </v-card>
       </v-dialog>
       <v-dialog  v-model="removeDialog">
-        <v-btn v-if="$parent.checkEmail()" @click.native="getEnvs()" primary class="red" light slot="activator">
+        <v-btn v-if="$parent.checkEmail()" @click.native="getEnvs()" primary class="red lighten-1" light slot="activator">
           <b>Delete Environment</b>
         </v-btn>
         <v-card>
@@ -208,10 +208,6 @@ button {
 }
 .dialog--active {
   width: 80% !important;
-}
-#navMain {
-  padding-left:0;
-  padding-right: 0;
 }
 #save, #logIn, #logOut, .dialog__container {
   margin-right: 0px;

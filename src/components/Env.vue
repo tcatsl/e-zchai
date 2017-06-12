@@ -128,6 +128,7 @@
 import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth'
 import { params, assertions } from '../assertData'
 import navMenu from '@/components/navMenu'
+var chai = require('chai')
 var assert = chai.assert
 var vm
 
@@ -337,43 +338,25 @@ export default {
           var itsCode = '';
           for (var its = 0; its < vm.tests[i].describe.its.length; its++){
             var assertCode = ''
-            for (var assertion = 0; assertion < vm.tests[i].describe.its[its].assertions.length; assertion++){
+            assertCode += 'assert'
 
-              assertCode += 'assert'
+            for (var assertion = 0; assertion < vm.tests[i].describe.its[its].assertions.length; assertion++){
               if (vm.tests[i].describe.its[its].assertions[assertion].assert == "assert"){
                 assertCode += '('+vm.tests[i].describe.its[its].assertions[assertion].p1 + ', '+JSON.stringify(vm.tests[i].describe.its[its].assertions[assertion].p2) + ')\n'
               } else {
-                var len = vm.evaluate('chai.assert.'+ vm.tests[i].describe.its[its].assertions[assertion].assert +'.length')
-                if (len > 0){
-                  if (vm.tests[i].describe.its[its].assertions[assertion].params[0] != 'message'){
-                    assertCode += '.'+vm.tests[i].describe.its[its].assertions[assertion].assert+'('+vm.tests[i].describe.its[its].assertions[assertion].p1
-                  }else {
-                    assertCode += ', ' + JSON.stringify(vm.tests[i].describe.its[its].assertions[assertion].p1)
+                assertCode += '.'+vm.tests[i].describe.its[its].assertions[assertion].assert+'('
+                for (var param = 1; param <= len; param++) {
+                  if (param > 1){
+                    assertCode += ', '
                   }
-                  if (len > 1){
-                    if (vm.tests[i].describe.its[its].assertions[assertion].params[1] != 'message'){
-                      assertCode += ', ' + vm.tests[i].describe.its[its].assertions[assertion].p2
-                    } else {
-                      assertCode += ', ' + JSON.stringify(vm.tests[i].describe.its[its].assertions[assertion].p2)
-                    }
-                    if (len > 2){
-                      if  (vm.tests[i].describe.its[its].assertions[assertion].params[2] != 'message'){
-                        assertCode += ', ' +  vm.tests[i].describe.its[its].assertions[assertion].p3
-                      }else {
-                        assertCode += ', ' + JSON.stringify(vm.tests[i].describe.its[its].assertions[assertion].p3)
-                      }
-                      if (len > 3){
-                        if (vm.tests[i].describe.its[its].assertions[assertion].params[3] != 'message'){
-                          assertCode += ', ' + vm.tests[i].describe.its[its].assertions[assertion].p4
-                        } else {
-                          assertCode += ', ' + JSON.stringify(vm.tests[i].describe.its[its].assertions[assertion].p4)
-                        }
-                      }
-                    }
+                  if (vm.tests[i].describe.its[its].assertions[assertion].params[param] != 'message'){
+                    assertCode += vm.tests[i].describe.its[its].assertions[assertion]['p'+param]
+                  } else {
+                    assertCode +=  JSON.stringify(vm.tests[i].describe.its[its].assertions[assertion]['p'+param])
                   }
                 }
-                assertCode += ')\n'
               }
+              assertCode += ')\n'
             }
             itsCode += 'it("'+vm.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
           }
@@ -399,7 +382,7 @@ export default {
             })
           }
           fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then(function(res){
-            res.json().then(function(json){
+              res.json().then(function(json){
             })
           })
         }
@@ -529,7 +512,6 @@ export default {
 .menu .menu__content{
   top: 0;
 }
-
 *, .CodeMirror  .CodeMirror-lines *{
   font-family: 'Roboto Mono', monospace;
 }

@@ -3,7 +3,7 @@
     <v-flex xs12>
       <div>
         <nav-menu id="navMain" :tests.sync="tests" :code.sync="code" :envname.sync="envname"></nav-menu>
-        <pre v-on:keyup.native="buildTests()" id="codebox">
+        <pre v-on:keyup.native="buildTests()" id="codeBox">
           <code class="lang-eval-js">
           var x = 9
           </code>
@@ -25,7 +25,7 @@
             </v-btn>
             &nbsp;<b>Describe:</b>
           </h6>
-          <v-expansion-panel id="foo" v-height>
+          <v-expansion-panel id="testExPan" v-height>
             <v-expansion-panel-content v-clickme v-bind:value="index === tests.length-1"v-for="(test, index) in tests" :key="index" >
               <div class="descrhead" slot="header">
                 <v-btn floating small v-on:click.native.capture.stop.prevent="removeTest(index)" class="red lighten-1">
@@ -130,23 +130,7 @@ import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth';
 import navMenu from '@/components/navMenu'
 var assert = chai.assert
 var vm;
-function reLoad(){
-  var script = document.getElementById("repl") || false
-  if (!!script){
-    document.body.removeChild(script)
-  }
-  var script = document.createElement("script");
-  script.id = "repl"
-  script.src = "https://storage.googleapis.com/app.klipse.tech/plugin_prod/js/klipse_plugin.min.js";
-  document.body.append(script)
-}
-function resetTests(suite) {
-  suite.tests.forEach(function(t) {
-    delete t.state;
-    t.timedOut = false;
-  });
-  suite.suites.forEach(resetTests);
-}
+
 export default {
   name: 'env',
   props: ['id'],
@@ -180,6 +164,23 @@ export default {
     checkEmail: function(){
       var z = !!isLoggedIn()
       return (this.user == returnEmail())
+    },
+    reLoad: function(){
+      var script = document.getElementById("repl") || false
+      if (!!script){
+        document.body.removeChild(script)
+      }
+      var script = document.createElement("script");
+      script.id = "repl"
+      script.src = "https://storage.googleapis.com/app.klipse.tech/plugin_prod/js/klipse_plugin.min.js";
+      document.body.append(script)
+    },
+    resetTests: function(suite) {
+      suite.tests.forEach(function(t) {
+        delete t.state;
+        t.timedOut = false;
+      });
+      suite.suites.forEach(resetTests);
     },
     tab2: function (e) {
       var d = e.currentTarget
@@ -297,7 +298,7 @@ export default {
     },
     rUn: function(){
       document.getElementById("mocha").innerHTML = ""
-      resetTests(mocha.suite)
+      vm.resetTests(mocha.suite)
       mocha.run();
     },
     removeTest: function (index) {
@@ -399,7 +400,7 @@ export default {
           code += 'describe("'+vm.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
         }
         tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
-        reLoad()
+        vm.reLoad()
         if (!!vm.id && !!vm.checkEmail() && !!document.getElementsByClassName('cm-s-default')[0]){
           var myHeaders = new Headers({
             "Content-Type": "application/json",
@@ -455,7 +456,7 @@ export default {
         fetch('https://ezchaiserver.herokuapp.com/env/'+this.id, myInit).then(function(data){
           data.json().then(function(json){
             vm.tests = JSON.parse(json[0].tests)
-            document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
+            document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
             vm.name = json[0].name
             vm.id = json[0].short_id
             vm.user = json[0].users_email
@@ -466,7 +467,7 @@ export default {
         fetch('https://ezchaiserver.herokuapp.com/env/'+this.id).then(function(data){
           data.json().then(function(json){
             vm.tests = JSON.parse(json[0].tests)
-            document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
+            document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
             vm.name = json[0].name
             vm.id = json[0].short_id
             vm.user = json[0].users_email
@@ -476,13 +477,13 @@ export default {
       }
     } else {
       vm.tests = []
-      document.getElementById('codebox').innerHTML = '<code class="lang-eval-js">'+ 'var x = 9'+'</code>'
+      document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ 'var x = 9'+'</code>'
       vm.name = undefined
       vm.id = undefined
       vm.user = 'Bob'
       vm.buildTests()
     }
-    document.getElementById("codebox").addEventListener('keyup', function(e){vm.buildTests()})
+    document.getElementById("codeBox").addEventListener('keyup', function(e){vm.buildTests()})
   },
   directives: {
     height: {
@@ -780,6 +781,9 @@ h6 {
   font-size: 18px;
 }
 #tests > .cm-s-default:nth-child(0n + 2) {
+  display: none !important;
+}
+#codeBox > .cm-s-default:nth-child(0n + 2) {
   display: none !important;
 }
 #runButtonHeader{

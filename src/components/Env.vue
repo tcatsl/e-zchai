@@ -8,7 +8,6 @@
           var x = 9
           </code>
         </pre>
-
         <div id="mocha">
           <h5>
             <b>Test results will appear here.</b>

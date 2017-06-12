@@ -1,5 +1,5 @@
 <template>
-  <div id="yo">
+  <div id="nav2">
     <h5 id="header">
       <a href='/env/'><b>e-zchai</b></a>
       <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native="handleLogout()">
@@ -222,7 +222,7 @@ button {
 .dialog--active {
   width: 80% !important;
 }
-#yo {
+#nav2 {
   padding-left:0;
   padding-right: 0;
 }

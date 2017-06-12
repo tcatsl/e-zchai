@@ -534,7 +534,7 @@ export default {
 }
 </script>
 <style>
-#app, #yo{
+#app, #nav2{
   padding: 10px;
 }
 .menu .menu__content, .list {
@@ -791,7 +791,7 @@ h5 {
 #navbarr{
   margin-top: 10px;
 }
-#yo{
+#nav2{
   padding-bottom: 20px;
   padding-right: 0;
   padding-left: 0;

@@ -180,7 +180,7 @@ export default {
         delete t.state;
         t.timedOut = false;
       });
-      suite.suites.forEach(resetTests);
+      suite.suites.forEach(vm.resetTests);
     },
     tab2: function (e) {
       var d = e.currentTarget

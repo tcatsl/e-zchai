@@ -11,7 +11,7 @@
       <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green lighten-1" light v-on:click.native="saveNew()">
         <b>Save New</b>
       </v-btn>
-      <v-dialog v-width v-model="loadDialog" scrollable>
+      <v-dialog v-model="loadDialog" scrollable>
         <v-btn primary @click.native="getEnvs()" v-show="isLoggedIn()" light slot="activator">
           <b>Load Environment</b>
         </v-btn>
@@ -39,7 +39,7 @@
           </v-card-row>
         </v-card>
       </v-dialog>
-      <v-dialog v-width v-model="removeDialog" persistent>
+      <v-dialog  v-model="removeDialog">
         <v-btn v-if="$parent.checkEmail()" @click.native="getEnvs()" primary class="red" light slot="activator">
           <b>Delete Environment</b>
         </v-btn>
@@ -55,10 +55,10 @@
             </v-card-text>
           </v-card-row>
           <v-card-row actions>
-            <v-btn class="green--text darken-1" flat="flat" @click.native="removeDialog = false">
+            <v-btn class="red--text darken-1" flat="flat" @click.native="removeDialog = false">
               Nevermind
             </v-btn>
-            <v-btn class="green--text darken-1" flat="flat" @click.native="deleteEnv($parent.id)">
+            <v-btn class="red--text darken-1" flat="flat" @click.native="deleteEnv($parent.id)">
               Delete
             </v-btn>
           </v-card-row>
@@ -75,8 +75,8 @@
 
 <script>
 import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth';
-
 var vm
+
 export default {
   name: 'auth',
   data: function() {
@@ -170,19 +170,7 @@ export default {
     }
   },
   directives: {
-    width: {
-      // When the bound element is inserted into the DOM...
-      inserted: function (el1) {
-        // Focus the element
-        setTimeout(function(){
-          var dialogs = document.getElementsByClassName('dialog--active')
-        // alert(z.length)
-          Array.prototype.forEach.call(dialogs, function(el, ind, arr){
-          el.style.width = "80%"
-          })
-        }, 2000)
-      }
-    }
+
   },
   mounted: function() {
     vm= this

@@ -96,7 +96,7 @@
                               <v-card>
                                 <v-card-text>
                                   <div class="eeee" >
-                                    <v-select @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab2($event)"  v-model="assertion.assert" label="assertion">
+                                    <v-select @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab($event)"  v-model="assertion.assert" label="assertion">
                                     </v-select>
                                     <v-text-field @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="param" v-for="(param, index9) in assertion.params" v-bind:label="param" v-model="assertion['p'+ (index9+1)]">
                                     </v-text-field>
@@ -139,7 +139,6 @@ export default {
       user: null,
       envname: null,
       code: '',
-      re1: /expansion-panel__header--active/g,
       assertions: ["assert","fail","isOk","isNotOk","equal","notEqual","strictEqual","notStrictEqual","deepEqual","notDeepEqual","isAbove","isAtLeast","isBelow","isAtMost","isTrue","isNotTrue","isFalse","isNotFalse","isNull","isNotNull","isNaN","isNotNaN","exists","notExists","isUndefined","isDefined","isFunction","isNotFunction","isObject","isNotObject","isArray","isNotArray","isString","isNotString","isNumber","isNotNumber","isFinite","isBoolean","isNotBoolean","typeOf","notTypeOf","instanceOf","notInstanceOf","include","notInclude","deepInclude","notDeepInclude","nestedInclude","notNestedInclude","deepNestedInclude","notDeepNestedInclude","ownInclude","notOwnInclude","deepOwnInclude","notDeepOwnInclude","match","notMatch","property","notProperty","propertyVal","notPropertyVal","deepPropertyVal","notDeepPropertyVal","nestedProperty","notNestedProperty","nestedPropertyVal","notNestedPropertyVal","deepNestedPropertyVal","notDeepNestedPropertyVal","lengthOf","hasAnyKeys","hasAllKeys","containsAllKeys","doesNotHaveAnyKeys","doesNotHaveAllKeys","hasAllDeepKeys","containsAllDeepKeys","doesNotHaveAnyDeepKeys","doesNotHaveAllDeepKeys","throws","doesNotThrow","operator","closeTo","approximately","sameMembers","notSameMembers","sameDeepMembers","notSameDeepMembers","sameOrderedMembers","notSameOrderedMembers","sameDeepOrderedMembers","notSameDeepOrderedMembers","includeMembers","notIncludeMembers","includeDeepMembers","notIncludeDeepMembers","includeOrderedMembers","notIncludeOrderedMembers","includeDeepOrderedMembers","notIncludeDeepOrderedMembers","oneOf","changes","changesBy","doesNotChange","changesButNotBy","increases","increasesBy","doesNotIncrease","increasesButNotBy","decreases","decreasesBy","doesNotDecrease","decreasesButNotBy","ifError","isExtensible","isNotExtensible","isSealed","isNotSealed","isFrozen","isNotFrozen","isEmpty","isNotEmpty"].map(function(el, ind, arr){
         return {text: el, value: el}
       }),
@@ -182,12 +181,12 @@ export default {
       });
       suite.suites.forEach(vm.resetTests);
     },
-    tab2: function (e) {
-      var d = e.currentTarget
-      var z = document.createEvent('HTMLEvents')
-      z.initEvent('keydown', true, true)
-      z.keyCode = 13
-      e.currentTarget.dispatchEvent(z)
+    tab: function (e) {
+      var target = e.currentTarget
+      var newEvent = document.createEvent('HTMLEvents')
+      newEvent.initEvent('keydown', true, true)
+      newEvent.keyCode = 13
+      target.dispatchEvent(newEvent)
 
       if (!!this.$refs.boundExPanContent){
         setTimeout(function(){
@@ -197,7 +196,7 @@ export default {
       }
     },
     show: function(el){
-    // alert("stoopid")
+
     },
     func: function (assertion){
 
@@ -224,7 +223,7 @@ export default {
       this.buildTests();
     },
     finishEditAssertion: function(assertion) {
-      assertion.editingAss = false;
+      assertion.editingAssertion = false;
       this.buildTests();
     },
     editAssertion: function(index, index2, assertion, e){
@@ -254,10 +253,8 @@ export default {
       for (var h = 0; h < this.tests[index].describe.its[index2].assertions.length; h++){
         this.tests[index].describe.its[index2].assertions[h].editingAssertion = false;
       }
-      this.tests[index].describe.its[index2].assertions.push({assert: this.assertionToAdd.assert, p1: this.assertionToAdd.p1, p2: this.assertionToAdd.p2, p3: this.assertionToAdd.p3, p4: this.assertionToAdd.p4, params: this.assertionToAdd.params, descr: this.assertionToAdd.descr, editingAss: true})
-      it.addingAss = false
-      this.assertionToAdd.editingAss = true;
-      this.addingAss = false;
+      this.tests[index].describe.its[index2].assertions.push({assert: this.assertionToAdd.assert, p1: this.assertionToAdd.p1, p2: this.assertionToAdd.p2, p3: this.assertionToAdd.p3, p4: this.assertionToAdd.p4, params: this.assertionToAdd.params, descr: this.assertionToAdd.descr, editingAssertion: true})
+      this.assertionToAdd.editingAssertion = true;
       this.assertionToAdd.assert = 'assert'
       this.assertionToAdd.p1 = null;
       this.assertionToAdd.p2 = null;
@@ -269,7 +266,7 @@ export default {
 
     },
     pushNewAssertion: function(index, index2, it){
-      this.tests[index].describe.its[index2].assertions.push({assert: 'assert', p1: null, p2: null, p3: null, p4: null, params: this.params[0], descr: null, editingAss: true})
+      this.tests[index].describe.its[index2].assertions.push({assert: 'assert', p1: null, p2: null, p3: null, p4: null, params: this.params[0], descr: null, editingAssertion: true})
       this.editingAssertion = false;
       this.assertionToAdd.assert = 'assert'
       this.assertionToAdd.p1 = null;
@@ -448,7 +445,9 @@ export default {
       mode: 'cors',
       cache: 'default'
     }
+    //if the evironment has an id
     if (!!this.id){
+      //if the user owns the environment
       if (!!isLoggedIn() && vm.checkEmail()){
         fetch('https://ezchaiserver.herokuapp.com/env/'+this.id, myInit).then(function(data){
           data.json().then(function(json){
@@ -461,6 +460,7 @@ export default {
           })
         })
       } else {
+        //if the user does not own the environment
         fetch('https://ezchaiserver.herokuapp.com/env/'+this.id).then(function(data){
           data.json().then(function(json){
             vm.tests = JSON.parse(json[0].tests)
@@ -480,32 +480,32 @@ export default {
       vm.user = 'Bob'
       vm.buildTests()
     }
+    //event listener necessary as @keyup.native not working for some reason
     document.getElementById("codeBox").addEventListener('keyup', function(e){vm.buildTests()})
   },
   directives: {
     height: {
     // When the bound element is inserted into the DOM...
-      inserted: function (el1) {
-      // Focus the element
+      inserted: function (el) {
+      // Set height to auto to override default expansion panel height
         setTimeout(function(){
-          el1.style.height= "auto"
-          var z = document.getElementsByClassName('expansion-panel__body')
-      // alert(z.length)
-          var q = document.getElementsByClassName('expansion-panel__header')
-          var c = el1.children
-          Array.prototype.forEach.call(z, function(el, ind, arr){
-            if (el1.contains(el) || el1 == el  || el1.parentNode.parentNode.parentNode == el) {
-              el.style.height = "auto"
+          el.style.height= "auto"
+          var bodies = document.getElementsByClassName('expansion-panel__body')
+          var headers = document.getElementsByClassName('expansion-panel__header')
+          Array.prototype.forEach.call(bodies, function(body, ind, arr){
+            if (el.contains(body) || el == body  || el.parentNode.parentNode.parentNode == body) {
+              body.style.height = "auto"
             }
           })
-          Array.prototype.forEach.call(q, function(el, ind, arr){
-            if (el1.contains(el) || el1 == el || el1.parentNode.parentNode.parentNode == el  || el1.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode == el) {
+          Array.prototype.forEach.call(headers, function(header, ind, arr){
+            if (el.contains(header) || el == header || el.parentNode.parentNode.parentNode == header  || el.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode == header) {
               el.style.height = "auto"
             }
           })
         }, 1500)
       }
     },
+    //click newly inserted expansion panel content twice automatically to override side-effects of last directive which cause the panels to not close properly
     clickme: {
       unbind: function(el){
         for (var i = 0; i < vm.boundExPanContent.length; i++){

@@ -91,12 +91,12 @@
                                 <v-btn floating small v-show="(assertion.editingAssertion== false)">
                                   <v-icon>edit</v-icon>
                                 </v-btn>
-                                &nbsp;&nbsp;{{assertion['p'+(assertion.params.length)]}}
+                                &nbsp;{{assertion['p'+(assertion.params.length)]}}
                               </div>
                               <v-card>
                                 <v-card-text>
                                   <div class="eeee" >
-                                    <v-select @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab2($event)"  v-model="assertion.assert" label="Assertion:">
+                                    <v-select @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab2($event)"  v-model="assertion.assert" label="assertion">
                                     </v-select>
                                     <v-text-field @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="param" v-for="(param, index9) in assertion.params" v-bind:label="param" v-model="assertion['p'+ (index9+1)]">
                                     </v-text-field>
@@ -292,9 +292,6 @@ export default {
       this.itToPush.assertions = [{assert: 'assert', p1: null, p2: null, p3: null, p4: null, descr: null, editingAssertion: true, params: this.params[0]}];
       this.tests[index].addingIt = false;
       this.buildTests();
-    },
-    addIts: function(test){
-      test.addingIt = true;
     },
     rUn: function(){
       document.getElementById("mocha").innerHTML = ""
@@ -535,7 +532,7 @@ export default {
 }
 </script>
 <style>
-#app, #nav2{
+#app{
   padding: 10px;
 }
 .menu .menu__content, .list {

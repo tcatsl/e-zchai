@@ -2,7 +2,7 @@
   <v-layout>
     <v-flex xs12>
       <div>
-        <auth id="stuff4" :tests.sync="tests" :code.sync="code" :envname.sync="envname"></auth>
+        <auth id="navbarr" :tests.sync="tests" :code.sync="code" :envname.sync="envname"></auth>
         <pre v-on:keyup.native="buildTests()" id="codebox">
           <code class="lang-eval-js">
           var x = 9
@@ -98,7 +98,7 @@
                                   <div class="eeee" >
                                     <v-select @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab2($event)"  v-model="assertion.assert" label="Assertion:">
                                     </v-select>
-                                    <v-text-field @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="stuffo" v-for="(param, index9) in assertion.params" v-bind:label="param" v-model="assertion['p'+ (index9+1)]">
+                                    <v-text-field @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="param" v-for="(param, index9) in assertion.params" v-bind:label="param" v-model="assertion['p'+ (index9+1)]">
                                     </v-text-field>
                                   </div>
                                 </v-card-text>
@@ -128,7 +128,6 @@
 <script>
 import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth';
 import Auth from '@/components/auth'
-var chai = require('chai')
 var assert = chai.assert
 var vm;
 function reLoad(){
@@ -181,7 +180,7 @@ export default {
     checkEmail: function(){
       var z = !!isLoggedIn()
       return (this.user == returnEmail())
-    }
+    },
     tab2: function (e) {
       var d = e.currentTarget
       var z = document.createEvent('HTMLEvents')
@@ -491,6 +490,7 @@ export default {
       inserted: function (el1) {
       // Focus the element
         setTimeout(function(){
+          el1.style.height= "auto"
           var z = document.getElementsByClassName('expansion-panel__body')
       // alert(z.length)
           var q = document.getElementsByClassName('expansion-panel__header')
@@ -510,7 +510,7 @@ export default {
     },
     clickme: {
       unbind: function(el){
-        for (var i = 0; i < vm.stuff.length; i++){
+        for (var i = 0; i < vm.boundExPanContent.length; i++){
           if (vm.boundExPanContent[i].el == el && !!vm.boundExPanContent[i].p.children[vm.boundExPanContent[i].p.children.length -1]){
             vm.boundExPanContent[i].p.children[vm.boundExPanContent[i].p.children.length -1].click()
             vm.boundExPanContent[i].p.children[vm.boundExPanContent[i].p.children.length -1].click()
@@ -788,7 +788,7 @@ h5 {
 .CodeMirror-hscrollbar, .CodeMirror-hscrollbar{
   z-index: 3 !important;
 }
-#stuff4{
+#navbarr{
   margin-top: 10px;
 }
 #yo{

@@ -18,7 +18,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       extract: true
     })
   },
-  devtool:  '#source-map',
+  devtool:  '#eval-source-map',
   output: {
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),

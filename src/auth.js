@@ -96,10 +96,9 @@ function getTokenExpirationDate(encodedToken) {
 }
 export function returnEmail() {
   if (!!isLoggedIn()){
-  const token = decode(getIdToken())
-  return token.email
-  alert(token.email)
-} return null
+    const token = decode(getIdToken())
+    return token.email
+  } return null
 }
 
 function isTokenExpired(token) {

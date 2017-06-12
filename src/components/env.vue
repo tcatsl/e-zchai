@@ -265,18 +265,6 @@ export default {
       this.buildTests();
 
     },
-    pushNewAssertion: function(index, index2, it){
-      this.tests[index].describe.its[index2].assertions.push({assert: 'assert', p1: null, p2: null, p3: null, p4: null, params: this.params[0], descr: null, editingAssertion: true})
-      this.editingAssertion = false;
-      this.assertionToAdd.assert = 'assert'
-      this.assertionToAdd.p1 = null;
-      this.assertionToAdd.p2 = null;
-      this.assertionToAdd.p3 = null;
-      this.assertionToAdd.descr = null;
-      this.assertionToAdd.params = null;
-      this.buildTests();
-
-    },
     pushIts: function(index){
       for (var z = 0; z< this.tests.length; z++){
         for (var l = 0; l < this.tests[z].describe.its.length; l++){

@@ -15,7 +15,7 @@
           </h5>
         </div>
         <div class="text-xs-center"  id="run">
-          <v-btn id = "runTest" v-on:click.native="rUn()"><h6 id="hsix"><b>Run Tests</b></h6></v-btn>
+          <v-btn id = "runTest" v-on:click.native="rUn()"><h6 id="runButtonHeader"><b>Run Tests</b></h6></v-btn>
         </div>
         <div id="testList">
           <h5><b>Tests:</b></h5>
@@ -782,7 +782,7 @@ h6 {
 #tests > .cm-s-default:nth-child(0n + 2) {
   display: none !important;
 }
-#hsix{
+#runButtonHeader{
   padding: 3px;
 }
 h5 {

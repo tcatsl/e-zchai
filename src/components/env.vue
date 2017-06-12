@@ -652,13 +652,16 @@ input {
 }
 .expansion-panel{
   border-radius: 8px;
-  margin-right: 5px;
+  margin-right: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
   border-top: 0;
 }
 .expansion-panel .expansion-panel{
   border: 2px solid #F0B09E;
   width: inherit !important;
   border-top: 1px solid #F0B09E;
+  margin-bottom: 10px;
 }
 .expansion-panel .expansion-panel .expansion-panel {
   width: inherit !important;

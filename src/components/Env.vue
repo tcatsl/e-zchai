@@ -150,6 +150,7 @@ export default {
         p1: null,
         p2: null,
         p3: null,
+        p4: null,
         descr: null,
         params: [],
         editingAssertion: true
@@ -334,34 +335,34 @@ export default {
       clearTimeout(vm.testBuildTimeout)
       vm.testBuildTimeout = setTimeout(function(){
         var code = ''
-        for (var i = 0; i < vm.tests.length; i++){
+        vm.tests.forEach(function(test){
           var itsCode = '';
-          for (var its = 0; its < vm.tests[i].describe.its.length; its++){
+          test.describe.its.forEach(function(it){
             var assertCode = ''
-            assertCode += 'assert'
-
-            for (var assertion = 0; assertion < vm.tests[i].describe.its[its].assertions.length; assertion++){
-              if (vm.tests[i].describe.its[its].assertions[assertion].assert == "assert"){
-                assertCode += '('+vm.tests[i].describe.its[its].assertions[assertion].p1 + ', '+JSON.stringify(vm.tests[i].describe.its[its].assertions[assertion].p2) + ')\n'
+            it.assertions.forEach(function(assertion){
+              assertCode += 'assert'
+              if (assertion.assert == "assert"){
+                assertCode += '('+assertion.p1 + ', '+JSON.stringify(assertion.p2)
               } else {
-                assertCode += '.'+vm.tests[i].describe.its[its].assertions[assertion].assert+'('
+                var len = vm.evaluate('chai.assert.'+ assertion.assert +'.length')
+                assertCode += '.'+assertion.assert+'('
                 for (var param = 1; param <= len; param++) {
                   if (param > 1){
                     assertCode += ', '
                   }
-                  if (vm.tests[i].describe.its[its].assertions[assertion].params[param] != 'message'){
-                    assertCode += vm.tests[i].describe.its[its].assertions[assertion]['p'+param]
+                  if (assertion.params[param-1] != 'message'){
+                    assertCode += assertion['p'+param]
                   } else {
-                    assertCode +=  JSON.stringify(vm.tests[i].describe.its[its].assertions[assertion]['p'+param])
+                    assertCode +=  JSON.stringify(assertion['p'+param])
                   }
                 }
               }
               assertCode += ')\n'
-            }
-            itsCode += 'it("'+vm.tests[i].describe.its[its].itsDescr+'", function(){\n'+assertCode+'})\n'
-          }
-          code += 'describe("'+vm.tests[i].describe.name+'", function(){\n'+ itsCode +'})\n'
-        }
+            })
+            itsCode += 'it("'+it.itsDescr+'", function(){\n'+assertCode+'})\n'
+          })
+          code += 'describe("'+test.describe.name+'", function(){\n'+ itsCode +'})\n'
+        })
         tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
         vm.reLoad()
         if (!!vm.id && !!vm.checkEmail() && !!document.getElementsByClassName('cm-s-default')[0]){

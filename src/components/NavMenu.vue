@@ -1,5 +1,5 @@
 <template>
-  <div id="nav2">
+  <div id="navMain">
     <h5 id="header">
       <a href='/env/'><b>e-zchai</b></a>
       <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native="handleLogout()">
@@ -11,7 +11,7 @@
       <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green lighten-1" light v-on:click.native="saveNew()">
         <b>Save New</b>
       </v-btn>
-      <v-dialog v-xwidth v-model="dialog" scrollable>
+      <v-dialog v-model="loadDialog" scrollable>
         <v-btn primary @click.native="getEnvs()" v-show="isLoggedIn()" light slot="activator">
           <b>Load Environment</b>
         </v-btn>
@@ -30,7 +30,7 @@
           <v-divider>
           </v-divider>
           <v-card-row actions>
-            <v-btn class="blue--text darken-1" flat @click.native="dialog = false">
+            <v-btn class="blue--text darken-1" flat @click.native="loadDialog = false">
               Close
             </v-btn>
             <v-btn class="blue--text darken-1" flat @click.native="loadEnv(envToLoad)">
@@ -39,7 +39,7 @@
           </v-card-row>
         </v-card>
       </v-dialog>
-      <v-dialog v-xwidth v-model="dialog2" persistent>
+      <v-dialog v-xwidth v-model="removeDialog" persistent>
         <v-btn v-if="$parent.checkEmail()" @click.native="getEnvs()" primary class="red" light slot="activator">
           <b>Delete Environment</b>
         </v-btn>
@@ -55,7 +55,7 @@
             </v-card-text>
           </v-card-row>
           <v-card-row actions>
-            <v-btn class="green--text darken-1" flat="flat" @click.native="dialog2 = false">
+            <v-btn class="green--text darken-1" flat="flat" @click.native="removeDialog = false">
               Nevermind
             </v-btn>
             <v-btn class="green--text darken-1" flat="flat" @click.native="deleteEnv($parent.id)">
@@ -83,26 +83,26 @@ export default {
     return {
       envToLoad: null,
       envs: [],
-      dialog: false,
-      dialog2: false
+      loadDialog: false,
+      removeDialog: false
     }
   },
   props: ['id', 'tests', 'code', 'envname'],
   methods: {
     getEnvs: function(){
       setTimeout(function(){
-        var z = document.getElementsByClassName('dialog--active')
+        var dialogs = document.getElementsByClassName('dialog--active')
       // alert(z.length)
-        Array.prototype.forEach.call(z, function(el, ind, arr){
+        Array.prototype.forEach.call(dialogs, function(el, ind, arr){
         el.style.width = "80%"
         })
       }, 200)
-      var zHeaders = new Headers({
+      var myHeaders = new Headers({
         "Authorization": "Bearer "+getIdToken()
       })
       var myInit = {
         method: 'GET',
-        headers: zHeaders,
+        headers: myHeaders,
         mode: 'cors',
         cache: 'default'
       }
@@ -175,9 +175,9 @@ export default {
       inserted: function (el1) {
         // Focus the element
         setTimeout(function(){
-          var z = document.getElementsByClassName('dialog--active')
+          var dialogs = document.getElementsByClassName('dialog--active')
         // alert(z.length)
-          Array.prototype.forEach.call(z, function(el, ind, arr){
+          Array.prototype.forEach.call(dialogs, function(el, ind, arr){
           el.style.width = "80%"
           })
         }, 2000)
@@ -188,12 +188,12 @@ export default {
     vm= this
     var token = getIdToken() || null
     if (!!token){
-      var zHeaders = new Headers({
+      var myHeaders = new Headers({
         "Authorization": "Bearer "+getIdToken()
       })
       var myInit = {
         method: 'GET',
-        headers: zHeaders,
+        headers: myHeaders,
         mode: 'cors',
         cache: 'default'
       }
@@ -206,7 +206,6 @@ export default {
   }
 };
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 button {
@@ -222,15 +221,13 @@ button {
 .dialog--active {
   width: 80% !important;
 }
-#nav2 {
+#navMain {
   padding-left:0;
   padding-right: 0;
 }
 #save, #logIn, #logOut, .dialog__container {
   margin-right: 0px;
   margin-left: 10px;
-}
-#logOut{
 }
 .card__text, .card__text .card__text {
      width: 100% !important;

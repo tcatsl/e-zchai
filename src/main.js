@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import auth from '@/components/auth'
+import navMenu from '@/components/navMenu'
 import env from '@/components/env'
 import Vuetify from 'vuetify'
 Vue.config.productionTip = true
@@ -16,5 +16,5 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App, env, auth }
+  components: { App, env, navMenu }
 });

@@ -2,7 +2,7 @@
   <v-layout>
     <v-flex xs12>
       <div>
-        <auth id="navbarr" :tests.sync="tests" :code.sync="code" :envname.sync="envname"></auth>
+        <nav-menu id="navMain" :tests.sync="tests" :code.sync="code" :envname.sync="envname"></nav-menu>
         <pre v-on:keyup.native="buildTests()" id="codebox">
           <code class="lang-eval-js">
           var x = 9
@@ -127,7 +127,7 @@
 
 <script>
 import { isLoggedIn, getIdToken, login, logout, returnEmail } from '../auth';
-import Auth from '@/components/auth'
+import navMenu from '@/components/navMenu'
 var assert = chai.assert
 var vm;
 function reLoad(){
@@ -529,7 +529,7 @@ export default {
     }
   },
   components: {
-    'auth': Auth
+    'nav-menu': navMenu
   }
 }
 </script>
@@ -791,10 +791,8 @@ h5 {
 .CodeMirror-hscrollbar, .CodeMirror-hscrollbar{
   z-index: 3 !important;
 }
-#navbarr{
-  margin-top: 10px;
-}
-#nav2{
+
+#navMain{
   padding-bottom: 20px;
   padding-right: 0;
   padding-left: 0;

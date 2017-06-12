@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import env from '@/components/env'
 // import Hello1 from '@/components/Hello1'
-import Auth from '@/components/auth'
+import navMenu from '@/components/navMenu'
 import callback from '@/components/callback'
 // import Main from '@/components/Main'
 Vue.use(Router)

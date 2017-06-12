@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import Auth from '@/components/auth'
 export default {
   name: 'app'
 }

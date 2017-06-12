@@ -2,7 +2,7 @@
   <v-layout>
     <v-flex xs12>
       <div>
-        <nav-menu id="navMain" :tests.sync="tests" :code.sync="code" :envname.sync="envname"></nav-menu>
+        <nav-menu id="navMain"></nav-menu>
         <pre v-on:keyup.native="buildTests()" id="codeBox">
           <code class="lang-eval-js">
           var x = 9

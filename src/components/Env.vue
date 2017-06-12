@@ -95,7 +95,7 @@
                               </div>
                               <v-card>
                                 <v-card-text>
-                                  <div class="eeee" >
+                                  <div>
                                     <v-select @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab($event)"  v-model="assertion.assert" label="assertion">
                                     </v-select>
                                     <v-text-field @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="param" v-for="(param, index9) in assertion.params" v-bind:label="param" v-model="assertion['p'+ (index9+1)]">

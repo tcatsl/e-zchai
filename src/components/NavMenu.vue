@@ -1,7 +1,7 @@
 <template>
   <div id="navMain">
     <h5 id="header">
-      <a href='/env/'><b>e-zchai</b></a>
+      <a href='/'><b>e-zchai</b></a>
       <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native="handleLogout()">
         <b>Log out</b>
       </v-btn>
@@ -11,7 +11,7 @@
       <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green lighten-1" light v-on:click.native="saveNew()">
         <b>Save New</b>
       </v-btn>
-      <v-dialog v-model="loadDialog" scrollable>
+      <v-dialog v-width v-model="loadDialog" scrollable>
         <v-btn primary @click.native="getEnvs()" v-show="isLoggedIn()" light slot="activator">
           <b>Load Environment</b>
         </v-btn>
@@ -39,7 +39,7 @@
           </v-card-row>
         </v-card>
       </v-dialog>
-      <v-dialog v-xwidth v-model="removeDialog" persistent>
+      <v-dialog v-width v-model="removeDialog" persistent>
         <v-btn v-if="$parent.checkEmail()" @click.native="getEnvs()" primary class="red" light slot="activator">
           <b>Delete Environment</b>
         </v-btn>
@@ -113,7 +113,7 @@ export default {
       })
     },
     loadEnv: function(envId){
-      window.location.pathname = '/env/'+envId
+      window.location.pathname = '/'+envId
     },
     deleteEnv: function(envId){
       var myHeaders = new Headers({
@@ -128,7 +128,7 @@ export default {
       }
       fetch('https://ezchaiserver.herokuapp.com/env/'+this.$parent.id, myInit).then(function(res){
         res.json().then(function(json){
-          window.location.pathname = '/env/'
+          window.location.pathname = '/'
         })
       })
     },
@@ -152,7 +152,7 @@ export default {
       }
       fetch('https://ezchaiserver.herokuapp.com/env/', myInit).then(function(res){
         res.json().then(function(json){
-          window.location.pathname = '/env/'+json
+          window.location.pathname = '/'+json
         })
     })
   },
@@ -170,7 +170,7 @@ export default {
     }
   },
   directives: {
-    xwidth: {
+    width: {
       // When the bound element is inserted into the DOM...
       inserted: function (el1) {
         // Focus the element

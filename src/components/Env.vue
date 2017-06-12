@@ -529,10 +529,8 @@ export default {
 .menu .menu__content{
   top: 0;
 }
-* {
-  font-family: 'Roboto Mono', monospace;
-}
-.CodeMirror  .CodeMirror-lines *{
+
+*, .CodeMirror  .CodeMirror-lines *{
   font-family: 'Roboto Mono', monospace;
 }
 #testList {

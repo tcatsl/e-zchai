@@ -137,12 +137,45 @@ export default {
   props: ['id'],
   data: function(){
     return {
+      putHeaders: new Headers({
+        "Content-Type": "application/json",
+        "Authorization": "Bearer "+getIdToken(),
+      }),
+      putConfig: {
+        method: 'put',
+        headers: putHeaders,
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify({
+          private: false,
+          tests: JSON.stringify(vm.tests),
+          name: vm.name,
+          code: document.getElementsByClassName('cm-s-default')[0].innerText
+        })
+      },
+      getHeaders: new Headers({
+        "Authorization": "Bearer "+getIdToken() || null,
+      }),
+      var getConfig: {
+        method: 'GET',
+        headers: getHeaders,
+        mode: 'cors',
+        cache: 'default'
+      },
       user: null,
       envname: null,
       code: '',
       assertions: assertions,
       params: params,
-      itToPush: {itsDescr: null, assertions: [{}], addingIt: true, editingIt: false},
+      itToPush: {itsDescr: null, assertions: [{
+        assert: 'assert',
+        p1: null,
+        p2: null,
+        p3: null,
+        p4: null,
+        editingAssertion: true,
+        params: this.params[0]
+      }], addingIt: true, editingIt: false},
       names: [],
       assertionToAdd: {
         length: null,
@@ -366,24 +399,9 @@ export default {
         tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
         vm.reLoad()
         if (!!vm.id && !!vm.checkEmail() && !!document.getElementsByClassName('cm-s-default')[0]){
-          var myHeaders = new Headers({
-            "Content-Type": "application/json",
-            "Authorization": "Bearer "+getIdToken(),
-          })
-          var myInit = {
-            method: 'put',
-            headers: myHeaders,
-            mode: 'cors',
-            cache: 'default',
-            body: JSON.stringify({
-              private: false,
-              tests: JSON.stringify(vm.tests),
-              name: vm.name,
-              code: document.getElementsByClassName('cm-s-default')[0].innerText
-            })
-          }
-          fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then(function(res){
+          fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, vm.putConfig).then(function(res){
               res.json().then(function(json){
+                console.log('environment updated')
             })
           })
         }
@@ -391,35 +409,17 @@ export default {
     }
   },
   mounted: function(){
-    this.itToPush.assertions = [{
-      assert: 'assert',
-      p1: null,
-      p2: null,
-      p3: null,
-      p4: null,
-      editingAssertion: true,
-      params: this.params[0]
-    }]
     this.names = this.assertions.map(function(el, ind, arr){
       return el.text
     })
     vm = this
     vm.chai = chai
     mocha.setup("bdd")
-    var myHeaders = new Headers({
-      "Authorization": "Bearer "+getIdToken() || null,
-    })
-    var myInit = {
-      method: 'GET',
-      headers: myHeaders,
-      mode: 'cors',
-      cache: 'default'
-    }
     //if the evironment has an id
     if (!!this.id){
       //if the user owns the environment
       if (!!isLoggedIn() && vm.checkEmail()){
-        fetch('https://ezchaiserver.herokuapp.com/env/'+this.id, myInit).then(function(data){
+        fetch('https://ezchaiserver.herokuapp.com/env/'+this.id, getConfig).then(function(data){
           data.json().then(function(json){
             vm.tests = JSON.parse(json[0].tests)
             document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
@@ -444,10 +444,9 @@ export default {
       }
     } else {
       vm.tests = []
-      document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ 'var x = 9'+'</code>'
       vm.name = undefined
       vm.id = undefined
-      vm.user = 'Bob'
+      vm.user = 'no-one'
       vm.buildTests()
     }
     //event listener necessary as @keyup.native not working for some reason

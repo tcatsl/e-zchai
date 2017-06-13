@@ -349,7 +349,7 @@ export default {
             })
             itsCode += 'it("'+it.itsDescr+'", function(){\n'+allAssertionsCode+'})\n'
           })
-          code += 'describe("'+test.name+'", function(){\n'+ itsCode +'})\n'
+          code += 'describe("'+test.describe.name+'", function(){\n'+ itsCode +'})\n'
         })
         tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
         vm.reLoad()
@@ -392,7 +392,7 @@ export default {
             private: false,
             tests: JSON.stringify(vm.tests),
             name: vm.name,
-            code: document.getElementsByClassName('cm-s-default')[0].innerText
+            code: JSON.stringify(document.getElementsByClassName('cm-s-default')[0].innerText)
           })
         }
         fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then(function(res){
@@ -447,11 +447,12 @@ export default {
         fetch('https://ezchaiserver.herokuapp.com/env/'+this.id).then(function(data){
           data.json().then(function(json){
             vm.tests = JSON.parse(json[0].tests)
-            document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
+            document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ JSON.parse(json[0].code).replace(/\n​+/g, '')+'</code>'
             vm.name = json[0].name
             vm.id = json[0].short_id
             vm.user = json[0].users_email
             vm.buildTests()
+
           })
         })
       }

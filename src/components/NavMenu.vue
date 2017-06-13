@@ -8,7 +8,7 @@
       <v-btn id="logIn" v-if="!isLoggedIn()" class="btn btn-info log"  v-on:click.native="handleLogin()">
         <b>Log In</b>
       </v-btn>
-      <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green accent-3" light v-on:click.native="saveNew()">
+      <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green lighten-" light v-on:click.native="saveNew()">
         <b>Save New</b>
       </v-btn>
       <v-dialog v-model="loadDialog" scrollable>
@@ -40,7 +40,7 @@
         </v-card>
       </v-dialog>
       <v-dialog  v-model="removeDialog">
-        <v-btn v-if="$parent.checkEmail()" @click.native="getEnvs()" primary class="red lighten-1" light slot="activator">
+        <v-btn v-if="$parent.checkEmail()" @click.native="getEnvs()" primary class="red" light slot="activator">
           <b>Delete Environment</b>
         </v-btn>
         <v-card>
@@ -147,7 +147,7 @@ export default {
           private: false,
           tests: JSON.stringify(this.$parent.tests),
           name: this.$parent.name,
-          code: document.getElementsByClassName('cm-s-default')[0].innerText
+          code: JSON.stringify(document.getElementsByClassName('cm-s-default')[0].innerText)
         })
       }
       fetch('https://ezchaiserver.herokuapp.com/env/', myInit).then(function(res){

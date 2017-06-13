@@ -137,46 +137,17 @@ export default {
   props: ['id'],
   data: function(){
     return {
-      putHeaders: new Headers({
-        "Content-Type": "application/json",
-        "Authorization": "Bearer "+getIdToken(),
-      }),
-      putConfig: {
-        method: 'put',
-        headers: putHeaders,
-        mode: 'cors',
-        cache: 'default',
-        body: JSON.stringify({
-          private: false,
-          tests: JSON.stringify(vm.tests),
-          name: vm.name,
-          code: document.getElementsByClassName('cm-s-default')[0].innerText
-        })
-      },
-      getHeaders: new Headers({
-        "Authorization": "Bearer " + getIdToken() || null,
-      }),
-      var getConfig: {
-        method: 'GET',
-        headers: getHeaders,
-        mode: 'cors',
-        cache: 'default'
-      },
-      name: empty,
-      id: undefined,
-      user: 'no-one',
+      user: null,
+      envname: null,
       code: '',
       assertions: assertions,
       params: params,
-      itToPush: {itsDescr: null, assertions: [{
-        assert: 'assert',
-        p1: null,
-        p2: null,
-        p3: null,
-        p4: null,
-        editingAssertion: true,
-        params: this.params[0]
-      }], addingIt: true, editingIt: false},
+      itToPush: {
+        itsDescr: null,
+        assertions: [{}],
+        addingIt: true,
+        editingIt: false
+      },
       names: [],
       assertionToAdd: {
         length: null,
@@ -297,6 +268,7 @@ export default {
       this.assertionToAdd.descr = null
       this.assertionToAdd.params = this.params[0]
       this.buildTests()
+
     },
     pushIts: function(index){
       for (var z = 0; z< this.tests.length; z++){
@@ -371,58 +343,99 @@ export default {
         vm.tests.forEach(function(test){
           var itsCode = '';
           test.describe.its.forEach(function(it){
-            var assertCode = ''
+            var allAssertionsCode = ''
             it.assertions.forEach(function(assertion){
-              assertCode += 'assert'
-              if (assertion.assert == "assert"){
-                assertCode += '('+assertion.p1 + ', ' + JSON.stringify(assertion.p2)
-              } else {
-                var len = vm.evaluate('chai.assert.' + assertion.assert + '.length')
-                assertCode += '.'+ assertion.assert + '('
-                for (var param = 1; param <= len; param++) {
-                  if (param > 1){
-                    assertCode += ', '
-                  }
-                  if (assertion.params[param-1] != 'message'){
-                    assertCode += assertion['p' + param]
-                  } else {
-                    assertCode += JSON.stringify(assertion['p' + param])
-                  }
-                }
-              }
-              assertCode += ')\n'
+              allAssertionsCode += vm.buildAssertion(assertion)
             })
-            itsCode += 'it("'+it.itsDescr+'", function(){\n' + assertCode + '})\n'
+            itsCode += 'it("'+it.itsDescr+'", function(){\n'+allAssertionsCode+'})\n'
           })
-          code += 'describe('+JSON.stringify(test.describe.name)+', function(){\n' +  itsCode + '})\n'
+          code += 'describe("'+test.name+'", function(){\n'+ itsCode +'})\n'
         })
-        tests.innerHTML = '<code class="lang-eval-js">' + 'assert = chai.assert\n mocha.suite.suites = []\n' + code + '</code>'
+        tests.innerHTML = '<code class="lang-eval-js">'+ 'assert = chai.assert\n mocha.suite.suites = []\n'+ code+'</code>'
         vm.reLoad()
-        if (!!vm.id && !!vm.checkEmail() && !!document.getElementsByClassName('cm-s-default')[0]){
-          fetch('https://ezchaiserver.herokuapp.com/env/' + vm.id, vm.putConfig).then(function(res){
-              res.json().then(function(json){
-                console.log('environment updated')
-            })
+        vm.putRequest()
+      }, 500)
+    },
+    buildAssertion: function(assertion){
+      var assertCode='assert'
+      if (assertion.assert == "assert"){
+        assertCode += '('+assertion.p1 + ', '+JSON.stringify(assertion.p2) + ')\n'
+      } else {
+        assertCode += '.'+assertion.assert+'('
+        var len = vm.evaluate('chai.assert.'+ assertion.assert +'.length')
+        for (var param = 1; param <= len; param++) {
+          if (param > 1){
+            assertCode += ', '
+          }
+          if (assertion.params[param -1 ] != 'message'){
+            assertCode += assertion['p'+param]
+          } else {
+            assertCode +=  JSON.stringify(assertion['p'+param])
+          }
+        }
+        assertCode += ')\n'
+      }
+      return assertCode
+    },
+    putRequest: function(){
+      if (!!vm.id && !!vm.checkEmail() && !!document.getElementsByClassName('cm-s-default')[0]){
+        var myHeaders = new Headers({
+          "Content-Type": "application/json",
+          "Authorization": "Bearer "+getIdToken(),
+        })
+        var myInit = {
+          method: 'put',
+          headers: myHeaders,
+          mode: 'cors',
+          cache: 'default',
+          body: JSON.stringify({
+            private: false,
+            tests: JSON.stringify(vm.tests),
+            name: vm.name,
+            code: document.getElementsByClassName('cm-s-default')[0].innerText
           })
         }
-      }, 500)
+        fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then(function(res){
+            res.json().then(function(json){
+              console.log('environment saved')
+          })
+        })
+      }
     }
   },
   mounted: function(){
+    this.itToPush.assertions = [{
+      assert: 'assert',
+      p1: null,
+      p2: null,
+      p3: null,
+      p4: null,
+      editingAssertion: true,
+      params: this.params[0]
+    }]
     this.names = this.assertions.map(function(el, ind, arr){
       return el.text
     })
     vm = this
     vm.chai = chai
     mocha.setup("bdd")
+    var myHeaders = new Headers({
+      "Authorization": "Bearer "+getIdToken() || null,
+    })
+    var myInit = {
+      method: 'GET',
+      headers: myHeaders,
+      mode: 'cors',
+      cache: 'default'
+    }
     //if the evironment has an id
     if (!!this.id){
       //if the user owns the environment
       if (!!isLoggedIn() && vm.checkEmail()){
-        fetch('https://ezchaiserver.herokuapp.com/env/' + this.id, getConfig).then(function(data){
+        fetch('https://ezchaiserver.herokuapp.com/env/'+this.id, myInit).then(function(data){
           data.json().then(function(json){
             vm.tests = JSON.parse(json[0].tests)
-            document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">' + json[0].code + '</code>'
+            document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
             vm.name = json[0].name
             vm.id = json[0].short_id
             vm.user = json[0].users_email
@@ -431,10 +444,10 @@ export default {
         })
       } else {
         //if the user does not own the environment
-        fetch('https://ezchaiserver.herokuapp.com/env/' + this.id).then(function(data){
+        fetch('https://ezchaiserver.herokuapp.com/env/'+this.id).then(function(data){
           data.json().then(function(json){
             vm.tests = JSON.parse(json[0].tests)
-            document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">' + json[0].code + '</code>'
+            document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ json[0].code+'</code>'
             vm.name = json[0].name
             vm.id = json[0].short_id
             vm.user = json[0].users_email
@@ -442,6 +455,13 @@ export default {
           })
         })
       }
+    } else {
+      vm.tests = []
+      document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ 'var x = 9'+'</code>'
+      vm.name = undefined
+      vm.id = undefined
+      vm.user = 'Bob'
+      vm.buildTests()
     }
     //event listener necessary as @keyup.native not working for some reason
     document.getElementById("codeBox").addEventListener('keyup', function(e){vm.buildTests()})

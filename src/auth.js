@@ -6,7 +6,7 @@ const ID_TOKEN_KEY = 'id_token'
 const ACCESS_TOKEN_KEY = 'access_token'
 const CLIENT_ID = '4LSs0DR68CpppXyNSt8Qmpzi6LY57FcI'
 const CLIENT_DOMAIN = 'tcats.auth0.com'
-const REDIRECT = 'https://e-zchai.firebaseapp.com/callback'
+const REDIRECT = 'https://www.e-zchai.cafe/callback'
 //I did not write most of the functions in this file, but i did heavily modify some of them --tcats
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,

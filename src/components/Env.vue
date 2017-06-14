@@ -471,7 +471,6 @@ export default {
         })
       }
     } else {
-      vm.tests = []
       document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ 'var x = 9'+'</code>'
       vm.name = undefined
       vm.id = undefined

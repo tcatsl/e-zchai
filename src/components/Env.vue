@@ -215,7 +215,7 @@ export default {
     },
     func: function (assertion){
 
-      if (this.params[0][0] == "expression to test for truthiness" && !!assertion){
+      if (this.params[0][0] == "expression to test" && !!assertion){
         assertion.params = this.params[this.names.indexOf(assertion.assert)]
         this.buildTests()
       }
@@ -479,7 +479,7 @@ export default {
       vm.buildTests()
     }
     //event listener necessary as @keyup.native not working for some reason
-    document.getElementById("codeBox").addEventListener('keyup', function(e){vm.buildTests()})
+    document.getElementById("codeBox").addEventListener('keyup', function(e){vm.putRequest()})
     document.getElementById("tests").addEventListener('keydown', function(e){e.stopPropagation(); e.preventDefault()})
   },
   directives: {

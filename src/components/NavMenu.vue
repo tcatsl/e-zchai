@@ -1,7 +1,7 @@
 <template>
   <div id="navMain">
     <h5 id="header">
-      <a href='/'><b>e-zchai</b></a> (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>)
+      <a href='/' id="home"><b>e-zchai</b></a> (<a id="link" href="http://chaijs.com/api/assert/" target="_blank">reference</a>)
       <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native="handleLogout()">
         <b>Log out</b>
       </v-btn>
@@ -220,7 +220,7 @@ button {
 .dialog__container{
   margin-left: 0px !important;
 }
-a{
+#home{
   color: black;
   text-decoration: none;
 }

@@ -1,21 +1,25 @@
 <template>
-  <v-layout>
-    <v-flex xs12>
+  <v-layout row wrap>
+    <v-flex class="bordertop" xs12>
       <div>
         <nav-menu id="navMain"></nav-menu>
-        <pre v-on:keyup.native="buildTests()" id="codeBox">
-          <code data-async-code="true" class="lang-eval-js">
-          var x = 9
-          </code>
-        </pre>
-        <div id="mocha">
-          <h5>
-            <b>Test results will appear here.</b>
-          </h5>
-        </div>
-        <div class="text-xs-center"  id="run">
-          <v-btn id = "runTest" v-on:click.native="runTests()"><h6 id="runButtonHeader"><b>Run Tests</b></h6></v-btn>
-        </div>
+</div>
+      </v-flex>
+          <v-flex xs6>
+            <pre v-on:keyup.native="buildTests()" id="codeBox">
+              <code data-async-code="true" class="lang-eval-js">
+                var x = 9
+              </code>
+            </pre>
+          </v-flex>
+          <v-flex xs6>
+            <div id="mocha">
+              <h5>
+                <b>Test results will appear here.</b>
+              </h5>
+            </div>
+          </v-flex>
+          <v-flex xs6>
         <div id="testList">
           <h5><b>Tests:</b></h5>
           <h6>
@@ -75,7 +79,7 @@
                               <v-btn floating small class="green accent-3" v-on:click.native.capture.stop.prevent="pushAssertion(index, index4, it)"   id="add3">
                                 <v-icon>add</v-icon>
                               </v-btn>
-                              <b>Assertions (<a href="http://chaijs.com/api/assert/" target="_blank">reference</a>):</b>
+                              <b>Assertions:</b>
                             </h6>
                           </p>
                           <v-expansion-panel  v-height>
@@ -113,14 +117,20 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </div>
+      </v-flex>
+          <v-flex xs6>
         <pre id="tests">
+
           <code id="testcode" class="lang-eval-js">
             assert = chai.assert
             mocha.suite.suites = []
           </code>
         </pre>
+
+      </v-flex>
+      <div class="text-xs-center"  id="run">
+        <v-btn id = "runTest" v-on:click.native="runTests()"><h6 id="runButtonHeader"><b>Run Tests</b></h6></v-btn>
       </div>
-    </v-flex>
   </v-layout>
 </template>
 
@@ -401,6 +411,10 @@ export default {
           })
         })
       }
+    },
+    stop: function(e){
+      e =null
+      alert('st')
     }
   },
   mounted: function(){
@@ -466,6 +480,7 @@ export default {
     }
     //event listener necessary as @keyup.native not working for some reason
     document.getElementById("codeBox").addEventListener('keyup', function(e){vm.buildTests()})
+    document.getElementById("tests").addEventListener('keydown', function(e){e.stopPropagation(); e.preventDefault()})
   },
   directives: {
     height: {
@@ -531,10 +546,9 @@ export default {
   font-family: 'Roboto Mono', monospace;
 }
 #testList {
-  border-right: solid 2px #90B4FE;
-  border-left: solid 2px #90B4FE;
   border-top: solid 2px #90B4FE;
   padding: 10px;
+  height: auto !important
 }
 #final {
   border: 0;
@@ -551,6 +565,11 @@ pre{
 #run{
   border-top: solid 2px #90B4FE;
   box-shadow: 0;
+  width: 100%;
+
+  border-left: 2px solid #90B4FE;
+  border-right: 2px solid #90B4FE;
+  border-bottom: solid 4px #90B4FE;
 }
 button {
   margin: 6px;
@@ -568,17 +587,19 @@ button {
   font-size: 10px;
   position: inherit;
 }
+.flex {
+  border: 2px solid #90B4FE;
+}
 ul {
   padding-left: 40px;
   list-style: inside;
 }
 #runTest{
-  width: 100% !important;
+  width: 97% !important;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 6px !important;
   margin-left: 0;
-  margin-right: 0;
 }
 input {
   width: 100%;
@@ -684,7 +705,7 @@ input {
 }
 .card__text, .card__text .card__text {
   width: inherit !important;
-  margin-left: 70px;
+  margin-left: 30px;
   padding-top: 2px;
   padding-bottom: 0px;
   padding-right: 0
@@ -766,5 +787,37 @@ h5 {
 }
 #mocha .test pre.error{
   color: black !important;
+}
+.flex{
+  border-bottom: 2px solid #90B4FE;
+}
+.layout{
+  border-left: 4px solid #90B4FE;
+  border-right: 4px solid #90B4FE;
+}
+.bordertop{
+  border-top: 4px solid #90B4FE;
+}
+#tests{
+  border-bottom: 0
+}
+.cm-s-default{
+  border: 0
+}
+pre{
+  border: 0
+}
+#testList{
+  border-left: 0 !important;
+  border-top: 0 !important
+}
+#mocha{
+  border: 0
+}
+label {
+  font-size: 12px !important
+}
+#header {
+  margin-top: 10px
 }
 </style>

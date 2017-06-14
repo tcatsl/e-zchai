@@ -565,7 +565,7 @@ pre{
   border-top: solid 2px #90B4FE;
   box-shadow: 0;
   width: 100%;
-
+  background-color: #90B4FE;
   border-left: 2px solid #90B4FE;
   border-right: 2px solid #90B4FE;
   border-bottom: solid 4px #90B4FE;
@@ -594,11 +594,12 @@ ul {
   list-style: inside;
 }
 #runTest{
-  width: 97% !important;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  width: 100% !important;
+  margin-top: 0px;
+  margin-bottom: 0px;
   padding: 6px !important;
   margin-left: 0;
+  margin-right: 0;
 }
 input {
   width: 100%;

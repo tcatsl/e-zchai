@@ -1,14 +1,14 @@
 <template>
   <div id="navMain">
     <h5 id="header">
-      <a href='/' id="home"><b>e-zchai</b></a> (<a id="link" href="http://chaijs.com/api/assert/" target="_blank">reference</a>)
+      <a href='/' data-step="16" data-intro="Try signing up or logging in to save your testing environments for later use and sharing with others. Happy testing!" id="home"><b>e-zchai</b></a> (<a id="link" href="http://chaijs.com/api/assert/" data-step="10" data-intro="Here is a quick link to the Chai documentation, if case you need more information on an assertion function." target="_blank">reference</a>)
       <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native="handleLogout()">
         <b>Log out</b>
       </v-btn>
       <v-btn id="logIn" v-if="!isLoggedIn()" class="btn btn-info log"  v-on:click.native="handleLogin()">
         <b>Log In</b>
       </v-btn>
-      <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green lighten-" light v-on:click.native="saveNew()">
+      <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green lighten-1" light v-on:click.native="saveNew()">
         <b>Save New</b>
       </v-btn>
       <v-dialog v-model="loadDialog" scrollable>
@@ -64,6 +64,7 @@
           </v-card-row>
         </v-card>
       </v-dialog>
+      <v-btn class="deep-purple accent-2" light v-on:click.native="startIntro()"><b>Tutorial</b></v-btn>
     </h5>
     <v-text-field v-show="!!$parent.id && $parent.checkEmail()" :placeholder="$parent.name" label="The name for your environment:" v-model="$parent.name" @keyup.native='$parent.buildTests()'>
     </v-text-field>
@@ -167,6 +168,10 @@ export default {
     },
     returnEmail: function(){
       return returnEmail()
+    },
+    startIntro: function(){
+      document.getElementById('add1').click()
+      setTimeout(function(){introJs().start()}, 3000)
     }
   },
   directives: {

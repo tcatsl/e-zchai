@@ -3,27 +3,27 @@
     <v-flex class="bordertop" xs12>
       <div>
         <nav-menu id="navMain"></nav-menu>
-</div>
-      </v-flex>
-          <v-flex xs6>
-            <pre v-on:keyup.native="buildTests()" id="codeBox">
-              <code data-async-code="true" class="lang-eval-js">
-                var x = 9
-              </code>
-            </pre>
-          </v-flex>
-          <v-flex xs6>
-            <div id="mocha">
-              <h5>
-                <b>Test results will appear here.</b>
-              </h5>
-            </div>
-          </v-flex>
-          <v-flex xs6>
-        <div id="testList">
-          <h5><b>Tests:</b></h5>
+      </div>
+    </v-flex>
+    <v-flex  xs6>
+      <pre data-step="1" data-intro="Welcome to e-zchai! Let's get started. Code you want to test goes here, but in Test-Driven-Development, you should write a test and see it fail before writing any code." v-on:keyup.native="buildTests()" id="codeBox">
+        <code data-async-code="true" class="lang-eval-js">
+          var x = 9
+        </code>
+      </pre>
+    </v-flex>
+    <v-flex xs6>
+    <div id="mocha" data-step="14" data-intro="And voila! Your test results.">
+      <h5>
+        <b>Test results will appear here.</b>
+      </h5>
+    </div>
+    </v-flex>
+    <v-flex xs6>
+      <div id="testList">
+        <h5><b>Tests:</b></h5>
           <h6>
-            <v-btn floating small v-on:click.native="addTest()" class="green accent-3" id="add1" >
+            <v-btn floating small v-on:click.native="addTest()" class="green accent-3" id="add1" data-step="2" data-intro="The green '+' button adds a test for something new.">
               <v-icon>add</v-icon>
             </v-btn>
             &nbsp;<b>Describe:</b>
@@ -31,20 +31,20 @@
           <v-expansion-panel id="testExPan" v-height>
             <v-expansion-panel-content v-clickme v-bind:value="index === tests.length-1"v-for="(test, index) in tests" :key="index" >
               <div class="descrhead" slot="header">
-                <v-btn floating small v-on:click.native.capture.stop.prevent="removeTest(index)" class="red lighten-1">
+                <v-btn floating small data-step="15" data-intro="The red 'x' button removes things to test." v-on:click.native.capture.stop.prevent="removeTest(index)" class="red lighten-1">
                   <v-icon>clear</v-icon>
                 </v-btn>
                 <span class="text-xs-center">
                   <v-btn floating small v-show="test.describe.editingDescr == false" v-on:click.native.capture.stop.prevent="editDescr(test.describe)">
                     <v-icon>edit</v-icon>
                   </v-btn>
-                  <v-btn floating small v-show="test.describe.editingDescr == true" v-on:click.native.capture.stop.prevent="finishEditDescr(test.describe)" class="green accent-1">
+                  <v-btn floating small v-show="test.describe.editingDescr == true" data-step="4" data-intro="This button finishes editing." v-on:click.native.capture.stop.prevent="finishEditDescr(test.describe)" class="green accent-1">
                     <v-icon>done</v-icon>
                   </v-btn>
                 </span>
                 &nbsp;{{test.describe.name}}
                 <div v-show="test.describe.editingDescr == true">
-                  <v-text-field @keyup.native="buildTests" autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name">
+                  <v-text-field data-step="3" data-intro="Enter the name of the thing you want to test here. It can be any JavaScript variable, constant, method, property, or expression. (examples: x, y.forEach(), z.length, true)" @keyup.native="buildTests" autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name">
                   </v-text-field>
                 </div>
               </div>
@@ -66,10 +66,10 @@
                         <v-btn floating small v-show="it.editingIt == false" v-on:click.native.stop.prevent="editIt(it)">
                           <v-icon>edit</v-icon>
                         </v-btn>
-                        <v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)">
+                        <v-btn floating small class="green accent-1" v-show="it.editingIt == true" v-on:click.native.capture.stop.prevent="finishEditIt(it)" data-step="6" data-intro="Again, the check mark button finishes editing here.">
                           <v-icon>done</v-icon>
                         </v-btn>
-                         &nbsp;{{it.itsDescr}} <v-text-field @keyup.native="buildTests" v-show="it.editingIt == true" v-on:click.native.capture.prevent.stop="func" label="(should...):" v-model="it.itsDescr">
+                         &nbsp;{{it.itsDescr}} <v-text-field @keyup.native="buildTests" data-step="5" data-intro="Here, you specify what the thing you are testing should do, so enter 'should' followed by that. (i.e. 'should not equal 9')" v-show="it.editingIt == true" v-on:click.native.capture.prevent.stop="func" label="(should...):" v-model="it.itsDescr">
                          </v-text-field>
                        </div>
                        <v-card>
@@ -88,7 +88,7 @@
                                 <v-btn floating small v-on:click.native.capture.stop.prevent="removeAssertion(index, index4, index5)" class="red lighten-1">
                                   <v-icon>clear</v-icon>
                                 </v-btn>
-                                <v-btn class="green accent-1" v-show="(assertion.editingAssertion== true)" floating small>
+                                <v-btn class="green accent-1" v-show="(assertion.editingAssertion== true)" floating small data-step="11" data-intro="Remember that these buttons finish editing.">
                                   <v-icon>done</v-icon>
                                 </v-btn>
                                 <v-btn floating small v-show="(assertion.editingAssertion== false)">
@@ -99,9 +99,9 @@
                               <v-card>
                                 <v-card-text>
                                   <div>
-                                    <v-select @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab($event)"  v-model="assertion.assert" label="assertion">
+                                    <v-select data-step="7" data-intro="Here, you may choose different types of assertions to test. For comparing two non-primitive objects that don't reference each other, for example, you would want to use 'deepEqual', but for now let's stick with 'assert'." @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab($event)"  v-model="assertion.assert" label="assertion">
                                     </v-select>
-                                    <v-text-field @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="param" v-for="(param, index9) in assertion.params" v-bind:label="param" v-model="assertion['p'+ (index9+1)]">
+                                    <v-text-field v-bind:data-step="8+ index9" v-bind:data-intro="paramsSteps[index9]" @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="param" v-for="(param, index9) in assertion.params" v-bind:label="param" v-model="assertion['p'+ (index9+1)]">
                                     </v-text-field>
                                   </div>
                                 </v-card-text>
@@ -115,22 +115,20 @@
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
-          </v-expansion-panel>
-        </div>
-      </v-flex>
-          <v-flex xs6>
-        <pre id="tests">
-
-          <code id="testcode" class="lang-eval-js">
-            assert = chai.assert
-            mocha.suite.suites = []
-          </code>
-        </pre>
-
-      </v-flex>
-      <div class="text-xs-center"  id="run">
-        <v-btn id = "runTest" v-on:click.native="runTests()"><h6 id="runButtonHeader"><b>Run Tests</b></h6></v-btn>
+        </v-expansion-panel>
       </div>
+    </v-flex>
+    <v-flex xs6>
+      <pre data-step="12" data-intro="The test code generated from the menu is displayed here, in case you were curious." id="tests">
+        <code id="testcode" class="lang-eval-js">
+          assert = chai.assert
+          mocha.suite.suites = []
+        </code>
+      </pre>
+    </v-flex>
+    <div class="text-xs-center" data-step="13" data-intro="This button runs the tests you've built. You can also call mocha.run() in your code for asyncronous testing." id="run">
+      <v-btn id = "runTest" v-on:click.native="runTests()"><h6 id="runButtonHeader"><b>Run Tests</b></h6></v-btn>
+    </div>
   </v-layout>
 </template>
 
@@ -147,6 +145,7 @@ export default {
   props: ['id'],
   data: function(){
     return {
+      paramsSteps: ['Here you fill out the assertion function parameters, which are the input field labels. For "assert", for instance, the first parameter is an expression to test (i.e. x !== 9, or x === 8)', 'The "message" parameter is the error message to show if the test fails.'],
       user: null,
       envname: null,
       code: '',
@@ -175,6 +174,7 @@ export default {
     }
   },
   methods: {
+    putRequestTimeout: null,
     checkEmail: function(){
       var z = !!isLoggedIn()
       return (this.user == returnEmail())
@@ -380,7 +380,7 @@ export default {
           if (assertion.params[param -1 ] != 'message'){
             assertCode += assertion['p'+param]
           } else {
-            assertCode +=  JSON.stringify(assertion['p'+param])
+            assertCode += JSON.stringify(assertion['p'+param])
           }
         }
         assertCode += ')\n'
@@ -388,29 +388,32 @@ export default {
       return assertCode
     },
     putRequest: function(){
-      if (!!vm.id && !!vm.checkEmail() && !!document.getElementsByClassName('cm-s-default')[0]){
-        var myHeaders = new Headers({
-          "Content-Type": "application/json",
-          "Authorization": "Bearer "+getIdToken(),
-        })
-        var myInit = {
-          method: 'put',
-          headers: myHeaders,
-          mode: 'cors',
-          cache: 'default',
-          body: JSON.stringify({
-            private: false,
-            tests: JSON.stringify(vm.tests),
-            name: vm.name,
-            code: JSON.stringify(document.getElementsByClassName('cm-s-default')[0].innerText)
+      clearTimeout(vm.putRequestTimeout)
+      vm.putRequestTimeout = setTimeout(function(){
+        if (!!vm.id && !!vm.checkEmail() && !!document.getElementsByClassName('cm-s-default')[0]){
+          var myHeaders = new Headers({
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "+getIdToken(),
+          })
+          var myInit = {
+            method: 'put',
+            headers: myHeaders,
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify({
+              private: false,
+              tests: JSON.stringify(vm.tests),
+              name: vm.name,
+              code: JSON.stringify(document.getElementsByClassName('cm-s-default')[0].innerText)
+            })
+          }
+          fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then(function(res){
+              res.json().then(function(json){
+                console.log('environment saved')
+            })
           })
         }
-        fetch('https://ezchaiserver.herokuapp.com/env/'+vm.id, myInit).then(function(res){
-            res.json().then(function(json){
-              console.log('environment saved')
-          })
-        })
-      }
+      }, 1000)
     },
     stop: function(e){
       e =null
@@ -792,8 +795,9 @@ h5 {
   border-bottom: 2px solid #90B4FE;
 }
 .layout{
-  border-left: 4px solid #90B4FE;
-  border-right: 4px solid #90B4FE;
+  border-left: 2px solid #90B4FE;
+  border-right: 2px solid #90B4FE !important;
+  margin: 10px
 }
 .bordertop{
   border-top: 4px solid #90B4FE;
@@ -818,6 +822,9 @@ label {
   font-size: 12px !important
 }
 #header {
-  margin-top: 10px
+  margin-top: 0px
+}
+.layout {
+  border-right: 4px solid #90B4FE
 }
 </style>

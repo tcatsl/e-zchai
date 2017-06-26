@@ -1,6 +1,6 @@
 # e-zchai
 
-> This is the front-end repository for e-zchai, a site for coding in a test-driven environment that allows configuration of Mocha/Chai tests via an easily accessible menu. Front-end built using Vue.js, Vuetify, Mocha, Chai, and Klipse. For the back-end repository, click [here](https://github.com/tcatsl/e-zchaiserver)
+> This is the front-end repository for e-zchai, a site for coding in a test-driven environment that allows configuration of Mocha/Chai tests via an easily accessible menu. Front-end built using Vue.js, Vuetify, Mocha, Chai, Klipse, and Intro.js. For the back-end repository, click [here](https://github.com/tcatsl/e-zchaiserver)
 
 ## Build Setup
 

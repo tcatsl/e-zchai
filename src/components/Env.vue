@@ -44,7 +44,7 @@
                 </span>
                 &nbsp;{{test.describe.name}}
                 <div v-show="test.describe.editingDescr == true">
-                  <v-text-field data-step="3" data-intro="Enter the name of the thing you want to test here. It can be any JavaScript variable, constant, method, property, or expression. (examples: x, y.forEach(), z.length, true)" @keyup.native="buildTests" autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name">
+                  <v-text-field data-step="3" data-intro="Enter the name of the thing you want to test here. It can be anything in JavaScript: a variable, constant, method, property, or expression, class, or anything else. @keyup.native="buildTests" autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name">
                   </v-text-field>
                 </div>
               </div>

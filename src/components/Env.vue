@@ -1,4 +1,11 @@
 <template>
+  <!-- Everyone has their own style of code. Not everyone codes in the same language. Some people write more code in certain languages than others.
+  Some people like certain frameworks in certain languages more than other similar frameworks in that language. Helping someone when they're having trouble with a piece of code is always a learning experience for both people involved because the person who's helping has to learn the other person's code in order to help.
+  Some people think they don't need help with code. I used to be one of those people. And therefore I could get away with writing really bad code. I just exhausted needless hours trying everything that I could think of or research until something worked, and eventually it usually did.
+  I always figured that if the internet didn't have the solution to my problem, it would only be distracting to bother someone around me with it, aside from maybe a teacher or classmate i thought might have expertise on the topic. While, in some ways this strengthened my ability to learn independently of those around me, it crippled the social quality of my code.
+  I never thought about needing to ask for help on a specific piece of code. I just sought out examples, and sometimes help with specific concepts I was fuzzy on. I got used to an extremely inconsistent "style" of indentation and unfortunate function and variable names such as doTheThing(), l, and, of course, q. Comments being code that didn't work at first but I was holding onto in case I wanted to try it again.
+  I didn't give a SHIT about the social quality of my code until a teacher revealed to our class that our final project having readable code was a requirement for graduation from the web development immersive in which I was enrolled. And immediately after I find myself falling back into the same unfortunate ways.
+  The importance of having readable code may only presently be dawning upon me, but in purely theoretical sense. I'm only now seeing that I was only actually able to help those around me because their code possessed this quality that mine didn't. I could help fix the code of other people, but something I could not usually do was provide good code examples for them. And this is why I could be a better coder. So, this repository being the one that needs it least, I am going leave it alone for a while in order to refactor my old GitHub projects. Thanks for reading...-->
   <v-layout row wrap>
     <v-flex class="bordertop" xs12>
       <div>
@@ -8,7 +15,6 @@
     <v-flex  xs6>
       <pre data-step="1" data-intro="Welcome to e-zchai! Let's get started. Code you want to test goes here, but in Test-Driven-Development, you should write a test and see it fail before writing any code." v-on:keyup.native="buildTests()" id="codeBox">
         <code data-async-code="true" class="lang-eval-js">
-          var x = 9
         </code>
       </pre>
     </v-flex>
@@ -44,7 +50,7 @@
                 </span>
                 &nbsp;{{test.describe.name}}
                 <div v-show="test.describe.editingDescr == true">
-                  <v-text-field data-step="3" data-intro="Enter the name of the thing you want to test here. It can be anything in JavaScript: a variable, constant, method, property, or expression, class, or anything else. @keyup.native="buildTests" autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name">
+                  <v-text-field data-step="3" data-intro="Enter the name of the thing you want to test here. It can be anything in JavaScript except reserved words. It could be a variable, constant, method, property, expression, constructor, or just about anything else." @keyup.native="buildTests" autofocus v-on:click.native.capture.prevent.stop="func" label="The name of the thing you are testing:" v-model="test.describe.name">
                   </v-text-field>
                 </div>
               </div>
@@ -474,7 +480,7 @@ export default {
         })
       }
     } else {
-      document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+ 'var x = 9'+'</code>'
+      document.getElementById('codeBox').innerHTML = '<code class="lang-eval-js">'+'</code>'
       vm.name = undefined
       vm.id = undefined
       vm.user = 'Bob'

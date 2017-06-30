@@ -1,11 +1,5 @@
 <template>
-  <!-- Everyone has their own style of code. Not everyone codes in the same language. Some people write more code in certain languages than others.
-  Some people like certain frameworks in certain languages more than other similar frameworks in that language. Helping someone when they're having trouble with a piece of code is always a learning experience for both people involved because the person who's helping has to learn the other person's code in order to help.
-  Some people think they don't need help with code. I used to be one of those people. And therefore I could get away with writing really bad code. I just exhausted needless hours trying everything that I could think of or research until something worked, and eventually it usually did.
-  I always figured that if the internet didn't have the solution to my problem, it would only be distracting to bother someone around me with it, aside from maybe a teacher or classmate i thought might have expertise on the topic. While, in some ways this strengthened my ability to learn independently of those around me, it crippled the social quality of my code.
-  I never thought about needing to ask for help on a specific piece of code. I just sought out examples, and sometimes help with specific concepts I was fuzzy on. I got used to an extremely inconsistent "style" of indentation and unfortunate function and variable names such as doTheThing(), l, and, of course, q. Comments being code that didn't work at first but I was holding onto in case I wanted to try it again.
-  I didn't give a SHIT about the social quality of my code until a teacher revealed to our class that our final project having readable code was a requirement for graduation from the web development immersive in which I was enrolled. And immediately after I find myself falling back into the same unfortunate ways.
-  The importance of having readable code may only presently be dawning upon me, but in purely theoretical sense. I'm only now seeing that I was only actually able to help those around me because their code possessed this quality that mine didn't. I could help fix the code of other people, but something I could not usually do was provide good code examples for them. And this is why I could be a better coder. So, this repository being the one that needs it least, I am going leave it alone for a while in order to refactor my old GitHub projects. Thanks for reading...-->
+  
   <v-layout row wrap>
     <v-flex class="bordertop" xs12>
       <div>
@@ -34,6 +28,7 @@
             </v-btn>
             &nbsp;<b>Describe:</b>
           </h6>
+
           <v-expansion-panel id="testExPan" v-height>
             <v-expansion-panel-content v-clickme v-bind:value="index === tests.length-1"v-for="(test, index) in tests" :key="index" >
               <div class="descrhead" slot="header">
@@ -105,7 +100,7 @@
                               <v-card>
                                 <v-card-text>
                                   <div>
-                                    <v-select data-step="7" data-intro="Here, you may choose different types of assertions to test. For comparing two non-primitive objects that don't reference each other, for example, you would want to use 'deepEqual', but for now let's stick with 'assert'." @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab($event)"  v-model="assertion.assert" label="assertion">
+                                    <v-select data-step="7" data-intro="Here, you may choose different types of assertions to test. For comparing two objects that don't reference each other, for example, you would want to use 'deepEqual', but for now let's stick with 'assert'." @keyup.native="buildTests" id="editAssertionSelect" ref="editAssertionSelect" autofocus :autocomplete="true" auto v-bind:items="assertions" :on-change="func(assertion)" @keydown.tab.capture.native="tab($event)"  v-model="assertion.assert" label="assertion">
                                     </v-select>
                                     <v-text-field v-bind:data-step="8+ index9" v-bind:data-intro="paramsSteps[index9]" @keyup.native="buildTests" @click.native.capture.stop.prevent="" ref="param" v-for="(param, index9) in assertion.params" v-bind:label="param" v-model="assertion['p'+ (index9+1)]">
                                     </v-text-field>

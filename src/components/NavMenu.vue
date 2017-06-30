@@ -1,7 +1,7 @@
 <template>
   <div id="navMain">
     <h5 id="header">
-      <a href='/' data-step="16" data-intro="Try signing up or logging in to save your testing environments for later use and sharing with others. Happy testing!" id="home"><b>e-zchai</b></a> (<a id="link" href="http://chaijs.com/api/assert/" data-step="10" data-intro="Here is a quick link to the Chai documentation, if case you need more information on an assertion function." target="_blank">reference</a>)
+      <a href='/' data-step="16" data-intro="Try signing up or logging in to save your testing environments for later use and sharing with others. Happy testing!" id="home"><b>e-zchai</b></a> (<a id="link" href="http://chaijs.com/api/assert/" data-step="10" data-intro="Here is a quick link to the Chai documentation, in case you need more information on an assertion function." target="_blank">reference</a>)
       <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native="handleLogout()">
         <b>Log out</b>
       </v-btn>

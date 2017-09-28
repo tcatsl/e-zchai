@@ -1,5 +1,5 @@
 <template>
-  
+
   <v-layout row wrap>
     <v-flex class="bordertop" xs12>
       <div>
@@ -709,10 +709,10 @@ input {
 }
 .card__text, .card__text .card__text {
   width: inherit !important;
-  margin-left: 30px;
+  margin-left: 0px;
   padding-top: 2px;
-  padding-bottom: 0px;
-  padding-right: 0
+  padding-bottom: 0;
+  padding-right: 0;
 }
 .expansion-panel .expansion-panel .expansion-panel .card__text {
   margin-left: 0;
@@ -827,5 +827,8 @@ label {
 }
 .layout {
   border-right: 4px solid #90B4FE
+}
+.btn {
+  background-color: #DDDDDD
 }
 </style>

@@ -1,23 +1,23 @@
 <template>
   <div id="navMain">
     <h5 id="header">
-      <a href='/' data-step="16" data-intro="Try signing up or logging in to save your testing environments for later use and sharing with others. Happy testing!" id="home"><b>e-zchai</b></a> (<a id="link" href="http://chaijs.com/api/assert/" data-step="10" data-intro="Here is a quick link to the Chai documentation, in case you need more information on an assertion function." target="_blank">reference</a>)
-      <v-btn id="logOut" v-if="isLoggedIn()" class="btn btn-danger log"  v-on:click.native="handleLogout()">
+      <a href='/' data-step="16" data-intro="Try signing up or logging in to save your snippets for later use and sharing with others. Happy testing!" id="home"><b>e-zchai</b></a> (<a id="link" href="http://chaijs.com/api/assert/" data-step="10" data-intro="Here is a quick link to the Chai documentation, in case you need more information on an assertion function." target="_blank">reference</a>)
+      <v-btn id="logOut" v-if="isLoggedIn()" dark class="btn btn-danger log"  v-on:click.native="handleLogout()">
         <b>Log out</b>
       </v-btn>
-      <v-btn id="logIn" v-if="!isLoggedIn()" class="btn btn-info log"  v-on:click.native="handleLogin()">
+      <v-btn id="logIn" v-if="!isLoggedIn()" dark class="btn btn-info log"  v-on:click.native="handleLogin()">
         <b>Log In</b>
       </v-btn>
-      <v-btn id="save" v-if="isLoggedIn()" class="btn btn-info save green lighten-1" light v-on:click.native="saveNew()">
+      <v-btn id="save" v-if="isLoggedIn()" dark class="btn white--text btn-info save green lighten-1" light v-on:click.native="saveNew()">
         <b>Save New</b>
       </v-btn>
       <v-dialog v-model="loadDialog" scrollable>
         <v-btn primary @click.native="getEnvs()" v-show="isLoggedIn()" light slot="activator">
-          <b>Load Environment</b>
+          <b>Load Snippet</b>
         </v-btn>
         <v-card>
           <v-card-title>
-            Select Environment
+            Select Snippet
           </v-card-title>
           <v-divider>
           </v-divider>
@@ -30,23 +30,23 @@
           <v-divider>
           </v-divider>
           <v-card-row actions>
-            <v-btn class="blue--text darken-1" flat @click.native="loadDialog = false">
+            <v-btn class="blue--text darken-1 white--text" flat @click.native="loadDialog = false">
               Close
             </v-btn>
-            <v-btn class="blue--text darken-1" flat @click.native="loadEnv(envToLoad)">
+            <v-btn class="blue--text darken-1  white--text" flat @click.native="loadEnv(envToLoad)">
               Load
             </v-btn>
           </v-card-row>
         </v-card>
       </v-dialog>
       <v-dialog  v-model="removeDialog">
-        <v-btn v-if="$parent.checkEmail()" @click.native="getEnvs()" primary class="red" light slot="activator">
-          <b>Delete Environment</b>
+        <v-btn v-if="$parent.checkEmail()" light @click.native="getEnvs()" primary class="  white--text red" light slot="activator">
+          <b>Delete Snippet</b>
         </v-btn>
         <v-card>
           <v-card-row>
             <v-card-title>
-              Are you sure you want to delete this environment?
+              Are you sure you want to delete this snippet?
             </v-card-title>
           </v-card-row>
           <v-card-row>
@@ -55,18 +55,18 @@
             </v-card-text>
           </v-card-row>
           <v-card-row actions>
-            <v-btn class="red--text darken-1" flat="flat" @click.native="removeDialog = false">
+            <v-btn class="red--text darken-1 white--text" flat="flat" @click.native="removeDialog = false">
               Nevermind
             </v-btn>
-            <v-btn class="red--text darken-1" flat="flat" @click.native="deleteEnv($parent.id)">
+            <v-btn class="red--text darken-1 white--text" flat="flat" @click.native="deleteEnv($parent.id)">
               Delete
             </v-btn>
           </v-card-row>
         </v-card>
       </v-dialog>
-      <v-btn class="deep-purple accent-2" light v-on:click.native="startIntro()"><b>Tutorial</b></v-btn>
+      <v-btn class="deep-purple accent-2 white--text" light v-on:click.native="startIntro()"><b>Tutorial</b></v-btn>
     </h5>
-    <v-text-field v-show="!!$parent.id && $parent.checkEmail()" :placeholder="$parent.name" label="The name for your environment:" v-model="$parent.name" @keyup.native='$parent.buildTests()'>
+    <v-text-field v-show="!!$parent.id && $parent.checkEmail()" :placeholder="$parent.name" label="The name for your snippet:" v-model="$parent.name" @keyup.native='$parent.buildTests()'>
     </v-text-field>
     <p v-if="!!$parent.id && !$parent.checkEmail()">
       {{$parent.name}}

@@ -674,6 +674,7 @@ input {
 }
 .expansion-panel li{
   border: 0;
+  width: 100%
 }
 .expansion-panel .expansion-panel .expansion-panel .card__text{
   width: 98% !important;
